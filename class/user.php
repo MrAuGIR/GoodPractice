@@ -1,7 +1,11 @@
 <?php
 
+/**
+ * Class utilisateur
+ * 
+ */
 
-class user{
+class User{
 
     private $name;
     private $email;
@@ -62,7 +66,8 @@ class user{
     //methodes
 
     /**
-     * @param array
+     * methode hydration des attributs
+     * @param array $data
      */
 
     public function hydrate(array $data){
