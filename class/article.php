@@ -1,7 +1,7 @@
 <?php
 
 /**
- * class article
+ * class Article
  * @author  Aurelien Girard
  * 
  */
@@ -10,6 +10,7 @@ class Article{
     private $_title;
     private $_description;
     private $_url;
+    private $_url_img;
     private $_date_create;
     private $_id_user;
     private $_id_category;
@@ -41,6 +42,10 @@ class Article{
         return $this->_url;
     }
 
+    public function getUrl_img():string{
+        return $this->_url_img;
+    }
+
     public function getDate_create():string{
         return $this->_date_create;
     }
@@ -69,6 +74,10 @@ class Article{
 
     public function setUrl(string $url){
         $this->_url = $url;
+    }
+
+    public function setUrl_img(string $url){
+        $this->_url_img = $url;
     }
 
     public function setDate_create(string $date){

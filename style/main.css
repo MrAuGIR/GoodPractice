@@ -10,3 +10,33 @@ html, body{
     margin: 0 0;
     padding: 0 0;
 }
+
+/*------------------------------STYLE DU HEADER-----------------------------------*/
+
+
+@media screen and (min-width:1200px){
+    .background-header{
+        display: flex;
+        flex-direction: column;
+        background-image: url(/Bonne_pratique/img/background-header.jpg);
+        background-position: center;
+        background-size: cover;
+    }
+}
+
+.bottom-header{
+    background-color: #212529;
+}
+.navbar-light{
+    background-color: cadetblue;
+}
+.bg-light{
+    color: antiquewhite;
+}
+
+
+/*----------------------------- STYLE DU MAIN---------------------------------------*/
+/* surcharge de card */
+.card{
+    width: 100%;
+}

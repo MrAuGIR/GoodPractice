@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__. DIRECTORY_SEPARATOR .'class'.DIRECTORY_SEPARATOR.'user.php';
+require dirname(__DIR__). DIRECTORY_SEPARATOR .'class'.DIRECTORY_SEPARATOR.'User.php';
 
 /**
  * Class managerUser
