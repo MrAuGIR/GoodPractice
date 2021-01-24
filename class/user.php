@@ -5,7 +5,7 @@
  * 
  */
 
-class User{
+abstract class User{
 
     private $name;
     private $email;

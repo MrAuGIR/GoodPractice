@@ -6,7 +6,7 @@ require dirname(__DIR__). DIRECTORY_SEPARATOR .'class'.DIRECTORY_SEPARATOR.'User
  * Class managerUser
  */
 
-class ManagerUser {
+abstract class ManagerUser {
 
     private $bdd; // PDO instance
 
