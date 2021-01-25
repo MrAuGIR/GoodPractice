@@ -72,11 +72,12 @@
 
             if(empty($this->_errors)){
 
-                $sql = 'INSERT INTO user(name,email,password,role) VALUE (:name, :email, :password, 1)';
+                $sql = 'INSERT INTO user(name,email,password,role) VALUE (:name, :email, :password, :role)';
                 $req = $this->_bdd->prepare($sql);
                 $req->bindValue('name',$name,PDO::PARAM_STR);
                 $req->bindValue('email',$email,PDO::PARAM_STR);
                 $req->bindValue('password',$password_hash,PDO::PARAM_STR);
+                $req->bindValue('role','Editeur',PDO::PARAM_STR);
                 $req->execute();
 
                 $user_id = $this->_bdd->lastInsertId(); //renvoie le dernier id généré par pdo

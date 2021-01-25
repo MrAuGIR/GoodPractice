@@ -2,6 +2,7 @@
 if(session_status()===PHP_SESSION_NONE){
     session_start();
 }
+require_once 'class/User.php';
 // objet user
 $user = isset($_SESSION['user'])? $_SESSION['user'] : "";
 
