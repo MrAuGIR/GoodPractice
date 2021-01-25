@@ -3,9 +3,9 @@ if(session_status()===PHP_SESSION_NONE){
     session_start();
 }
 require_once 'class/User.php';
+require_once 'class/Editeur.php';
 // objet user
-$user = isset($_SESSION['user'])? $_SESSION['user'] : "";
-
+$user = isset($_SESSION['user'])? unserialize($_SESSION['user']) : "";
 require_once 'bdd/bdd.php';
 require 'class/ManagerArticle.php';
 require 'class/Card.php';

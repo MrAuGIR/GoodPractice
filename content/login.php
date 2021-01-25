@@ -14,7 +14,7 @@ if(isset($_POST['submit']) && $_POST['submit']== 'Connexion'){
 
     if($user != false){
         session_start();
-        $_SESSION['user']=$user;
+        $_SESSION['user']=serialize($user);
         header('location: ../index.php?login=success');
         exit();
 
