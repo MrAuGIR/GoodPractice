@@ -50,11 +50,10 @@
                                                     <?= $user->getName() ?>
                                                     </a>
                                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                                        <li><a class="dropdown-item" href="#">Action</a></li>
-                                                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                                                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                                        <li><a class="dropdown-item" href="/bonne_pratique/content/dashboard.php">Tableau de Bord</a></li>
+                                                        <li><a class="dropdown-item" href="/bonne_pratique/content/logout.php">Déconnexion</a></li>
                                                     </ul>
-                                                </li>
+                                                </li> 
                                                 <?php endif; ?>
                                             </ul>
                                         </div>

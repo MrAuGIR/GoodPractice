@@ -4,6 +4,7 @@ if(session_status()===PHP_SESSION_NONE){
 }
 require_once 'class/User.php';
 require_once 'class/Editeur.php';
+require_once 'class/Admin.php';
 // objet user
 $user = isset($_SESSION['user'])? unserialize($_SESSION['user']) : "";
 require_once 'bdd/bdd.php';
