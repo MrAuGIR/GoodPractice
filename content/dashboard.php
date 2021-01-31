@@ -1,11 +1,28 @@
 <?php
 require_once dirname(__DIR__).DIRECTORY_SEPARATOR.'functions'.DIRECTORY_SEPARATOR.'secure.php';
+require_once '../bdd/bdd.php';
 require_once '../class/User.php';
 require_once '../class/Editeur.php';
 require_once '../class/Admin.php';
+require_once '../class/ManagerArticle.php';
+//init
+$user = null;
+$articles = [];
 // objet user
 $user = isset($_SESSION['user'])? unserialize($_SESSION['user']) : "";
 
+$managerArticle = new ManagerArticle($bdd);
+
+//test si user admin ou editeur
+if($user->getRole() === LEVEL_EDITEUR){
+
+    $articles = $managerArticle->getArticleByIdUser($user->getId_user());
+
+}else{
+
+    $articles = $managerArticle->getAllArticle();
+
+}
 
 
 $title = "Tableau de bord";
@@ -34,7 +51,36 @@ $title = "Tableau de bord";
                     </div>
                 </div>
                 <div class="col-12 col-md-10">
-
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Titre</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Url</th>
+                                <th scope="col">Url_image</th>
+                                <th scope="col">Date creation</th>
+                                <th scope="col">Catégorie</th>
+                                <?php if($user->getRole()===LEVEL_ADMIN): ?>
+                                    <th scope="col">utilisateur</th>
+                                <?php endif; ?>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach($articles as $article): ?>
+                            <tr>
+                                <td><?= $article->getTitle() ?></td>
+                                <td><?= substr($article->getDescription(),0,50) ?></td>
+                                <td><?= $article->getUrl() ?></td>
+                                <td><?= $article->getUrl_img() ?></td>
+                                <td><?= $article->getDate_create() ?></td>
+                                <td><?= $article->getId_category() ?></td>
+                                <?php if($user->getRole()===LEVEL_ADMIN): ?>
+                                    <td><?= $article->getId_user() ?></td>
+                                <?php endif; ?>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

@@ -74,11 +74,16 @@ class ManagerArticle{
      * @return array $reponse
      */
     public function getAllArticle():array{
+        $tabArticle=[];
         $sql = 'SELECT * FROM article';
         $req = $this->_bdd->prepare($sql);
         $req->execute();
         $reponse = $req->fetchAll(PDO::FETCH_ASSOC);
-        return $reponse;
+        foreach($reponse as $value){
+            $article = new Article($value);
+            $tabArticle[] = $article;
+        }
+        return $tabArticle;
     }
 
     /**
