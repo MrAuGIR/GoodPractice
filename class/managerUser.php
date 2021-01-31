@@ -1,12 +1,13 @@
 <?php
 
 require dirname(__DIR__). DIRECTORY_SEPARATOR .'class'.DIRECTORY_SEPARATOR.'User.php';
-
+require dirname(__DIR__). DIRECTORY_SEPARATOR .'class'.DIRECTORY_SEPARATOR.'Admin.php';
+require dirname(__DIR__). DIRECTORY_SEPARATOR .'class'.DIRECTORY_SEPARATOR.'Editeur.php';
 /**
  * Class managerUser
  */
 
-abstract class ManagerUser {
+class ManagerUser {
 
     private $bdd; // PDO instance
 
@@ -95,7 +96,11 @@ abstract class ManagerUser {
         $req->bindValue('id',$id,PDO::PARAM_INT);
         $req->execute();
         $reponse = $req->fetch(PDO::FETCH_ASSOC);
-        $user = new User($reponse);
+        if($reponse['role']=== LEVEL_EDITEUR){
+            $user = new Editeur($reponse);
+            return $user;
+        }
+        $user = new Admin($reponse);
         return $user;
     }
 }

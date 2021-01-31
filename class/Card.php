@@ -11,7 +11,7 @@ class Card{
     {
         $this->setTitle($article->getTitle());
         $this->setText($article->getDescription());
-        $this->setHref('content/read.php?q='.$article->getId_article());
+        $this->setHref('/content/read.php?q='.$article->getId_article());
         $this->setImgSrc($article->getUrl_img());
     }
 

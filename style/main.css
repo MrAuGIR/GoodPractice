@@ -18,7 +18,7 @@ html, body{
     .background-header{
         display: flex;
         flex-direction: column;
-        background-image: url(/Bonne_pratique/img/background-header.jpg);
+        background-image: url(/img/background-header.jpg);
         background-position: center;
         background-size: cover;
     }

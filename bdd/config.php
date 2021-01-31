@@ -10,7 +10,7 @@ define('PASSWORD', '');
 
 define('LEVEL_ADMIN', 'administrateur');
 
-define('LEVEL_EDITEUR','editeur');
+define('LEVEL_EDITEUR','Editeur');
 
 
 ?>

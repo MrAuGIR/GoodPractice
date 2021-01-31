@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/bonne_pratique/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
-    <link href="/bonne_pratique/style/main.css" rel="stylesheet" type="text/css">
+    <link href="/style/main.css" rel="stylesheet" type="text/css">
     <title><?= $title ?></title>
 </head>
     <body>
@@ -15,7 +15,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-12">
-                                <img src="/bonne_pratique/img/logo.png" alt="logo">
+                                <img src="/img/logo.png" alt="logo">
                             </div>
                         </div>
                     </div>
@@ -32,17 +32,17 @@
                                         <div class="collapse navbar-collapse" id="navbarNavDropdown">
                                             <ul class="navbar-nav">
                                                 <li class="nav-item">
-                                                    <a class="nav-link active" aria-current="page" href="/bonne_pratique/index.php">Accueil</a>
+                                                    <a class="nav-link active" aria-current="page" href="/index.php">Accueil</a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" href="/bonne_pratique/content/article.php">articles</a>
+                                                    <a class="nav-link" href="/content/article.php">articles</a>
                                                 </li>
                                                 <?php if(empty($user)): ?>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" href="/bonne_pratique/content/login.php">Connexion</a>
+                                                    <a class="nav-link" href="/content/login.php">Connexion</a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" href="/bonne_pratique/content/register.php">Inscription</a>
+                                                    <a class="nav-link" href="/content/register.php">Inscription</a>
                                                 </li>
                                                 <?php else: ?>
                                                 <li class="nav-item dropdown">
@@ -50,8 +50,8 @@
                                                     <?= $user->getName() ?>
                                                     </a>
                                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                                        <li><a class="dropdown-item" href="/bonne_pratique/content/dashboard.php">Tableau de Bord</a></li>
-                                                        <li><a class="dropdown-item" href="/bonne_pratique/content/logout.php">Déconnexion</a></li>
+                                                        <li><a class="dropdown-item" href="/content/dashboard.php">Tableau de Bord</a></li>
+                                                        <li><a class="dropdown-item" href="/content/logout.php">Déconnexion</a></li>
                                                     </ul>
                                                 </li> 
                                                 <?php endif; ?>
