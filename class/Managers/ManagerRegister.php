@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Managers;
+
+use \PDO;
+
     class ManagerRegister{
 
         private $_bdd;

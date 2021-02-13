@@ -1,0 +1,19 @@
+{
+    "name": "augir/bonne_pratique",
+    "description": "Site web d'articles sur les bonnes pratiques \u0000 adopter pour \u0000conomiser les \u0000nergies",
+    "require": {
+        "twig/twig": "^3.3"
+    },
+    "authors": [
+        {
+            "name": "MrAuGir",
+            "email": "augirard17@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4":{
+            "App\\": "class/"
+        }
+    }
+    
+}

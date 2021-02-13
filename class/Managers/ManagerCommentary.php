@@ -1,5 +1,7 @@
 <?php
-
+namespace App\Managers;
+use \PDO;
+use App\Models\Commentary;
 /**
  * class manager commentary
  */

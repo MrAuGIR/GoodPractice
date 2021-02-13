@@ -1,5 +1,5 @@
 <?php
-
+namespace App\Models;
 /**
  * class Article
  * @author  Aurelien Girard

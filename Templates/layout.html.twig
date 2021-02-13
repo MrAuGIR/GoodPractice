@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    {% block head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
     <link href="/style/main.css" rel="stylesheet" type="text/css">
-    <title><?= $title ?></title>
+    <title>{{title}}</title>
+    {% endblock %}
 </head>
     <body>
         <header>
@@ -32,29 +34,29 @@
                                         <div class="collapse navbar-collapse" id="navbarNavDropdown">
                                             <ul class="navbar-nav">
                                                 <li class="nav-item">
-                                                    <a class="nav-link active" aria-current="page" href="/index.php">Accueil</a>
+                                                    <a class="nav-link active" aria-current="page" href="?controller=articleController&action=index">Accueil</a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" href="/content/article.php">articles</a>
+                                                    <a class="nav-link" href="?controller=articleController&action=list">articles</a>
                                                 </li>
-                                                <?php if(empty($user)): ?>
+                                                {% if not user %} 
                                                 <li class="nav-item">
                                                     <a class="nav-link" href="/content/login.php">Connexion</a>
                                                 </li>
                                                 <li class="nav-item">
                                                     <a class="nav-link" href="/content/register.php">Inscription</a>
                                                 </li>
-                                                <?php else: ?>
+                                                {% else %}
                                                 <li class="nav-item dropdown">
                                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    <?= $user->getName() ?>
+                                                    {{username}}
                                                     </a>
                                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                                         <li><a class="dropdown-item" href="/content/dashboard.php">Tableau de Bord</a></li>
                                                         <li><a class="dropdown-item" href="/content/logout.php">Déconnexion</a></li>
                                                     </ul>
                                                 </li> 
-                                                <?php endif; ?>
+                                                {% endif %}
                                             </ul>
                                         </div>
                                     </div>
@@ -65,3 +67,15 @@
                 </div>
             </div>
         </header>
+        {% block content %}
+
+        {% endblock %}
+        <footer>
+            
+        
+        </footer>
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+    </body>
+</html>
+
+

@@ -1,4 +1,6 @@
 <?php
+namespace App\Models;
+
 
 class Card{
 
@@ -11,7 +13,7 @@ class Card{
     {
         $this->setTitle($article->getTitle());
         $this->setText($article->getDescription());
-        $this->setHref('/content/read.php?q='.$article->getId_article());
+        $this->setHref('?controller=articleController&action=show&q='.$article->getId_article());
         $this->setImgSrc($article->getUrl_img());
     }
 
@@ -58,6 +60,7 @@ class Card{
     public function generateCard():string{
 
         $html ="";
+        $html .= '<div class="col-12 col-sm-12 col-md-6 col-lg-4">';
         $html .= '<div class="card">';
         $html .= '<div class="picture">';
         $html .= '<img src="'.$this->getImgSrc().'" class="card-img-top" alt="illustration">';
@@ -66,7 +69,7 @@ class Card{
         $html .= "<h5 class='card-title'>{$this->getTitle()}</h5>";
         $html .= "<p class='card-text'>".substr($this->getText(),0,245)."...</p>";
         $html .= "<a href='{$this->getHref()}' class='btn btn-primary'>Lire la suite</a>";
-        $html .= "</div></div>";
+        $html .= "</div></div></div>";
         return $html;
     }
 

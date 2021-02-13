@@ -1,8 +1,11 @@
 <?php
 
-require dirname(__DIR__). DIRECTORY_SEPARATOR .'class'.DIRECTORY_SEPARATOR.'User.php';
-require dirname(__DIR__). DIRECTORY_SEPARATOR .'class'.DIRECTORY_SEPARATOR.'Admin.php';
-require dirname(__DIR__). DIRECTORY_SEPARATOR .'class'.DIRECTORY_SEPARATOR.'Editeur.php';
+namespace App\Managers;
+use \PDO;
+use App\Models\User;
+use App\Models\Admin;
+use App\Models\Editeur;
+
 /**
  * Class managerUser
  */

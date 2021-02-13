@@ -80,3 +80,8 @@ html, body{
     height: 100%;
     object-fit: cover;
 }
+
+.dashboard-table{
+    font-size: smaller;
+    font-weight: 200;
+}

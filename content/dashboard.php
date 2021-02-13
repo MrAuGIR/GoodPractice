@@ -51,7 +51,7 @@ $title = "Tableau de bord";
                     </div>
                 </div>
                 <div class="col-12 col-md-10">
-                    <table class="table">
+                    <table class="table dashboard-table">
                         <thead>
                             <tr>
                                 <th scope="col">Titre</th>

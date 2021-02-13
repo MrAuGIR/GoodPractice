@@ -1,4 +1,5 @@
 <?php
+namespace App\Models;
 
 /**
  * Class objet commentaire posté sur un article

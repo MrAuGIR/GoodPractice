@@ -1,7 +1,13 @@
 <?php
-    require_once __DIR__.DIRECTORY_SEPARATOR.'User.php';
-    require_once __DIR__.DIRECTORY_SEPARATOR.'Editeur.php';
-    require_once __DIR__.DIRECTORY_SEPARATOR.'Admin.php';
+namespace App\Managers;
+    
+use \PDO;
+use App\Managers\ManagerUser;
+use App\Models\{
+    User,
+    Editeur,
+    Admin
+};
 
     class ManagerLogin{
 

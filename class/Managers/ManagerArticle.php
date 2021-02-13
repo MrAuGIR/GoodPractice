@@ -1,6 +1,9 @@
 <?php
+namespace App\Managers;
 
-require dirname(__DIR__). DIRECTORY_SEPARATOR .'class'.DIRECTORY_SEPARATOR.'Article.php';
+use App\Models\Article;
+use \PDO;
+
 
 class ManagerArticle{
 
