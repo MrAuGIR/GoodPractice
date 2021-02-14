@@ -3,32 +3,34 @@
         <main>
             <div class="container">
                 <div class="row my-4"> 
-                    {% if not user %}
-                    <h3>Vous devez vous connecter pour ajouter un article</h3>
-                    {% else %}
-                    <form action="" method="POST">
-                        <div class="form-group mb-2">
-                            <label for="title">Titre</label>
-                            <input type="text" class="form-control"name="title" placeholder="le titre">
-                        </div>
-                        <div class="form-group mb-2">
-                            <label for="content">Contenu</label>
-                            <textarea type="text" class="form-control" id="content" name="content" placeholder="le contenu de l'article"></textarea>
-                        </div>
-                        <div class="form-group mb-2">
-                            <label for="url">Url</label>
-                            <input type="text" class="form-control" id="url" name="url" placeholder="url de la source">
-                        </div>
-                        <div class="form-group mb-2">
-                            <label for="image">Image</label>
-                            <select name="image" id="image">
-                                <option value=""></option>
-                            </select>
-                        </div>
-                        <div class="form-group mb-2">
-                            <input type="submit" class="btn btn-primary" name="submit" value="Ajouter">
-                        </div>
-                    </form>
+                    <div class="col-12">
+                        {% if not user %}
+                        <h3>Vous devez vous connecter pour ajouter un article</h3>
+                        {% else %}
+                        <form action="" method="POST">
+                            <div class="col-12 mb-2">
+                                <label for="title">Titre</label>
+                                <input type="text" class="form-control"name="title" placeholder="le titre">
+                            </div>
+                            <div class="col-12 mb-2">
+                                <label for="content">Contenu</label>
+                                <textarea type="text" class="form-control" id="content" name="content" placeholder="le contenu de l'article"></textarea>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <label for="url">Url</label>
+                                <input type="text" class="form-control" id="url" name="url" placeholder="url de la source">
+                            </div>
+                            <div class="col-12 mb-2">
+                                <label for="image">Image</label>
+                                <select name="image" id="image">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <input type="submit" class="btn btn-primary" name="submit" value="Ajouter">
+                            </div>
+                        </form>
+                    </div>
                 {% endif %}
                 </div>
             </div>
