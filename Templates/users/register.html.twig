@@ -1,38 +1,6 @@
-<?php
+{% extends "layout.html.twig" %}
 
-require_once dirname(__DIR__).DIRECTORY_SEPARATOR.'class'.DIRECTORY_SEPARATOR.'ManagerRegister.php';
-require_once dirname(__DIR__).DIRECTORY_SEPARATOR.'bdd'.DIRECTORY_SEPARATOR.'bdd.php';
-
-//soumission du formulaire
-if(isset($_POST['submit']) && $_POST['submit'] === 'Inscription'){
-
-    echo 'je suis dans la soumission';
-
-    //on initialise le tableau d'erreurs
-    $errors=[];
-    //on crée l'instance de gestion des données reçus
-    $managerRegister = new ManagerRegister($bdd);
-
-    $user = $managerRegister->traitementDonnee($_POST);
-
-    //si user créé 
-    if($user){
-        session_start(); //je demarre la session une fois que l'utilisateur est validé
-        $_SESSION['user'] = $user;
-
-        header('location: ../index.php?login=success');
-        exit();
-    }
-    // si retour false => erreur lors de l'enregistrement
-    $errors = $managerRegister->getErrors();
-
-}
-
-
-$title = 'Inscription';
-
-?>
-<?php require dirname(__DIR__).DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'header.php'; ?>
+    {% block content  %}
     <main>
         <div class="container">
             <div class="row mt-5">
@@ -91,16 +59,11 @@ $title = 'Inscription';
                             </ul>
                         </div>
                     </div>
-                
-                
                 </form>
             </div>
-        
-        
-        
         </div>
     </main>
-    <?php require dirname(__DIR__).DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'footer.php'; ?>
+    {% endblock %}
+    {% block script %}
     <script src="../js/verif_register.js"></script>
-    </body>
-</html>
+    {% endblock %}

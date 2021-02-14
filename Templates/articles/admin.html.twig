@@ -1,0 +1,54 @@
+{% extends "layout.html.twig" %}
+    {% block content  %}
+    <main>
+        <div class="container">
+            <div class="row">
+                <h1>Tableau de Bord</h1>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md-2 border-end">
+                    <div class="d-flex align-items-start">
+                        <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <a class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Mes articles</a>
+                            <a class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Profile</a>
+                            <a class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Messages</a>
+                            <a class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-10">
+                    <table class="table dashboard-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Titre</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Url</th>
+                                <th scope="col">Url_image</th>
+                                <th scope="col">Date creation</th>
+                                <th scope="col">Catégorie</th>
+                                {% if user.getRole == LEVEL_ADMIN %} 
+                                    <th scope="col">utilisateur</th>
+                               {% endif %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for article in articles %}
+                            <tr>
+                                <td>{{article.getTitle}}</td>
+                                <td>{{ article.getDescription | slice(0,50) }}</td>
+                                <td>{{article.getUrl}}</td>
+                                <td>{{article.getUrl_img}}</td>
+                                <td>{{ article.getDate_create }}</td>
+                                <td>{{ article.getId_Category }}</td>
+                                {% if user.role == LEVEL_ADMIN %} 
+                                    <td>{{ article.getId_user }}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% endblock %}

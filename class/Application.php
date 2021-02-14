@@ -40,7 +40,7 @@ class Application
         $task = "index";
 
         if (!empty($_GET['controller'])) {
-            $controllerName = ucFirst($_GET['controller']);
+            $controllerName = ucFirst($_GET['controller']).'Controller';
         }
 
         if (!empty($_GET['action'])) {
@@ -52,5 +52,17 @@ class Application
 
         $controller = new $controllerName();
         $controller->$task();
+    }
+
+    public static function secure()
+    {
+        //si l'utilisateur n'est pas connecté
+        if (empty($_SESSION['user']) || !isset($_SESSION['user'])) {
+
+            header('location:?controller=article&action=index');
+            die();
+        }
+
+        return $_SESSION['user'];
     }
 }

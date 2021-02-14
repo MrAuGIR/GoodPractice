@@ -13,7 +13,7 @@ class Card{
     {
         $this->setTitle($article->getTitle());
         $this->setText($article->getDescription());
-        $this->setHref('?controller=articleController&action=show&q='.$article->getId_article());
+        $this->setHref('?controller=article&action=show&q='.$article->getId_article());
         $this->setImgSrc($article->getUrl_img());
     }
 

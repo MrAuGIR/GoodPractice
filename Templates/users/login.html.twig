@@ -1,33 +1,5 @@
-<?php
-
-require_once dirname(__DIR__).DIRECTORY_SEPARATOR.'class'.DIRECTORY_SEPARATOR.'ManagerLogin.php';
-require_once dirname(__DIR__).DIRECTORY_SEPARATOR.'bdd'.DIRECTORY_SEPARATOR.'bdd.php';
-
-$user = "";
-$errors = [];
-
-if(isset($_POST['submit']) && $_POST['submit']== 'Connexion'){
-
-    $managerLogin = new ManagerLogin($bdd);
-
-    $user = $managerLogin->traitementDonnees($_POST);
-
-    if($user != false){
-        session_start();
-        $_SESSION['user']=serialize($user);
-        header('location: ../index.php?login=success');
-        exit();
-
-    }else{
-        $errors = $managerLogin->getErrors();
-    }
-
-}
-
-$title = 'Connexion';
-
-?>
-<?php require dirname(__DIR__).DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'header.php'; ?>
+{% extends "layout.html.twig" %}
+{% block content %}
     <main>
         <div class="container">
             <div class="row mt-5">
@@ -65,20 +37,20 @@ $title = 'Connexion';
                     </div>
                 </form>
             </div>
-            <?php if(!empty($errors)): ?>
+            {% if errors %}
             <div class="row">
                 <div class="col-10 offset-2">
                     <ul class="list-group list-group-flush">
-                    <?php foreach($errors as $error): ?>
-                        <li class="list-group-item"><?= $error ?></li>
-                    <?php endforeach; ?>
+                    {% for error in errors %}
+                        <li class="list-group-item">{{error}}</li>
+                    {% endfor %}
                     </ul>
                 </div>
             </div>
-            <?php endif; ?>
+            {% endif %}
         </div>
     </main>
-    <?php require dirname(__DIR__).DIRECTORY_SEPARATOR.'includes'.DIRECTORY_SEPARATOR.'footer.php'; ?>
-    <script src="../js/verif_login.js"></script>
-    </body>
-</html>
+{% endblock %}
+{% block script %}
+<script src="../js/verif_login.js"></script>
+{% endblock %}
