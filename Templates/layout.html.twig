@@ -70,9 +70,32 @@
         {% block content %}
 
         {% endblock %}
-        <footer>
+        <footer class="bg-secondary mt-5">
         {% block footer %}
-        
+        <div class="container">
+            <div class="row py-5">
+                <div class="col-12 col-md-6 col-lg-4">
+                    <ul>
+                        <li>Plan du site</li>
+                        <li>Mentions légales</li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <h6>Bonne pratique</h6>
+                </div>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <ul>
+                        <li>Aurélien Girard</li>
+                        <li>contact@aureliengirard.fr</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row py-1">
+                <div class="col-12">
+                    <p>Site web réalisé par aurélien Girard</p>
+                </div>
+            </div>
+        </div>
         {% endblock %}
         </footer>
         <script src="bootstrap/js/bootstrap.min.js"></script>
