@@ -4,28 +4,14 @@ namespace App\Managers;
 
 use \PDO;
 
-    class ManagerRegister{
+    class ManagerRegister extends Manager{
 
-        private $_bdd;
+        
         private $_errors=[];
 
-        public function __construct(PDO $bdd)
-        {
-            $this->setBdd($bdd);
-        }
-
-
+        
         //getter
         
-        /**
-         * getBdd
-         *
-         * @return PDO
-         */
-        public function getBdd():PDO
-        {
-            return $this->_bdd;
-        }
         
         /**
          * getErrors
@@ -39,19 +25,7 @@ use \PDO;
 
         // setter
         
-        /**
-         * setBdd
-         *
-         * @param  mixed $pdo
-         * @return void
-         */
-        public function setBdd(PDO $bdd)
-        {
-            $this->_bdd = $bdd;
-            return $this;
-        }
 
-        
         /**
          * setErrors
          *
@@ -77,17 +51,17 @@ use \PDO;
             if(empty($this->_errors)){
 
                 $sql = 'INSERT INTO user(name,email,password,role) VALUE (:name, :email, :password, :role)';
-                $req = $this->_bdd->prepare($sql);
+                $req = $this->bdd->prepare($sql);
                 $req->bindValue('name',$name,PDO::PARAM_STR);
                 $req->bindValue('email',$email,PDO::PARAM_STR);
                 $req->bindValue('password',$password_hash,PDO::PARAM_STR);
                 $req->bindValue('role','Editeur',PDO::PARAM_STR);
                 $req->execute();
 
-                $user_id = $this->_bdd->lastInsertId(); //renvoie le dernier id généré par pdo
+                $user_id = $this->bdd->lastInsertId(); //renvoie le dernier id généré par pdo
 
                 $sql = 'SELECT * FROM user WHERE id_user = :id';
-                $reponse = $this->_bdd->prepare($sql);
+                $reponse = $this->bdd->prepare($sql);
                 $reponse->bindValue('id',$user_id,PDO::PARAM_INT);
                 $reponse->execute();
                 $user=$reponse->fetch();

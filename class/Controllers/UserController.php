@@ -4,16 +4,17 @@ use App\Db;
 use App\Render;
 use App\Managers\ManagerLogin;
 use App\Managers\ManagerRegister;
+use App\Controllers\Controller;
 
-class UserController{
+class UserController extends Controller{
 
+    protected $managerName = \App\Managers\ManagerUser::class;
 
-    public static function login()
+    public function login()
     {
         // soumission du formulaire de connexion
         if(!empty($_POST['submit']) && $_POST['submit']==='Connexion'){
-            $managerLogin = new ManagerLogin(Db::getInstance());
-
+            $managerLogin = new ManagerLogin();
             $user = $managerLogin->traitementDonnees($_POST);
 
             if ($user != false) {
@@ -34,15 +35,14 @@ class UserController{
     }
 
 
-    public static function register()
+    public function register()
     {
         //si soumission du formulaire d'inscription
         if (isset($_POST['submit']) && $_POST['submit'] === 'Inscription') {
             //on initialise le tableau d'erreurs
             $errors = [];
             //on crée l'instance de gestion des données reçus
-            $managerRegister = new ManagerRegister(Db::getInstance());
-
+            $managerRegister = new ManagerRegister();
             $user = $managerRegister->traitementDonnee($_POST);
 
             //si user créé 

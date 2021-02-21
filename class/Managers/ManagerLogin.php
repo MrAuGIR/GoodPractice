@@ -9,28 +9,15 @@ use App\Models\{
     Admin
 };
 
-    class ManagerLogin{
+    class ManagerLogin extends Manager{
 
-        private $_bdd;
+
         private $_errors=[];
 
-        public function __construct(PDO $bdd)
-        {
-            $this->setBdd($bdd);
-        }
-
-
+        
         //getter
         
-        /**
-         * getBdd
-         *
-         * @return PDO
-         */
-        public function getBdd():PDO
-        {
-            return $this->_bdd;
-        }
+        
         
         /**
          * getErrors
@@ -44,18 +31,6 @@ use App\Models\{
 
         // setter
         
-        /**
-         * setBdd
-         *
-         * @param  mixed $pdo
-         * @return void
-         */
-        public function setBdd(PDO $bdd)
-        {
-            $this->_bdd = $bdd;
-            return $this;
-        }
-
         
         /**
          * setErrors

@@ -10,28 +10,9 @@ use App\Models\Editeur;
  * Class managerUser
  */
 
-class ManagerUser {
+class ManagerUser extends Manager {
 
-    private $bdd; // PDO instance
-
-    /**
-     * Constructeur de la class managerUser
-     * @param PDO $bdd
-     */
-    public function __construct(PDO $bdd)
-    {
-        $this->setDb($bdd);
-    }
-
-    /**
-     * method set attribut pdo de la class
-     * @param PDO $bdd
-     */
-    public function setDb(PDO $bdd):void{
-        $this->bdd = $bdd;
-    }
-
-
+   
     /**
      * Méthode ajouter un utilisateur
      * @param User $user

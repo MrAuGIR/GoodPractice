@@ -1,20 +1,24 @@
 <?php
 namespace App\Controllers;
 
+use App\Controllers\Controller;
 use App\Application;
 use App\Db;
 use App\Managers\ManagerArticle;
+use App\Managers\ManagerCategory;
 use App\Models\Card;
 use App\Render;
 
-class ArticleController{
+class ArticleController extends Controller{
 
-    public static function index()
+    protected $managerName = \App\Managers\ManagerArticle::class;
+
+    public function index()
     {
         //on regarde si un utilisateur est connecté
         $user = (!empty($_SESSION['user']))? $_SESSION['user']: null;
-        $manager = new ManagerArticle(Db::getInstance());
-        $tabArticles = $manager->getXarticle(3);
+        
+        $tabArticles = $this->manager->getXarticle(3);
         $tabCards = [];
         foreach ($tabArticles as $article) {
             $tabCards[] = new Card($article);
@@ -24,11 +28,11 @@ class ArticleController{
     }
 
 
-    public static function list()
+    public function list()
     {
         $user = (!empty($_SESSION['user'])) ? $_SESSION['user'] : null;
-        $manager = new ManagerArticle(Db::getInstance());
-        $tabArticles = $manager->getAllArticle();
+        
+        $tabArticles = $this->manager->getAllArticle();
         foreach ($tabArticles as $article) {
             $tabCards[] = new Card($article);
         }
@@ -38,7 +42,7 @@ class ArticleController{
     }
 
 
-    public static function show()
+    public function show()
     {
         $id = null;
         $user = (!empty($_SESSION['user'])) ? $_SESSION['user'] : null;
@@ -50,33 +54,48 @@ class ArticleController{
             Render::render('Article/error', ['message'=>'article non trouvé']);
         }
 
-        $manager = new ManagerArticle(Db::getInstance());
-        $article = $manager->getArticleById($id);
+        $article = $this->manager->getArticleById($id);
         Render::render('Articles/show',['title'=> $article->getTitle(), 'user' => $user, 'article'=>$article]);
 
     }
 
 
-    public static function add()
+    public function add()
     {
 
         $user = (!empty($_SESSION['user'])) ? $_SESSION['user'] : null;
 
-        Render::render('Articles/add', ['title' => 'Ajouter un Article', 'user' => $user]);
+        // si soumission du formulaire de création
+        if(isset($_POST['submit']) && $_POST['submit']==='Ajouter'){
+
+            $errorAdd = $this->manager->traitementDonnees($_POST);
+            //si pas d'erreur lors de la creation
+            if(!$errorAdd){
+                header('location: ?controller=article&action=admin');
+                exit();
+            }
+        }
+
+        $managerCategory = new ManagerCategory();
+        $listeCategory = $managerCategory->getAllCategory();
+
+        Render::render('Articles/add', ['title' => 'Ajouter un Article', 
+            'user' => $user, 
+            'category'=>$listeCategory, 
+            'errorAdd'=>$errorAdd=false]);
     }
 
-    public static function admin()
+    public function admin()
     {
         //on regarde si un utilisateur est connecté
         $user = Application::secure();
 
         //creation du manager article
-        $manager = new ManagerArticle(Db::getInstance());
 
         if($user['role']===LEVEL_ADMIN){
-            $articles = $manager->getAllArticle();
+            $articles = $this->manager->getAllArticle();
         }else{
-            $articles = $manager->getArticleByIdUser($user['id']);
+            $articles = $this->manager->getArticleByIdUser($user['id']);
         }
 
 

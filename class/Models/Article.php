@@ -38,7 +38,7 @@ class Article{
         return $this->_description;
     }
 
-    public function getUrl():string{
+    public function getUrl():?string{
         return $this->_url;
     }
 
@@ -72,7 +72,7 @@ class Article{
         $this->_description = $description;
     }
 
-    public function setUrl(string $url){
+    public function setUrl(?string $url){
         $this->_url = $url;
     }
 
