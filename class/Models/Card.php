@@ -67,7 +67,7 @@ class Card{
         $html .= '</div>';
         $html .= "<div class='card-body'>";
         $html .= "<h5 class='card-title'>{$this->getTitle()}</h5>";
-        $html .= "<p class='card-text'>".substr($this->getText(),0,245)."...</p>";
+        $html .= "<div class='card-text'>". strip_tags(substr($this->getText(),0,245))."...</div>";
         $html .= "<a href='{$this->getHref()}' class='btn btn-primary'>Lire la suite</a>";
         $html .= "</div></div></div>";
         return $html;

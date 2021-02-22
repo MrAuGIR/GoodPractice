@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Models;
+
+use App\Managers\ManagerArticle;
+
 /**
  * Class utilisateur
  * 
@@ -79,6 +82,16 @@ abstract class User{
                 $this->$method($value);
             }
         }
+    }
+    
+    /**
+     * getArticles
+     *retourne les articles de l'utilisateur
+     * @return array
+     */
+    public function getArticles():array{
+        $managerArticle = new ManagerArticle();
+        return $managerArticle->getArticleByIdUser($this->getId_user());
     }
 
 

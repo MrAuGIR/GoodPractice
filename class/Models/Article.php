@@ -1,5 +1,9 @@
 <?php
 namespace App\Models;
+
+use App\Managers\ManagerCategory;
+use App\Managers\ManagerUser;
+
 /**
  * class Article
  * @author  Aurelien Girard
@@ -106,6 +110,26 @@ class Article{
                 $this->$method($value);
             }
         }
+    }
+    
+    /**
+     * getUser
+     *  retourne l'utilisateur auteur de l'article
+     * @return User
+     */
+    public function getUser():User{
+        $managerUser = new ManagerUser();
+        return $managerUser->getUserById($this->getId_user());
+    }
+    
+    /**
+     * getCategorie
+     *  retourn l'objet category de l'article
+     * @return Category
+     */
+    public function getCategory():Category{
+        $managerCategory = new ManagerCategory();
+        return $managerCategory->getCategoryById($this->getId_category());
     }
 
 

@@ -9,12 +9,12 @@
                 </div>
                 <div class="row mt-2 mb-5 pt-2 pb-1">
                     {% for card in cards %}
-                        {{ card.generateCard() | raw}}
+                        {{ card.generateCard() | raw }}
                     {% endfor %}
                 </div>
                 <div class="row mt-5">
                     <div class="col-12 col-lg-6">
-                        <span>Ajouter un article ?</h1>
+                        <span>Ajouter un article ?</span>
                     </div>
                     <div class="col-12 col-lg-6">
                         <a href="?controller=article&action=add" class="btn btn-primary">Ajouter</a>

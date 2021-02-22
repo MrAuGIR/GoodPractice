@@ -22,13 +22,12 @@
                             <tr>
                                 <th scope="col">Titre</th>
                                 <th scope="col">Description</th>
-                                <th scope="col">Url</th>
-                                <th scope="col">Url_image</th>
                                 <th scope="col">Date creation</th>
                                 <th scope="col">Catégorie</th>
                                 {% if user.getRole == LEVEL_ADMIN %} 
                                     <th scope="col">utilisateur</th>
                                {% endif %}
+                               <td>Actions</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -36,13 +35,16 @@
                             <tr>
                                 <td>{{article.getTitle}}</td>
                                 <td>{{ article.getDescription | slice(0,50) }}</td>
-                                <td>{{article.getUrl}}</td>
-                                <td>{{article.getUrl_img}}</td>
                                 <td>{{ article.getDate_create }}</td>
-                                <td>{{ article.getId_Category }}</td>
-                                {% if user.role == LEVEL_ADMIN %} 
-                                    <td>{{ article.getId_user }}</td>
+                                <td>{{ article.getCategory.getName_Category }}</td>
+                                {% if user.getRole == LEVEL_ADMIN %} 
+                                    <td>{{ article.getUser.getName() }}</td>
                                 {% endif %}
+                                <td>
+                                    <a href="?controller=article&action=show&q={{article.getId_article}}">show</a><br>
+                                    <a href="?controller=article&action=edit&q={{article.getId_article}}">Edit</a><br>
+                                    <a href="?controller=article&action=delete&q={{article.getId_article}}">Delete</a>
+                                </td>
                             </tr>
                             {% endfor %}
                         </tbody>

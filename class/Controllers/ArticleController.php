@@ -12,6 +12,14 @@ use App\Render;
 class ArticleController extends Controller{
 
     protected $managerName = \App\Managers\ManagerArticle::class;
+    private $_category;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $managerCategory = new ManagerCategory(); 
+        $this->_category = $managerCategory->getAllCategory();
+    }
 
     public function index()
     {
@@ -33,6 +41,7 @@ class ArticleController extends Controller{
         $user = (!empty($_SESSION['user'])) ? $_SESSION['user'] : null;
         
         $tabArticles = $this->manager->getAllArticle();
+    
         foreach ($tabArticles as $article) {
             $tabCards[] = new Card($article);
         }
@@ -68,7 +77,7 @@ class ArticleController extends Controller{
         // si soumission du formulaire de création
         if(isset($_POST['submit']) && $_POST['submit']==='Ajouter'){
 
-            $errorAdd = $this->manager->traitementDonnees($_POST);
+            $errorAdd = $this->manager->traitementDonnees($_POST,'add');
             //si pas d'erreur lors de la creation
             if(!$errorAdd){
                 header('location: ?controller=article&action=admin');
@@ -76,13 +85,45 @@ class ArticleController extends Controller{
             }
         }
 
-        $managerCategory = new ManagerCategory();
-        $listeCategory = $managerCategory->getAllCategory();
 
         Render::render('Articles/add', ['title' => 'Ajouter un Article', 
             'user' => $user, 
-            'category'=>$listeCategory, 
+            'category'=>$this->_category, 
             'errorAdd'=>$errorAdd=false]);
+    }
+
+    public function edit(){
+
+        $user = (!empty($_SESSION['user'])) ? $_SESSION['user'] : null;
+
+        $id_article =(isset($_GET['q']))?(int)$_GET['q']: null;
+
+        // erreur si id de l'article manquant
+        if(empty($id_article)){
+            header('location:?controller=article&action=admin&edit=fail');
+            exit();
+        }
+
+        //si soumission du formulaire de modification
+        if(isset($_POST['submit']) && $_POST['submit']==='Editer'){
+
+            $errorAdd = $this->manager->traitementDonnees($_POST,'update');
+            //si pas d'erreur lors de la creation
+            echo $errorAdd;
+            if (!$errorAdd) {
+                header('location:?controller=article&action=admin');
+                exit();
+            }
+        }
+
+        $article = $this->manager->getArticleById($id_article);
+
+        Render::render('Articles/edit', ['title' =>'Editer un article',
+            'user'=> $user,
+            'category'=>$this->_category,
+            'article'=>$article,
+            'errorAdd'=>$errorAdd=false]);
+
     }
 
     public function admin()

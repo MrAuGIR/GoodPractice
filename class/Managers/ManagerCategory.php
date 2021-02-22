@@ -26,4 +26,14 @@ class ManagerCategory extends Manager{
         return $tabCategory;
     }
 
+    public function getCategoryById(int $id):Category{
+        $sql = 'SELECT * FROM categorie WHERE id_category = :id';
+        $req = $this->bdd->prepare($sql);
+        $req->bindValue('id',$id,PDO::PARAM_INT);
+        $req->execute();
+        $reponse = $req->fetch(PDO::FETCH_ASSOC);
+        return new Category($reponse);
+        
+    }
+
 }

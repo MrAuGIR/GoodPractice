@@ -1,0 +1,61 @@
+{% extends "layout.html.twig" %}
+    {% block stylesheet %}
+    <link href="/style/trix.css" rel="stylesheet" type="text/css">
+    {% endblock %}
+    {% block scriptHead %}
+    <script type="text/javascript" src="/js/trix.js"></script>
+    {% endblock %}
+    {% block content  %}
+        <main>
+            <div class="container">
+                {% if errorAdd  %}
+                <div class="row my-4">
+                    <div class="col-12 alert alert-danger">
+                        <ul>
+                        {% for error in errorAdd %}
+                            <li>{{error}}</li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {% endif %}
+                <div class="row my-4"> 
+                    <div class="col-12">
+                        {% if not user %}
+                        <h3>Vous devez vous connecter pour ajouter un article</h3>
+                        {% else %}
+                        <form action="" method="POST">
+                            <input type="number" name="idUser" id="idUser"  value="{{article.getUser.getId_user}}" hidden>
+                            <input type="number" name="idArticle" id="idArticle" value="{{article.getId_article}}"hidden>
+                            <div class="col-12 my-5 mb-2">
+                                <label for="title">Titre</label>
+                                <input type="text" class="form-control"name="title" value="{{article.getTitle}}">
+                            </div>
+                            <div class="col-12 my-5 mb-2">
+                                <label for="content">Contenu</label>
+                                <!--<textarea type="text" class="form-control" id="content" name="content" placeholder="le contenu de l'article"></textarea>-->
+                                <input id="content" type="hidden" name="content" value="{{article.getDescription}}">
+                                <trix-editor class="trix-content" input="content"></trix-editor>
+                            </div>
+                            <div class="col-12 my-5 mb-2">
+                                <label for="url">Url</label>
+                                <input type="text" class="form-control" id="url" name="url" value="{{article.getUrl}}">
+                            </div>
+                            <div class="col-12 my-5 mb-2">
+                                <label for="category">Catégorie</label>
+                                <select name="category" id="category">
+                                    {% for cat in category %}
+                                    <option value="{{cat.id_category}}">{{cat.name_category}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <input type="submit" class="btn btn-primary" name="submit" value="Editer">
+                            </div>
+                        </form>
+                    </div>
+                {% endif %}
+                </div>
+            </div>
+        </main>
+    {% endblock %}

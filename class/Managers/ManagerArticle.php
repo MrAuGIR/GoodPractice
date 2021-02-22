@@ -27,12 +27,12 @@ class ManagerArticle extends Manager{
         $sql = 'INSERT INTO article (title, description, url,url_img, date_create, id_user, id_category) VALUES ( :title, :description, :url,:url_img, :date_create, :id_user, :id_category)';
         $req = $this->bdd->prepare($sql);
         $req->bindValue('title',$article['title'],PDO::PARAM_STR);
-        $req->bindValue('description',$article['content'],PDO::PARAM_STR);
-        $req->bindValue('date_create',$article['date'],PDO::PARAM_STR);
+        $req->bindValue('description',$article['description'],PDO::PARAM_STR);
+        $req->bindValue('date_create',$article['date_create'],PDO::PARAM_STR);
         $req->bindValue('url',$article['url'],PDO::PARAM_STR);
-        $req->bindValue('url_img',$article['image'],PDO::PARAM_STR);
-        $req->bindValue('id_user',$article['idUser'],PDO::PARAM_INT);
-        $req->bindValue('id_category',$article['category'],PDO::PARAM_INT);
+        $req->bindValue('url_img',$article['url_img'],PDO::PARAM_STR);
+        $req->bindValue('id_user',$article['id_user'],PDO::PARAM_INT);
+        $req->bindValue('id_category',$article['id_category'],PDO::PARAM_INT);
         $req->execute();
     }
 
@@ -138,8 +138,16 @@ class ManagerArticle extends Manager{
         return $tabArticle;
     }
 
-
-    public function traitementDonnees(array $post){
+    
+    /**
+     * traitementDonnees
+     * verification que les données posté sont présentes et correctes
+     * 
+     * @param  mixed $post
+     * @param  mixed $type 'add' or 'update'
+     * @return void
+     */
+    public function traitementDonnees(array $post,string $type){
 
         $title = isset($post['title'])? $post['title']:"";
         $content = isset($post['content'])? $post['content']: "";
@@ -147,6 +155,7 @@ class ManagerArticle extends Manager{
         $pathImage = isset($post['image'])? $post['image']:"";
         $date = new \DateTime();
         $idUser = isset($post['idUser'])? $post['idUser']: null;
+        $idArticle = isset($post['idArticle'])? $post['idArticle']: null;
         $idCategory = isset($post['category'])? $post['category']: 1;
 
         //erreur si les champs obligatoires sont vide
@@ -156,19 +165,38 @@ class ManagerArticle extends Manager{
 
         //si path image vide
         if(empty($pathImage)){
-            $pathImage = '/img/illustration/default.png';
+            $pathImage = '/img/illustration/illustrationDefault.png';
         }
 
         //si pas d'erreur on continu
         if(!$this->_errors){
-            $this->addArticle(['title'=>$title,
-            'content'=>$content, 
-            'url'=>$url, 
-            'image'=>$pathImage, 
-            'date'=>$date->format('Y-m-d H:i'),
-            'idUser'=>$idUser,
-            'category'=>$idCategory]);
+            if($type === 'add'){
 
+                $this->addArticle([
+                    'title' => $title,
+                    'description' => $content,
+                    'url' => $url,
+                    'url_img' => $pathImage,
+                    'date_create' => $date->format('Y-m-d H:i'),
+                    'id_user' => $idUser,
+                    'id_category' => $idCategory
+                ]);
+
+                return false;
+            }
+            //type = 'update
+            $article = new Article([
+                'id_article' => $idArticle,
+                'title' => $title,
+                'description' => $content,
+                'url' => $url,
+                'url_img' => $pathImage,
+                'date_create' => $date->format('Y-m-d H:i'),
+                'id_user' => $idUser,
+                'id_category' => $idCategory
+            ]);
+            $this->updateArticle($article);
+            
             return false;
 
         }
