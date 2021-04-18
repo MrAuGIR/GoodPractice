@@ -4,9 +4,9 @@
     {% block head %}
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="/bootstrap/bootstrapEvo.min.css" rel="stylesheet" type="text/css">
+    <link href="./public/bootstrap/bootstrapEvo.min.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp" crossorigin="anonymous">
-    <link href="/style/main.css" rel="stylesheet" type="text/css">
+    <link href="./public/style/main.css" rel="stylesheet" type="text/css">
     {% block stylesheet %}{% endblock %}
     {% block scriptHead %}{% endblock %}
     <title>{{title}}</title>
@@ -19,7 +19,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-12">
-                                <img src="/img/logo.png" alt="logo">
+                                <img src="./public/img/logo.png" alt="logo">
                             </div>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
         </div>
         {% endblock %}
         </footer>
-        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <script src="./public/bootstrap/js/bootstrap.min.js"></script>
         {% block script %}
         {% endblock %}
     </body>

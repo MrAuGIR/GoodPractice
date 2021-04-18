@@ -18,7 +18,7 @@ html, body, main{
     .background-header{
         display: flex;
         flex-direction: column;
-        background-image: url(/img/background-header.jpg);
+        background-image: url(/public/img/background-header.jpg);
         background-position: center;
         background-size: cover;
     }

@@ -63,7 +63,7 @@ class Card{
         $html .= '<div class="col-12 col-sm-12 col-md-6 col-lg-4">';
         $html .= '<div class="card">';
         $html .= '<div class="picture">';
-        $html .= '<img src="'.$this->getImgSrc().'" class="card-img-top" alt="illustration">';
+        $html .= '<img src="./public/'.$this->getImgSrc().'" class="card-img-top" alt="illustration">';
         $html .= '</div>';
         $html .= "<div class='card-body'>";
         $html .= "<h5 class='card-title'>{$this->getTitle()}</h5>";

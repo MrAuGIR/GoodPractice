@@ -12,7 +12,7 @@
                         <p>{{article.getDescription | raw}}</p>
                     </div>
                     <div class="col-12 col-md-6">
-                        <img src="{{article.getUrl_img}}" class="card-img-top" alt="illustration">
+                        <img src="{{'./public/' ~ article.getUrl_img}}" class="card-img-top" alt="illustration">
                     </div>
                 </div>
                 <div class="row mb-2"> 
