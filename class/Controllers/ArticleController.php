@@ -26,27 +26,50 @@ class ArticleController extends Controller{
         //on regarde si un utilisateur est connecté
         $user = (!empty($_SESSION['user']))? $_SESSION['user']: null;
         
+        //on recupère les derniers articles
         $tabArticles = $this->manager->getXarticle(3);
         $tabCards = [];
         foreach ($tabArticles as $article) {
             $tabCards[] = new Card($article);
         }
+
         
-        Render::render('Articles/index',['title' => 'Accueil', 'user'=>$user, 'cards'=>$tabCards]);
+        Render::render('Articles/index',[
+            'title' => 'Accueil',
+            'user'=>$user, 
+            'cards'=>$tabCards,
+            'category' => $this->_category
+            ]);
     }
 
 
     public function list()
     {
+        $tabArticles = [];
+        $tabCards = [];
+        $category = null;
         $user = (!empty($_SESSION['user'])) ? $_SESSION['user'] : null;
-        
-        $tabArticles = $this->manager->getAllArticle();
-    
-        foreach ($tabArticles as $article) {
-            $tabCards[] = new Card($article);
+
+        $categoryId = (!empty($_GET['category']))? (int)$_GET['category'] : null;
+
+        $managerCategory = new ManagerCategory();
+        if($categoryId != null){
+            $category = $managerCategory->getCategoryById($categoryId);
+        }
+       
+        $tabArticles = ($categoryId != null) ? $this->manager->getArticleByFilter($categoryId) : $this->manager->getAllArticle();
+        if(count($tabArticles)>0){
+            foreach ($tabArticles as $article) {
+                
+                $tabCards[] = new Card($article);
+            }
         }
 
-        Render::render('Articles/list', ['title'=>'Les Articles', 'user' => $user, 'cards' => $tabCards]);
+        Render::render('Articles/list', [
+            'title'=>'Les Articles', 
+            'user' => $user, 
+            'cards' => $tabCards, 
+            'categoryActif'=> ($category != null)? $category : '']);
 
     }
 
@@ -64,7 +87,10 @@ class ArticleController extends Controller{
         }
 
         $article = $this->manager->getArticleById($id);
-        Render::render('Articles/show',['title'=> $article->getTitle(), 'user' => $user, 'article'=>$article]);
+        Render::render('Articles/show',[
+            'title'=> $article->getTitle(), 
+            'user' => $user, 
+            'article'=>$article]);
 
     }
 

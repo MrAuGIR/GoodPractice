@@ -8,9 +8,13 @@
                     </div>
                 </div>
                 <div class="row mt-2 mb-5 pt-2 pb-1">
-                    {% for card in cards %}
-                        {{ card.generateCard() | raw }}
-                    {% endfor %}
+                    {% if cards is not empty %}
+                        {% for card in cards %}
+                            {{ card.generateCard() | raw }}
+                        {% endfor %}
+                    {% else %}
+                        <h5>Il n'existe pas d'articles dans cette catégorie {{ categoryActif.getName_Category }}</h5>
+                    {% endif %}
                 </div>
                 <div class="row mt-5">
                     <div class="col-12 col-lg-6">

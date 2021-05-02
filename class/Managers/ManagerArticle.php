@@ -137,6 +137,31 @@ class ManagerArticle extends Manager{
         }
         return $tabArticle;
     }
+    
+    /**
+     * getArticleByFilter
+     * Recherche d'article avec filtre
+     * @param  mixed $idCategory
+     * @return array
+     */
+    public function getArticleByFilter(int $idCategory):array
+    {
+        $tabArticle=[];
+        $sql = 'SELECT * FROM article WHERE id_category = :idCategory ORDER BY date_create ASC';
+        //$sql .= 'LIMIT 0,10';
+        $req = $this->bdd->prepare($sql);
+        $req->bindValue('idCategory',$idCategory,PDO::PARAM_INT);
+      //  $req->bindValue('number',$number,PDO::PARAM_INT);
+        $req->execute();
+
+        $reponse = $req->fetchAll(PDO::FETCH_ASSOC);
+        foreach($reponse as $row){
+            $article = new Article($row);
+            $tabArticle[] = $article;
+        }
+        return $tabArticle;
+        
+    }
 
     
     /**
