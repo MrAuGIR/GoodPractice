@@ -39,6 +39,8 @@ html, body, main{
 /* surcharge de card */
 .card{
     width: 100%;
+    min-height: 33vh;
+    
 }
 
 /*surcharge de picture */
