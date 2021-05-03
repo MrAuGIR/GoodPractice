@@ -87,3 +87,9 @@ html, body, main{
     font-size: smaller;
     font-weight: 200;
 }
+
+.subtitle{
+    font-weight: bold;
+    font-size: medium;
+    color: #212529;
+}

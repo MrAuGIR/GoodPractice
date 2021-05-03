@@ -152,21 +152,6 @@ class ArticleController extends Controller{
 
     }
 
-    public function admin()
-    {
-        //on regarde si un utilisateur est connecté
-        $user = Application::secure();
-
-        //creation du manager article
-
-        if($user['role']===LEVEL_ADMIN){
-            $articles = $this->manager->getAllArticle();
-        }else{
-            $articles = $this->manager->getArticleByIdUser($user['id']);
-        }
-
-
-        Render::render('Articles/admin', ['title' => 'Administration', 'user'=> $user, 'articles' => $articles] );
-    }
+    
 
 }

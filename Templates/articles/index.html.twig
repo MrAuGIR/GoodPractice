@@ -13,11 +13,9 @@
                     {% endfor %}
                 </div>
                 <div class="row mt-5">
-                    <div class="col-12 col-lg-6">
-                        <span>Ajouter un article ?</h1>
-                    </div>
-                    <div class="col-12 col-lg-6">
-                        <a href="?controller=article&action=add" class="btn btn-primary">Ajouter</a>
+                    <div class="col-12">
+                        <span class="subtitle">Ajouter un article ?</span>
+                        <a href="?controller=article&action=add" class="btn btn-primary mx-2">Ajouter</a>
                     </div>
                 </div>
                 <div class="row mt-5">
@@ -27,7 +25,7 @@
                     <div class="col-12">
                         <div class="row">
                             {% for categorie in category %}
-                                <a href="?controller=article&action=list&category={{categorie.getId_category()}}" class="badge badge-primary">{{categorie.getName_Category}}</a>
+                                <a href="?controller=article&action=list&category={{categorie.getId_category()}}" class="badge badge-primary px-2 py-2 mx-2">{{categorie.getName_Category}}</a>
                             {% endfor %}
                         </div>
                     </div>
