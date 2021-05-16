@@ -48,6 +48,6 @@ class AdminController extends Controller
             header('location: ?controller=adminr&action=AdminArticle');
         }
 
-        Render::render('Article/admin', ['title' => 'Administration', 'user' => $user, 'categories' => $categories]);
+        Render::render('categories/admin', ['title' => 'Administration', 'user' => $user, 'categories' => $categories]);
     }
 }

@@ -1,4 +1,4 @@
-{% extends "layout.html.twig" %}
+    {% extends "layout.html.twig" %}
     {% block content  %}
     <main>
         <div class="container">
@@ -18,30 +18,19 @@
                     <table class="table dashboard-table">
                         <thead>
                             <tr>
-                                <th scope="col">Titre</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Date creation</th>
-                                <th scope="col">Catégorie</th>
-                                {% if user.getRole == LEVEL_ADMIN %} 
-                                    <th scope="col">utilisateur</th>
-                               {% endif %}
+                                <th scope="col">Id</th>
+                                <th scope="col">Nom</th>
                                <td>Actions</td>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for article in articles %}
+                            {% for category in categories %}
                             <tr>
-                                <td>{{article.getTitle}}</td>
-                                <td>{{ article.getDescription | slice(0,50) | raw }}</td>
-                                <td>{{ article.getDate_create }}</td>
-                                <td>{{ article.getCategory.getName_Category }}</td>
-                                {% if user.getRole == LEVEL_ADMIN %} 
-                                    <td>{{ article.getUser.getName() }}</td>
-                                {% endif %}
+                                <td>{{category.getId_category}}</td>
+                                <td>{{category.getName_Category}}</td>
                                 <td>
-                                    <a href="?controller=article&action=show&q={{article.getId_article}}">show</a><br>
-                                    <a href="?controller=article&action=edit&q={{article.getId_article}}">Edit</a><br>
-                                    <a href="?controller=article&action=delete&q={{article.getId_article}}">Delete</a>
+                                    <a href="?controller=category&action=edit&q={{category.getId_category}}">Edit</a><br>
+                                    <a href="?controller=category&action=delete&q={{article.getId_category}}">Delete</a>
                                 </td>
                             </tr>
                             {% endfor %}
