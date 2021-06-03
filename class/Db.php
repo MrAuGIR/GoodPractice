@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-require('../bdd/config.php');
+require('bdd/config.php');
 use \PDO;
 
 class Db {
