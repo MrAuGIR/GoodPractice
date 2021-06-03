@@ -5,9 +5,10 @@ class Render{
 
 
     public static function render(string $path, array $var){
-        $loader = new \Twig\Loader\FilesystemLoader('/projets/GoodPractice/templates');
+        $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . DIRECTORY_SEPARATOR .'templates');
         $twig = new \Twig\Environment($loader);
 
         echo $twig->render($path.'.html.twig', $var);
     }
+
 }
