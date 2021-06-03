@@ -34,7 +34,7 @@ class ArticleController extends Controller{
         }
 
         
-        Render::render('Articles/index',[
+        Render::render('articles/index',[
             'title' => 'Accueil',
             'user'=>$user, 
             'cards'=>$tabCards,
@@ -65,7 +65,7 @@ class ArticleController extends Controller{
             }
         }
 
-        Render::render('Articles/list', [
+        Render::render('articles/list', [
             'title'=>'Les Articles', 
             'user' => $user, 
             'cards' => $tabCards, 
@@ -83,11 +83,11 @@ class ArticleController extends Controller{
         }
 
         if (!$id) {
-            Render::render('Article/error', ['message'=>'article non trouvé']);
+            Render::render('article/error', ['message'=>'article non trouvé']);
         }
 
         $article = $this->manager->getArticleById($id);
-        Render::render('Articles/show',[
+        Render::render('articles/show',[
             'title'=> $article->getTitle(), 
             'user' => $user, 
             'article'=>$article]);
@@ -112,7 +112,7 @@ class ArticleController extends Controller{
         }
 
 
-        Render::render('Articles/add', ['title' => 'Ajouter un Article', 
+        Render::render('articles/add', ['title' => 'Ajouter un Article', 
             'user' => $user, 
             'category'=>$this->_category, 
             'errorAdd'=>$errorAdd=false]);
@@ -144,7 +144,7 @@ class ArticleController extends Controller{
 
         $article = $this->manager->getArticleById($id_article);
 
-        Render::render('Articles/edit', ['title' =>'Editer un article',
+        Render::render('articles/edit', ['title' =>'Editer un article',
             'user'=> $user,
             'category'=>$this->_category,
             'article'=>$article,

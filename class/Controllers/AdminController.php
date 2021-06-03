@@ -34,7 +34,7 @@ class AdminController extends Controller
         }
 
 
-        Render::render('Articles/admin', ['title' => 'Administration', 'user' => $user, 'articles' => $articles]);
+        Render::render('articles/admin', ['title' => 'Administration', 'user' => $user, 'articles' => $articles]);
     }
 
     public function adminCategory()
