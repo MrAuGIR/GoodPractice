@@ -2,13 +2,13 @@
 namespace App\Managers;
 
 use App\Models\Article;
+use App\Managers\ManagerCategory;
 use \PDO;
 
 
 class ManagerArticle extends Manager{
 
     private $_errors = [];
-
     
     /**
      * getErrors
@@ -187,10 +187,18 @@ class ManagerArticle extends Manager{
         if(empty($title) || empty($content) || empty($idUser)){
             $this->__errors['vide'] = 'Veuillez remplir les champs obligatoires';
         }
-
+        
         //si path image vide
         if(empty($pathImage)){
-            $pathImage = '/img/illustration/illustrationDefault.png';
+            if(!empty($idCategory)){
+                $manager = new ManagerCategory();
+                $category = $manager->getCategoryById($idCategory);
+                
+                $pathImage = PATH_IMG_DEFAULT.$category->getDefault_image();
+            }else{
+                $pathImage = '/img/illustration/illustrationDefault.png';
+            }
+            
         }
 
         //si pas d'erreur on continu

@@ -12,5 +12,7 @@ define('LEVEL_ADMIN', 'administrateur');
 
 define('LEVEL_EDITEUR', 'Editeur');
 
+define('PATH_IMG_DEFAULT', 'img/illustration/');
+
 
 ?>

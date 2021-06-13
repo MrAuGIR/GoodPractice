@@ -6,6 +6,7 @@ class Category{
 
     private $_id_category;
     private $_name_category;
+    private $_default_image;
 
 
     public function __construct(array $data)
@@ -23,6 +24,10 @@ class Category{
         return $this->_name_category;
     }
 
+    public function getDefault_image():string{
+        return $this->_default_image;
+    }
+
     //setter
 
     public function setId_category($id){
@@ -35,6 +40,10 @@ class Category{
         return $this;
     }
 
+    public function setDefault_image(string $default_img){
+        $this->_default_image = $default_img;
+        return $this;
+    }
 
     //methodes
 
