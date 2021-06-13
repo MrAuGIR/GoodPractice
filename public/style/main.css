@@ -30,7 +30,34 @@ html, body, main{
 
 }
     
+.background-header{
+    display: flex;
+    flex-direction: column;
+    background-image: url(/public/img/background-header.jpg);
+    background-position: center;
+    background-size: cover;
+}
 
+@media screen and (min-width:576px){
+    .background-header{
+        background-position: center;
+        background-size: cover;
+    } 
+}
+
+@media screen and (min-width:768px){
+    .background-header{
+        background-position: center;
+        background-size: cover;
+    } 
+}
+
+@media screen and (min-width:992px){
+    .background-header{
+        background-position: center;
+        background-size: cover;
+    } 
+}
 
 @media screen and (min-width:1200px){
     .background-header{
