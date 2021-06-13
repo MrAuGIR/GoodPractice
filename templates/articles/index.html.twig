@@ -1,0 +1,35 @@
+{% extends "layout.html.twig" %}
+    {% block content  %}
+        <main>
+            <div class="container">
+                <div class="row mt-5">
+                    <div class="col-12">
+                        <h1>Dernier Articles ajoutés</h1>
+                    </div>
+                </div>
+                <div class="row mt-2 mb-5 pt-2 pb-1">
+                    {% for card in cards %}
+                        {{ card.generateCard() | raw}}
+                    {% endfor %}
+                </div>
+                <div class="row mt-5">
+                    <div class="col-12">
+                        <span class="subtitle">Ajouter un article ?</span>
+                        <a href="?controller=article&action=add" class="btn btn-primary mx-2">Ajouter</a>
+                    </div>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-12">
+                        <h1>Catégories</h1>
+                    </div>
+                    <div class="col-12">
+                        <div class="row">
+                            {% for categorie in category %}
+                                <a href="?controller=article&action=list&category={{categorie.getId_category()}}" class="badge badge-primary px-2 py-2 mx-2">{{categorie.getName_Category}}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    {% endblock %}
