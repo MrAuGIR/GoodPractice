@@ -36,6 +36,15 @@ html, body, main{
 
 
 /*----------------------------- STYLE DU MAIN---------------------------------------*/
+
+/*background color section */
+.sec-background-1{
+    background-color: #e5ebf1;
+}
+.sec-background-2{
+    background-color: #fdfeff;
+}
+
 /* surcharge de card */
 .card{
     width: 100%;

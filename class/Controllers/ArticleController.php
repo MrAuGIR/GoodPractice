@@ -7,18 +7,20 @@ use App\Db;
 use App\Managers\ManagerArticle;
 use App\Managers\ManagerCategory;
 use App\Models\Card;
+use App\Models\Category;
 use App\Render;
 
 class ArticleController extends Controller{
 
     protected $managerName = \App\Managers\ManagerArticle::class;
+    public $managerCategory;
     private $_category;
 
     public function __construct()
     {
         parent::__construct();
-        $managerCategory = new ManagerCategory(); 
-        $this->_category = $managerCategory->getAllCategory();
+        $this->managerCategory = new ManagerCategory(); 
+        $this->_category = $this->managerCategory->getAllCategory();
     }
 
     public function index()
@@ -33,12 +35,26 @@ class ArticleController extends Controller{
             $tabCards[] = new Card($article);
         }
 
+        //on recupère les categories les plus utilisé et les articles asociés
+        /** @var Category[] */
+        $bestCategories = $this->managerCategory->getBestCategories();
+        $tabArticleByCategories = [];
+        foreach($bestCategories as $category){
+            $tab = [];
+            $articles = $this->manager->getArticleByFilter($category->getId_category());
+            foreach($articles as $article){
+                $tab[] = new Card($article);
+            }
+            $tabArticleByCategories[$category->getName_Category()] = $tab;
+        }
+
         
         Render::render('articles/index',[
             'title' => 'Accueil',
             'user'=>$user, 
             'cards'=>$tabCards,
-            'category' => $this->_category
+            'category' => $this->_category,
+            'listArticleBestCategory'=> $tabArticleByCategories
             ]);
     }
 
