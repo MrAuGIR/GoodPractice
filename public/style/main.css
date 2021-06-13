@@ -13,6 +13,24 @@ html, body, main{
 
 /*------------------------------STYLE DU HEADER-----------------------------------*/
 
+.logo-min{
+    display: block;
+}
+.logo-large{
+    display: none;
+}
+
+@media screen and (min-width:768px){
+    .logo-min{
+        display: none;
+    }
+    .logo-large{
+        display: block;
+    }
+
+}
+    
+
 
 @media screen and (min-width:1200px){
     .background-header{
