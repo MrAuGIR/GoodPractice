@@ -122,7 +122,7 @@ class ArticleController extends Controller{
             $errorAdd = $this->manager->traitementDonnees($_POST,'add');
             //si pas d'erreur lors de la creation
             if(!$errorAdd){
-                header('location: ?controller=article&action=admin');
+                header('location:?controller=admin&action=adminArticle');
                 exit();
             }
         }
@@ -142,7 +142,7 @@ class ArticleController extends Controller{
 
         // erreur si id de l'article manquant
         if(empty($id_article)){
-            header('location:?controller=article&action=admin&edit=fail');
+            header('location:?controller=admin&action=adminArticle&edit=fail');
             exit();
         }
 
@@ -153,7 +153,7 @@ class ArticleController extends Controller{
             //si pas d'erreur lors de la creation
             echo $errorAdd;
             if (!$errorAdd) {
-                header('location:?controller=article&action=admin');
+                header('location:?controller=admin&action=adminArticle');
                 exit();
             }
         }

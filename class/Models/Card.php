@@ -74,7 +74,7 @@ class Card{
         if(strlen($this->getText()) < 200 ){
             $html .= "<div style='height:120px' class='card-text'>" . strip_tags(substr($this->getText(), 0, 200)) . "...</div>";
         }else{
-            $html .= "<div class='card-text'>" . strip_tags(substr($this->getText(), 0, 200)) . "...</div>";
+            $html .= "<div class='card-text py-2'>" . strip_tags(substr($this->getText(), 0, 200)) . "...</div>";
         }
         $html .= "<a href='{$this->getHref()}' class='btn btn-primary'>Lire la suite</a>";
         $html .= "</div></div></div>";
