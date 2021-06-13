@@ -1,16 +1,16 @@
 <?php
 
-define('DB_NAME', 'dbs2190448');
+define('DB_NAME', 'bonne_pratique');
 
-define('USER_NAME', 'dbu1328929');
+define('USER_NAME', 'root');
 
-define('HOST', 'db5002746661.hosting-data.io');
+define('HOST', 'localhost');
 
-define('PASSWORD', 'eco&@aae480AAE480@&eco');
+define('PASSWORD', '');
 
 define('LEVEL_ADMIN', 'administrateur');
 
-define('LEVEL_EDITEUR','Editeur');
+define('LEVEL_EDITEUR', 'Editeur');
 
 
 ?>
