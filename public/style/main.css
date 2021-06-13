@@ -97,6 +97,10 @@ html, body, main{
     
 }
 
+.card-header ul{
+    list-style: none;
+}
+
 /*surcharge de picture */
 .picture{
     width: 100%;
