@@ -1,4 +1,10 @@
 {% extends "layout.html.twig" %}
+    {% block stylesheet %}
+        <link href="/public/style/trix.css" rel="stylesheet" type="text/css">
+    {% endblock %}
+    {% block scriptHead %}
+        <script type="text/javascript" src="./public/js/trix.js"></script>
+    {% endblock %}
     {% block content  %}
         <main>
             <div class="container">
@@ -18,6 +24,24 @@
                 <div class="row mb-2"> 
                     <div class="col-12 col-md-6">
                         <a href="?controller=article&action=index">Retour accueil</a>
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="col-12">
+                        <h2>Poster un commentaire</h2>
+                    </div>
+                    <div class="col-12">
+                        <form method="POST" action="?controller=article&action=postComment">
+                            <div class="col-12 my-1">
+                                <label for="content">Message</label>
+                                <input id="content" type="hidden" name="content" value="">
+                                <input type="number" name="id" value="{{article.getId_article}}" hidden>
+                                <trix-editor class="trix-content" input="content"></trix-editor>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <input type="submit" class="btn btn-primary" name="submitComment" value="Poster">
+                            </div>
+                        </form>
                     </div>
                     
                 </div>

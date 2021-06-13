@@ -1,6 +1,8 @@
 <?php
 namespace App\Models;
 
+use DateTime;
+
 /**
  * Class objet commentaire posté sur un article
  */
@@ -53,7 +55,7 @@ class Commentary{
 
     /**
      * methode retourne la date d'envoie du commentaire
-     * @return string $this->_date_posted
+     * @return  $this->_date_posted
      */
     public function getDate_posted():string{
         return $this->_date_posted;
@@ -107,6 +109,7 @@ class Commentary{
      */
     public function setTitle(string $title){
         $this->_title = $title;
+        return $this;
     }
 
     /**
@@ -115,6 +118,7 @@ class Commentary{
      */
     public function setDescription(string $description){
         $this->_description = $description;
+        return $this;
     }
 
     /**
@@ -123,6 +127,7 @@ class Commentary{
      */
     public function setDate_posted(string $date_posted){
         $this->_date_posted = $date_posted;
+        return $this;
     }
 
     /**
@@ -131,6 +136,7 @@ class Commentary{
      */
     public function setApproved(int $approved){
         $this->_approved = $approved;
+        return $this;
     }
 
     /**
@@ -139,6 +145,7 @@ class Commentary{
      */
     public function setDisapproved(int $disapproved){
         $this->_disapproved = $disapproved;
+        return $this;
     }
 
     /**
@@ -147,6 +154,7 @@ class Commentary{
      */
     public function setId_user(int $id_user){
         $this->_id_user = $id_user;
+        return $this;
     }
 
     /**
@@ -155,6 +163,7 @@ class Commentary{
      */
     public function setId_article(int $id_article){
         $this->_id_article = $id_article;
+        return $this;
     }
 
     /**

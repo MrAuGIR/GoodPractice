@@ -6,8 +6,10 @@ use App\Application;
 use App\Db;
 use App\Managers\ManagerArticle;
 use App\Managers\ManagerCategory;
+use App\Managers\ManagerCommentary;
 use App\Models\Card;
 use App\Models\Category;
+use App\Models\Commentary;
 use App\Render;
 
 class ArticleController extends Controller{
@@ -168,6 +170,42 @@ class ArticleController extends Controller{
 
     }
 
+    public function postComment(){
+        
+        $user = (!empty($_SESSION['user'])) ? $_SESSION['user'] : null;
+        //soumission du formulaire
+        if(isset($_POST['submitComment']) && $_POST['submitComment']=="Poster"){
+            $id = isset($_POST['id'])? $_POST['id'] : null;
+            $comment = isset($post['content']) ? $post['content'] : "";
+        }
+        
+        if(!$id){
+            header('location:?controller=article&action=index');
+            exit();
+        }
+
+        if(!$user){
+            header('location:?controller=article&action=show&q='.$id);
+            exit();
+        }
+        
+        $date = new \DateTime('now');
+
+        $comment = new Commentary(['description' => $comment]);
+        $comment->setId_article($id)
+            ->setId_user($user['id'])
+            ->setApproved(0)
+            ->setDisapproved(0)
+            ->setDate_posted($date->format('Y-m-d H:i'))
+            ->setTitle('comment-'.$id.'-user-'.$user['id']);
+
+        $manager = new ManagerCommentary();
+        $manager->addCommentary($comment);
+        header('location:?controller=article&action=show&q='.$id);
+        exit();
+
+
+    }
     
 
 }
