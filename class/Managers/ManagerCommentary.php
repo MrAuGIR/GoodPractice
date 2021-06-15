@@ -108,7 +108,9 @@ class ManagerCommentary extends Manager{
      */
     public function getCommentaryByIdArticle(int $id_article):array{
         $tabComment=[];
-        $sql = 'SELECT * FROM commentary WHERE id_article = :id';
+        $sql  = 'SELECT c.*, u.name FROM commentary AS c';
+        $sql .= " INNER JOIN user AS u ON u.id_user = c.id_user";
+        $sql .= " WHERE id_article = :id";
         $req = $this->bdd->prepare($sql);
         $req->bindValue('id',$id_article,PDO::PARAM_INT);
         $req->execute();

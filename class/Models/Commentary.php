@@ -17,6 +17,8 @@ class Commentary{
     private $_disapproved;
     private $_id_article;
     private $_id_user;
+    private $_name_user;
+
 
     /**
      * Constructeur de la class Commentary
@@ -83,6 +85,13 @@ class Commentary{
      */
     public function getId_user():int{
         return $this->_id_user;
+    }
+
+    /**
+     * 
+     */
+    public function getName():string{
+        return $this->_name_user;
     }
 
     /**
@@ -154,6 +163,11 @@ class Commentary{
      */
     public function setId_user(int $id_user){
         $this->_id_user = $id_user;
+        return $this;
+    }
+
+    public function setName(string $name_user){
+        $this->_name_user = $name_user;
         return $this;
     }
 

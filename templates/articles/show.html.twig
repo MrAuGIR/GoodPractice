@@ -45,6 +45,28 @@
                     </div>
                     
                 </div>
+                {% if comments %}
+                <div class="row my-3">
+                    {% for comment in comments %}
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    {% set username = (comment.getName())? comment.getName() : "Anonyme" %}
+                                    <span>{{username}}</span> - <span>{{comment.getDate_posted()}}</span>
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">{{comment.getDescription()}}</p>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    2 days ago
+                                </div>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                
             </div>
         </main>
     {% endblock %}

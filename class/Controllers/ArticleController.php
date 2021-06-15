@@ -104,11 +104,17 @@ class ArticleController extends Controller{
             Render::render('article/error', ['message'=>'article non trouvé']);
         }
 
+        //on recupère les commentaires associés à l'article
+        $managerComment = new ManagerCommentary();
+        $comments = $managerComment->getCommentaryByIdArticle($id);
+
         $article = $this->manager->getArticleById($id);
         Render::render('articles/show',[
             'title'=> $article->getTitle(), 
             'user' => $user, 
-            'article'=>$article]);
+            'article'=>$article,
+            'comments' => $comments
+        ]);
 
     }
 
@@ -178,7 +184,7 @@ class ArticleController extends Controller{
             $id = isset($_POST['id'])? $_POST['id'] : null;
             $comment = isset($post['content']) ? $post['content'] : "";
         }
-        
+        //Todo rajouter les messages d'erreurs
         if(!$id){
             header('location:?controller=article&action=index');
             exit();
