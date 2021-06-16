@@ -189,9 +189,9 @@ html, body, main{
     font-size: medium;
 }
 
-@media screen and (min-width: 576px){
+@media screen and (min-width: 786px){
     .card-main .card-body h5{
-        font-size: large;
+        font-size: larger;
     }
 }
 
