@@ -44,7 +44,8 @@ class ManagerArticle extends Manager{
         $sql = 'DELETE FROM article WHERE id_article = :id';
         $req = $this->bdd->prepare($sql);
         $req->bindValue('id',$article->getId_article(),PDO::PARAM_INT);
-        $req->execute();
+        $result = $req->execute();
+        return $result;
     }
 
     /**
@@ -174,7 +175,7 @@ class ManagerArticle extends Manager{
      */
     public function traitementDonnees(array $post,string $type){
 
-        $title = isset($post['title'])? $post['title']:"";
+        $title = isset($post['title'])? $post['title']:null;
         $content = isset($post['content'])? $post['content']: "";
         $url = isset($post['url'])? $post['url']: "";
         $pathImage = isset($post['image'])? $post['image']:"";
@@ -183,9 +184,10 @@ class ManagerArticle extends Manager{
         $idArticle = isset($post['idArticle'])? $post['idArticle']: null;
         $idCategory = isset($post['category'])? $post['category']: 1;
 
+        
         //erreur si les champs obligatoires sont vide
-        if(empty($title) || empty($content) || empty($idUser)){
-            $this->__errors['vide'] = 'Veuillez remplir les champs obligatoires';
+        if(!$title || !$content || !$idUser){
+            $this->_errors['error'] = 'Veuillez remplir les champs obligatoires';
         }
         
         //si path image vide
@@ -202,7 +204,7 @@ class ManagerArticle extends Manager{
         }
 
         //si pas d'erreur on continu
-        if(!$this->_errors){
+        if(empty($this->getErrors())){
             if($type === 'add'){
 
                 $this->addArticle([

@@ -35,7 +35,7 @@ class AppSession{
     {
         foreach($_SESSION as $key => $value){
             if($key == 'user') continue;
-            if(in_array($key, ['success','alert','warning'])){
+            if(in_array($key, ['success','danger','warning'])){
 
                 $this->flash[$key] = $value;
                 unset($_SESSION[$key]);

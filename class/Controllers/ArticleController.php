@@ -10,6 +10,7 @@ use App\Managers\ManagerCommentary;
 use App\Models\Card;
 use App\Models\Category;
 use App\Models\Commentary;
+use App\Models\Article;
 use App\Render;
 
 class ArticleController extends Controller{
@@ -129,10 +130,12 @@ class ArticleController extends Controller{
 
             $errorAdd = $this->manager->traitementDonnees($_POST,'add');
             //si pas d'erreur lors de la creation
-            if(!$errorAdd){
-                header('location:?controller=admin&action=adminArticle');
-                exit();
+            if($errorAdd){
+                $this->session->set('warning', 'Erreur lors de la création, vérifier les champs obligatoires');
+                $this->session->redirect('?controller=article&action=add');
             }
+            $this->session->set('success', 'Article créé');
+            $this->session->redirect('?controller=admin&action=adminArticle');
         }
 
 
@@ -150,8 +153,8 @@ class ArticleController extends Controller{
 
         // erreur si id de l'article manquant
         if(empty($id_article)){
-            header('location:?controller=admin&action=adminArticle&edit=fail');
-            exit();
+            $this->session->set('warning',"Article inconnu");
+            $this->session->redirect('?controller=admin&action=adminArticle&edit=fail');
         }
 
         //si soumission du formulaire de modification
@@ -159,11 +162,12 @@ class ArticleController extends Controller{
 
             $errorAdd = $this->manager->traitementDonnees($_POST,'update');
             //si pas d'erreur lors de la creation
-            echo $errorAdd;
-            if (!$errorAdd) {
-                header('location:?controller=admin&action=adminArticle');
-                exit();
+            if ($errorAdd) {
+                $this->session->set('warning', $errorAdd['error']);
+                $this->session->redirect('?controller=article&action=edit&q='.$id_article);
             }
+            $this->session->set('success', 'Modification éffectué');
+            $this->session->redirect('?controller=admin&action=adminArticle');
         }
 
         $article = $this->manager->getArticleById($id_article);
@@ -173,6 +177,37 @@ class ArticleController extends Controller{
             'category'=>$this->_category,
             'article'=>$article,
             'errorAdd'=>$errorAdd=false]);
+
+    }
+
+
+    public function delete(){
+        $user = (!empty($_SESSION['user'])) ? $_SESSION['user'] : null;
+
+        $id_article = (isset($_GET['q'])) ? (int)$_GET['q'] : null;
+
+        if(!$user || !$id_article){
+            $this->session->set('danger','Vous ne pouvez pas supprimer cette article');
+            $this->session->redirect('?controller=admin&action=adminArticle');
+        }
+
+        //on verifie que l'article appartient bien a l'utilisateur
+        /** @var Article $article  */
+        $article = $this->manager->getArticleById($id_article);
+        if($article->allowAction($user)){
+
+            $result = $this->manager->deleteArticle($article);
+            if($result){
+                $this->session->set('success','Suppression de l\'article réussi');
+                $this->session->redirect('?controller=admin&action=adminArticle');
+            }
+            $this->session->set('danger', 'Suppression de l\'article échoué');
+            $this->session->redirect('?controller=admin&action=adminArticle');
+        }
+
+        $this->session->set('danger', 'Vous n\'êtes pas autorisé à supprimer cette article');
+        $this->session->redirect('?controller=admin&action=adminArticle');
+        
 
     }
 
@@ -186,13 +221,13 @@ class ArticleController extends Controller{
         }
     
         if(!$id){
-            header('location:?controller=article&action=index');
-            exit();
+            $this->session->set('danger', 'Erreur lors de la sauvegarde');
+            $this->session->redirect('?controller=article&action=index' . $id);
         }
 
         if(!$user){
-            header('location:?controller=article&action=show&q='.$id);
-            exit();
+            $this->session->set('danger', 'Vous devez être connecté pour poster un commentaire');
+            $this->session->redirect('?controller=article&action=show&q=' . $id);
         }
         
         $date = new \DateTime('now');

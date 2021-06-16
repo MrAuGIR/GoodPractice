@@ -132,6 +132,10 @@ class Article{
         return $managerCategory->getCategoryById($this->getId_category());
     }
 
+    public function allowAction(array $user){
+        
+        if($this->_id_user === $user['id'] || $user['role'] === 'admin') return true;
+    }
 
 }
 
