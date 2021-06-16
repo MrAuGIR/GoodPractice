@@ -127,9 +127,9 @@ class ManagerArticle extends Manager{
      */
     public function getXarticle(int $number):array{
         $tabArticle=[];
-        $sql = 'SELECT * FROM article ORDER BY date_create ASC LIMIT 0,3';
+        $sql = 'SELECT * FROM article ORDER BY date_create DESC LIMIT 0,:number';
         $req = $this->bdd->prepare($sql);
-        //$req->bindValue('num',$number,PDO::PARAM_INT);
+        $req->bindParam('number',$number,PDO::PARAM_INT);
         $req->execute();
         $reponse = $req->fetchAll(PDO::FETCH_ASSOC);
         foreach($reponse as $value){

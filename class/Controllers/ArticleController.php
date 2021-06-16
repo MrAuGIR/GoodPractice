@@ -32,7 +32,7 @@ class ArticleController extends Controller{
         $user = (!empty($_SESSION['user']))? $_SESSION['user']: null;
         
         //on recupère les derniers articles
-        $tabArticles = $this->manager->getXarticle(3);
+        $tabArticles = $this->manager->getXarticle(4);
         $tabCards = [];
         foreach ($tabArticles as $article) {
             $tabCards[] = new Card($article);

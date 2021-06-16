@@ -53,14 +53,16 @@ class Card{
         $this->_imgSrc = $imgSrc;
     }
 
-    //method generate html
+
     /**
+     * method generate html
      * @return string $html
      */
     public function generateCard():string{
 
         $html ="";
         $html .= '<div class="col-12 col-sm-12 col-md-6 col-lg-4">';
+        $html .= "<a href='{$this->getHref()}' class='card-link'>";
         $html .= '<div class="card my-2 ">';
         $html .= '<div class="picture">';
         $html .= '<img src="./public/'.$this->getImgSrc().'" class="card-img-top" alt="illustration">';
@@ -76,8 +78,33 @@ class Card{
         }else{
             $html .= "<div class='card-text py-2'>" . strip_tags(substr($this->getText(), 0, 200)) . "...</div>";
         }
-        $html .= "<a href='{$this->getHref()}' class='btn btn-primary'>Lire la suite</a>";
-        $html .= "</div></div></div>";
+       // $html .= "<a href='{$this->getHref()}' class='btn btn-primary'>Lire la suite</a>";
+        $html .= "</div></div></a></div>";
+        return $html;
+    }
+
+
+    public function generateMainCard()
+    {
+        $html = "";
+        $html .= '<div class="col-12">';
+        $html .= "<a href='{$this->getHref()}' class='card-link'>";
+        $html .= '<div class="card card-main my-2 ">';
+        $html .= '<div class="picture">';
+        $html .= '<img src="./public/' . $this->getImgSrc() . '" class="card-img-top" alt="illustration">';
+        $html .= '</div>';
+        $html .= "<div class='card-body'>";
+        if (strlen($this->getTitle()) < 25) {
+            $html .= "<h5 style='height:48px'class='card-title card-main-title'>{$this->getTitle()}</h5>";
+        } else {
+            $html .= "<h5 class='card-title'>{$this->getTitle()}</h5>";
+        }
+        if (strlen($this->getText()) < 200) {
+            $html .= "<div style='height:120px' class='card-text'>" . strip_tags(substr($this->getText(), 0, 200)) . "...</div>";
+        } else {
+            $html .= "<div class='card-text py-2'>" . strip_tags(substr($this->getText(), 0, 200)) . "...</div>";
+        }
+        $html .= "</div></div></a></div>";
         return $html;
     }
 

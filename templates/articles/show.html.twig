@@ -27,30 +27,35 @@
                     </div>
                 </div>
                 <div class="row py-2">
-                    <div class="col-12">
-                        <h2>Poster un commentaire</h2>
-                    </div>
-                    <div class="col-12">
-                        <form method="POST" action="?controller=article&action=postComment">
-                            <input type="number" name="idUser" id="idUser" hidden value="{{user.id}}">
-                            <input type="number" name="id" value="{{article.getId_article}}" hidden>
-                            <div class="col-12 my-1">
-                                <label for="content">Message</label>
-                                <input id="content" type="hidden" name="content" value="">
-                                <trix-editor class="trix-content" input="content"></trix-editor>
-                            </div>
-                            <div class="col-12 mb-2">
-                                <input type="submit" class="btn btn-primary" name="submitComment" value="Poster">
-                            </div>
-                        </form>
-                    </div>
-                    
+                    {% if user %}
+                        <div class="col-12">
+                            <h2>Poster un commentaire</h2>
+                        </div>
+                        <div class="col-12">
+                            <form method="POST" action="?controller=article&action=postComment">
+                                <input type="number" name="idUser" id="idUser" hidden value="{{user.id}}">
+                                <input type="number" name="id" value="{{article.getId_article}}" hidden>
+                                <div class="col-12 my-1">
+                                    <label for="content">Message</label>
+                                    <input id="content" type="hidden" name="content" value="">
+                                    <trix-editor class="trix-content" input="content"></trix-editor>
+                                </div>
+                                <div class="col-12 mb-2">
+                                    <input type="submit" class="btn btn-primary" name="submitComment" value="Poster">
+                                </div>
+                            </form>
+                        </div>
+                    {% else %}
+                        <div class="col-12">
+                            <h2>Connectez-vous pour poster un commentaire</h2>
+                        </div>
+                    {% endif %}
                 </div>
                 {% if comments %}
                 <div class="row my-3">
                     {% for comment in comments %}
                         <div class="col-12">
-                            <div class="card">
+                            <div class="card my-1">
                                 <div class="card-header">
                                     {% set username = (comment.getName())? comment.getName() : "Anonyme" %}
                                     <span>{{username}}</span> - <span>{{comment.getDate_posted()}}</span>

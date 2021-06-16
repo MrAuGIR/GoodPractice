@@ -151,3 +151,69 @@ html, body, main{
     font-size: medium;
     color: #212529;
 }
+
+/** STYLE CARD */
+
+.card-main{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+.card-main .picture{
+    display: flex;
+    width: 33.33%;
+    height: 100%;
+    margin:0 0;
+    padding: 0 0;
+}
+
+.card-main .picture img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+
+
+.card-main .card-body{
+    display: flex;
+    flex-direction: column;
+    width: 66.66%;
+}
+
+.card-main .card-body{
+    justify-content: center;
+    align-items: center;
+}
+
+.card-main .card-body h5{
+    font-size: medium;
+}
+
+@media screen and (min-width: 576px){
+    .card-main .card-body h5{
+        font-size: large;
+    }
+}
+
+.card-link{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+h5.card-title:hover{
+    text-decoration: underline;
+}
+
+h5.card-title{
+    color:#5a5a5a;
+    font-weight: bold;
+    font-size: small;
+}
+
+@media screen and (min-width:576px){
+    h5.card-title{
+        font-size:medium;
+    }
+}

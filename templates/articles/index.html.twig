@@ -9,8 +9,15 @@
                         </div>
                     </div>
                     <div class="row mt-2 mb-5 pt-2 pb-1">
+                        {% set index = 0 %}
                         {% for card in cards %}
-                            {{ card.generateCard() | raw}}
+                            {% if index == 0 %}
+                                {{card.generateMainCard() | raw}}
+                                {% set index = 1 %}
+                            {% else %}
+                                {{ card.generateCard() | raw}}
+                            {% endif %}
+                            
                         {% endfor %}
                     </div>
                 </div>  
