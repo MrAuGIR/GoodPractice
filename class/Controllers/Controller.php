@@ -1,6 +1,8 @@
 <?php
 namespace App\Controllers;
 
+use App\Tools\AppSession;
+
 class Controller{
 
 
@@ -10,6 +12,7 @@ class Controller{
     public function __construct()
     {
         $this->manager = new $this->managerName();
+        $this->session = new AppSession();
     }
 
 }

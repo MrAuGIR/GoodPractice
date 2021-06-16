@@ -182,9 +182,9 @@ class ArticleController extends Controller{
         //soumission du formulaire
         if(isset($_POST['submitComment']) && $_POST['submitComment']=="Poster"){
             $id = isset($_POST['id'])? $_POST['id'] : null;
-            $comment = isset($post['content']) ? $post['content'] : "";
+            $content = isset($_POST['content']) ? $_POST['content'] : "";
         }
-        //Todo rajouter les messages d'erreurs
+    
         if(!$id){
             header('location:?controller=article&action=index');
             exit();
@@ -197,7 +197,7 @@ class ArticleController extends Controller{
         
         $date = new \DateTime('now');
 
-        $comment = new Commentary(['description' => $comment]);
+        $comment = new Commentary(['description' => $content]);
         $comment->setId_article($id)
             ->setId_user($user['id'])
             ->setApproved(0)
@@ -207,9 +207,9 @@ class ArticleController extends Controller{
 
         $manager = new ManagerCommentary();
         $manager->addCommentary($comment);
-        header('location:?controller=article&action=show&q='.$id);
-        exit();
 
+        $this->session->set('success','Commentaire envoyé');
+        $this->session->redirect('?controller=article&action=show&q=' . $id);
 
     }
     
