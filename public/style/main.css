@@ -15,9 +15,17 @@ html, body, main{
 
 .logo-min{
     display: block;
+    width: 200px;
 }
 .logo-large{
     display: none;
+}
+
+@media screen and (min-width:576px){
+    .logo-min{
+        width: 225px;
+
+    }
 }
 
 @media screen and (min-width:768px){
