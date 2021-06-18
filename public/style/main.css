@@ -11,6 +11,11 @@ html, body, main{
     padding: 0 0;
 }
 
+.row{
+    margin-left: 0;
+    margin-right: 0;
+}
+
 /*------------------------------STYLE DU HEADER-----------------------------------*/
 
 .logo-min{
