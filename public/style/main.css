@@ -87,7 +87,46 @@ html, body, main{
     color: antiquewhite;
 }
 
+.header-menu{
+    font-size: larger;
+    font-weight: bold;
+}
+.navbar-nav{
+    width: 100%;
+}
 
+.left-menu{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items:flex-start;
+        width: auto;
+}
+@media screen and (min-width:992px){
+    .left-menu{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        width: 50%;
+    }
+}
+.right-menu{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        width: auto;
+    }
+@media screen and (min-width:992px){
+    .right-menu{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        width: 50%;
+    }
+}
 /*----------------------------- STYLE DU MAIN---------------------------------------*/
 
 /*background color section */
