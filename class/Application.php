@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Controllers\ArticleController;
+use App\Tools\AppSession;
 
 // class Application
 // {
@@ -47,6 +48,7 @@ class Application
             $task = $_GET['action'];
         }
 
+        AppSession::updateCurrentPage($controllerName,$task);
 
         $controllerName = "App\Controllers\\" . $controllerName;
 
@@ -65,4 +67,6 @@ class Application
 
         return $_SESSION['user'];
     }
+
+    
 }

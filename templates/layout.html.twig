@@ -39,13 +39,13 @@
                                             <ul class="navbar-nav">
                                                 <div class="left-menu">
                                                     <li class="nav-item">
-                                                        <a class="nav-link active" aria-current="page" href="?controller=article&action=index">
+                                                        <a class="nav-link {{appsession.isPageActive('index')?'active':''}}" aria-current="page" href="?controller=article&action=index">
                                                             <i class="fas fa-home"></i>
                                                             <span class="header-menu">Accueil</span>
                                                         </a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="?controller=article&action=list">
+                                                        <a class="nav-link {{appsession.isPageActive('list')?'active':''}}" href="?controller=article&action=list">
                                                             <i class="fas fa-newspaper"></i>
                                                             <span class="header-menu">articles</span>
                                                         </a>
@@ -54,20 +54,20 @@
                                                 <div class="right-menu">
                                                     {% if not user %} 
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="?controller=user&action=login">
+                                                        <a class="nav-link {{appsession.isPageActive('login')?'active':''}}" href="?controller=user&action=login">
                                                             <i class="fas fa-sign-in-alt"></i>
                                                             <span class="header-menu">Connexion</span>
                                                         </a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="?controller=user&action=register">
+                                                        <a class="nav-link {{appsession.isPageActive('register')?'active':''}}" href="?controller=user&action=register">
                                                             <span class="header-menu">Inscription</span>
                                                         </a>
                                                     </li>
                                                     {% else %}
                                                     <li class="nav-item dropdown">
-                                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        {{user.name}}
+                                                        <a class="nav-link {{appsession.isPageActive('admin')?'active':''}} dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                        <span class="header-menu">{{user.name}}</span>
                                                         </a>
                                                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                                             <li><a class="dropdown-item" href="?controller=admin&action=adminArticle">Tableau de Bord</a></li>
