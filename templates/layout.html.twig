@@ -67,7 +67,8 @@
                                                     {% else %}
                                                     <li class="nav-item dropdown">
                                                         <a class="nav-link {{appsession.isPageActive('admin')?'active':''}} dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <span class="header-menu">{{user.name}}</span>
+                                                            <i class="fas fa-cog"></i>
+                                                            <span class="header-menu">{{user.name}}</span>
                                                         </a>
                                                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                                             <li><a class="dropdown-item" href="?controller=admin&action=adminArticle">Tableau de Bord</a></li>

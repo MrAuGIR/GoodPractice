@@ -68,11 +68,8 @@ class Card{
         $html .= '<img src="./public/'.$this->getImgSrc().'" class="card-img-top" alt="illustration">';
         $html .= '</div>';
         $html .= "<div class='card-body'>";
-        if(strlen($this->getTitle()) < 25){
-            $html .= "<h5 style='height:48px'class='card-title'>{$this->getTitle()}</h5>"; 
-        }else{
-            $html .= "<h5 class='card-title'>{$this->getTitle()}</h5>";
-        }
+        $html .= "<h5 class='card-title'>{$this->getTitle()}</h5>";
+        
         if(strlen($this->getText()) < 200 ){
             $html .= "<div style='height:120px' class='card-text'>" . strip_tags(substr($this->getText(), 0, 200)) . "...</div>";
         }else{
@@ -94,11 +91,8 @@ class Card{
         $html .= '<img src="./public/' . $this->getImgSrc() . '" class="card-img-top" alt="illustration">';
         $html .= '</div>';
         $html .= "<div class='card-body'>";
-        if (strlen($this->getTitle()) < 25) {
-            $html .= "<h5 style='height:48px'class='card-title card-main-title'>{$this->getTitle()}</h5>";
-        } else {
-            $html .= "<h5 class='card-title'>{$this->getTitle()}</h5>";
-        }
+        $html .= "<h5 class='card-title'>{$this->getTitle()}</h5>";
+        
         if (strlen($this->getText()) < 200) {
             $html .= "<div style='height:120px' class='card-text'>" . strip_tags(substr($this->getText(), 0, 200)) . "...</div>";
         } else {

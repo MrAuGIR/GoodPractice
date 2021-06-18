@@ -139,9 +139,7 @@ html, body, main{
 
 /* surcharge de card */
 .card{
-    width: 100%;
-    min-height: 33vh;
-    
+    width: 100%; 
 }
 
 .card-header ul{
@@ -236,11 +234,51 @@ html, body, main{
     font-size: medium;
 }
 
-@media screen and (min-width: 786px){
+@media screen and (min-width: 768px){
     .card-main .card-body h5{
         font-size: larger;
     }
 }
+
+
+.card-body{
+    overflow: hidden;
+}
+
+@media screen and (min-width:576px){
+    .card-body{
+        height: 20vh;
+    }
+}
+
+@media screen and (min-width:768px){
+    .card-body{
+        height: 28vh;
+    }
+}
+
+@media screen and (min-width:992px){
+    .card-body{
+        height: 31vh;
+    }
+}
+
+.card-text{
+    font-size: 0.8rem;
+}
+
+@media screen and (min-width:768px){
+    .card-text{
+        font-size: 0.9rem;
+    }   
+}
+
+@media screen and (min-width:1200px){
+    .card-text{
+        font-size: 1rem;
+    }   
+}
+
 
 .card-link{
     display: flex;
