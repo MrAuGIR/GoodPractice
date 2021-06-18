@@ -56,12 +56,17 @@ class Card{
 
     /**
      * method generate html
+     * @param int $number Nombre de card à afficher en full screen
      * @return string $html
      */
-    public function generateCard():string{
+    public function generateCard(int $number = 3):string{
 
         $html ="";
-        $html .= '<div class="col-12 col-sm-12 col-md-6 col-lg-4">';
+        if($number < 3){
+            $html .= '<div class="col-12 col-sm-12 col-md-6 ">';
+        }else{
+            $html .= '<div class="col-12 col-sm-12 col-md-6 col-lg-4">';
+        }
         $html .= "<a href='{$this->getHref()}' class='card-link'>";
         $html .= '<div class="card my-2 ">';
         $html .= '<div class="picture">';

@@ -302,3 +302,57 @@ h5.card-title{
         font-size:medium;
     }
 }
+
+/* Bar de recherche page list article */
+
+.left-search-bar{
+    display: flex;
+    flex-direction: row;
+    
+}
+
+.left-search-bar form{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.left-search-bar form div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+@media screen and (min-width:768px){
+    .left-search-bar{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .left-search-bar form{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        flex-grow: 1;
+    }
+}
+
+@media screen and (min-width:992px){
+    .left-search-bar form{
+        width: 100%;
+        padding: 0 1rem;
+    }
+    .left-search-bar form div{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+}

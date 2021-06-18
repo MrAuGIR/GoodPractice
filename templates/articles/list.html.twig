@@ -8,13 +8,29 @@
                     </div>
                 </div>
                 <div class="row mt-2 mb-5 pt-2 pb-1">
-                    {% if cards is not empty %}
-                        {% for card in cards %}
-                            {{ card.generateCard() | raw }}
-                        {% endfor %}
-                    {% else %}
-                        <h5>Il n'existe pas d'articles dans cette catégorie {{ categoryActif.getName_Category }}</h5>
-                    {% endif %}
+                    <div class="col-12 col-md-4">
+                        <div class="left-search-bar">
+                            <form method="GET" id="formCategories">
+                                {% for category in listCategories %}
+                                    <div class="mb-2">
+                                        <label for="category">{{category.getName_category()}}</label>
+                                        <input class="input-radio" type="radio" name="category" id="category" value="{{category.getId_category()}}">
+                                    </div>
+                                {% endfor %}
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <div class="row" id="content">
+                            {% if cards is not empty %}
+                                {% for card in cards %}
+                                    {{ card.generateCard(2) | raw }}
+                                {% endfor %}
+                            {% else %}
+                                <h5>Il n'existe pas d'articles dans cette catégorie {{ categoryActif.getName_Category }}</h5>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
                 <div class="row mt-5">
                     <div class="col-12 col-lg-6">
@@ -26,4 +42,7 @@
                 </div>
             </div>
         </main>
+    {% endblock %}
+    {% block script %}
+        <script src="./public/js/search.js"></script>
     {% endblock %}

@@ -70,11 +70,14 @@ class ArticleController extends Controller{
         $user = (!empty($_SESSION['user'])) ? $_SESSION['user'] : null;
 
         $categoryId = (!empty($_GET['category']))? (int)$_GET['category'] : null;
-
+        
+    
         $managerCategory = new ManagerCategory();
         if($categoryId != null){
             $category = $managerCategory->getCategoryById($categoryId);
         }
+        $listCategories = [];
+        $listCategories = $managerCategory->getAllCategory();
        
         $tabArticles = ($categoryId != null) ? $this->manager->getArticleByFilter($categoryId) : $this->manager->getAllArticle();
         if(count($tabArticles)>0){
@@ -85,11 +88,13 @@ class ArticleController extends Controller{
         }
 
         Render::render('articles/list', [
-            'title'=>'Les Articles', 
-            'user' => $user, 
-            'cards' => $tabCards, 
-            'categoryActif'=> ($category != null)? $category : '']);
-
+            'title' => 'Les Articles',
+            'user' => $user,
+            'cards' => $tabCards,
+            'listCategories' => $listCategories,
+            'categoryActif' => ($category != null) ? $category : ''
+        ]);
+        
     }
 
 
