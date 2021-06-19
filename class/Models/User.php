@@ -9,7 +9,7 @@ use App\Managers\ManagerArticle;
  * 
  */
 
-abstract class User{
+class User{
 
     private $name;
     private $email;

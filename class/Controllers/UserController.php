@@ -54,11 +54,19 @@ class UserController extends Controller{
                 $_SESSION['user']['name'] = $user->getName();
                 $_SESSION['user']['id'] = $user->getId_user();
                 $_SESSION['user']['role'] = $user->getRole();
-                header('location:?controller=article&action=index');
-                exit();
+                
+                $this->session->set('success', "Inscription réussite");
+                $this->session->redirect('?controller=article&action=index');
             }
+            $listErrors = $managerRegister->getErrors();
+            $message = "<ul>";
+            foreach($listErrors as $key => $value){
+                $message .= "<li>".$value."</li>";
+            }
+            $message .= "</ul>";
+            
             // si retour false => erreur lors de l'enregistrement
-            $this->session->set('danger', 'mauvaise saisie');
+            $this->session->set('danger', $message);
             $this->session->redirect('?controller=user&action=register');
             
         }

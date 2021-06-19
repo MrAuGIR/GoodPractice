@@ -92,7 +92,7 @@
             <div class="row">
                 {% for label, message in appsession.getFlashMessage() %}
                     <div class="col-12 my-2 alert alert-{{label}}">
-                        {{message}}
+                        {{message | raw}}
                     </div>
                 {% endfor %}
             </div>
