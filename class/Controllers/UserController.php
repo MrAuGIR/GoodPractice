@@ -2,6 +2,7 @@
 namespace App\Controllers;
 use App\Db;
 use App\Render;
+use App\Models\User;
 use App\Managers\ManagerLogin;
 use App\Managers\ManagerRegister;
 use App\Controllers\Controller;
@@ -45,6 +46,7 @@ class UserController extends Controller{
             $errors = [];
             //on crée l'instance de gestion des données reçus
             $managerRegister = new ManagerRegister();
+            /** @var User $user */
             $user = $managerRegister->traitementDonnee($_POST);
 
             //si user créé 
