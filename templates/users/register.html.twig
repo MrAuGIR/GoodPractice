@@ -11,15 +11,15 @@
             <div class="row mt-2">
                 <form method="POST" action="" onsubmit="return valid_register()">
                     <div class="row g-3">
-                        <div class="col-12 col-md-6">
+                        <div class="col-12 col-md-6 form-group">
                             <label class="form-label" id="labelLogin" for="login">Login</label>
                             <input class="form-control" type="text" name="login" id="login" placeholder="votre login">
                         </div>
-                        <div class="col-12 col-md-6">
+                        <div class="col-12 col-md-6 form-group">
                             <label class="form-label" id="labelEmail" for="email">Email</label>
                             <input class="form-control" type="text" name="email" id="email" placeholder="Votre email">
                         </div>
-                        <div class="col-12 col-md-6">
+                        <div class="col-12 col-md-6 form-group">
                             <label class="form-label" id="labelPassword" for="password">Mot de passe</label>
                             <div class="row">
                                 <div class="col-10">
@@ -32,7 +32,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 col-md-6">
+                        <div class="col-12 col-md-6 form-group">
                             <label class="form-label" id="labelPassword2" for="password2">Confirmer le mot de passe</label>
                             <div class="row">
                                 <div class="col-10">
@@ -65,5 +65,5 @@
     </main>
     {% endblock %}
     {% block script %}
-    <script src="../js/verif_register.js"></script>
+    <script src="./public/js/verif_register.js"></script>
     {% endblock %}

@@ -25,7 +25,9 @@ class UserController extends Controller{
                 header('location: ?controller=article&action=index');
                 exit();
             } else {
-                $errors = $managerLogin->getErrors();
+        
+                $this->session->set('danger', 'identifiants incorrecte');
+                $this->session->redirect('?controller=user&action=login');
             }
 
 
@@ -54,7 +56,9 @@ class UserController extends Controller{
                 exit();
             }
             // si retour false => erreur lors de l'enregistrement
-            $errors = $managerRegister->getErrors();
+            $this->session->set('danger', 'mauvaise saisie');
+            $this->session->redirect('?controller=user&action=register');
+            
         }
 
 

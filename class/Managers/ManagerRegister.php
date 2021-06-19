@@ -45,7 +45,8 @@ use \PDO;
             $password = isset($POST['password'])?$POST['password']:"";
             $password2 = isset($POST['password2'])?$POST['password2']:"";
 
-            $this->verificationLogin($name)->verificationEmail($email);
+            $this->verificationLogin($name);
+            $this->verificationEmail($email);
             $password_hash = $this->verificationPassword($password,$password2);
 
             if(empty($this->_errors)){
@@ -139,7 +140,7 @@ use \PDO;
         private function email_exist(string $email):bool
         {
             $sql = 'SELECT email FROM user WHERE email = :email';
-            $req = $this->_bdd->prepare($sql);
+            $req = $this->bdd->prepare($sql);
             $req->bindValue('email',$email,PDO::PARAM_STR);
             $req->execute();
 
@@ -155,7 +156,7 @@ use \PDO;
         private function login_exist(string $login):bool
         {
             $sql = 'SELECT name FROM user WHERE name = :name';
-            $req = $this->_bdd->prepare($sql);
+            $req = $this->bdd->prepare($sql);
             $req->bindValue('name',$login,PDO::PARAM_STR);
             $req->execute();
 
