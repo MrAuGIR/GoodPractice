@@ -238,9 +238,21 @@ class ManagerArticle extends Manager{
 
         return $this->getErrors();
 
-        
+    }
 
+    public function getNumCommnents(int $id_article):int
+    {
+        $sql  = "SELECT COUNT(c.id_commentary) AS total";
+        $sql .= " FROM article AS a ";
+        $sql .= " INNER JOIN commentary AS c ON a.id_article = c.id_article";
+        $sql .= " WHERE c.id_article = :id"; 
 
+        $req = $this->bdd->prepare($sql);
+        $req->bindValue('id',$id_article,PDO::PARAM_INT);
+        $req->execute();
+
+        $result = $req->fetch(PDO::FETCH_ASSOC);
+        return $result['total'];
     }
 }
 

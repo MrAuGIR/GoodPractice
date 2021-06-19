@@ -361,3 +361,31 @@ h5.card-title{
         width: 100%;
     }
 }
+
+/* commentaire sur card */
+.comments-line{
+    display: flex;
+    flex-direction: row;
+    padding-left:5px;
+}
+
+@media screen and (min-width: 576px){
+    .comments-line{
+        padding-left:7px;
+    }
+}
+@media screen and (min-width: 768px){
+    .comments-line{
+        padding-left:9px;
+    }
+}
+@media screen and (min-width: 992px){
+    .comments-line{
+        padding-left:10px;
+    }
+}
+
+.comments-line .number{
+    display: flex;
+    margin-left:5px;
+}

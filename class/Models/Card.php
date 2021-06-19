@@ -8,6 +8,7 @@ class Card{
     private $_text;
     private $_href;
     private $_imgSrc;
+    private $_numComment;
 
     public function __construct(Article $article)
     {
@@ -15,6 +16,7 @@ class Card{
         $this->setText($article->getDescription());
         $this->setHref('?controller=article&action=show&q='.$article->getId_article());
         $this->setImgSrc($article->getUrl_img());
+        $this->setNumComment($article->getNum_commnents());
     }
 
 
@@ -34,6 +36,10 @@ class Card{
         return $this->_imgSrc;
     }
 
+    public function getNumCommnents():int{
+        return $this->_numComment;
+    }
+
 
     //setter
 
@@ -51,6 +57,10 @@ class Card{
 
     public function setImgSrc($imgSrc){
         $this->_imgSrc = $imgSrc;
+    }
+
+    public function setNumComment($num){
+        $this->_numComment = $num;
     }
 
 
@@ -80,8 +90,9 @@ class Card{
         }else{
             $html .= "<div class='card-text py-2'>" . strip_tags(substr($this->getText(), 0, 200)) . "...</div>";
         }
-       // $html .= "<a href='{$this->getHref()}' class='btn btn-primary'>Lire la suite</a>";
-        $html .= "</div></div></a></div>";
+        $html .= "</div>";
+        $html .= "<div class='comments-line'><i class='fas fa-comments'></i><span class='number'>" . $this->getNumCommnents() . "</span></div>";
+        $html .= "</div></a></div>";
         return $html;
     }
 

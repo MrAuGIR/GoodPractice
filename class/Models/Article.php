@@ -1,8 +1,10 @@
 <?php
 namespace App\Models;
 
-use App\Managers\ManagerCategory;
 use App\Managers\ManagerUser;
+use App\Managers\ManagerArticle;
+use App\Managers\ManagerCategory;
+use App\Managers\ManagerCommentary;
 
 /**
  * class Article
@@ -18,6 +20,7 @@ class Article{
     private $_date_create;
     private $_id_user;
     private $_id_category;
+    private $_num_comment; // n'est pas dans la bdd
 
     /**
      * Constructeur
@@ -26,6 +29,7 @@ class Article{
     public function __construct(array $data)
     {
         $this->hydrate($data);
+        $this->getNumCommnents();
     }
 
     //getter
@@ -62,6 +66,10 @@ class Article{
         return $this->_id_category;
     }
 
+    public function getNum_commnents():int{
+        return $this->_num_comment;
+    }
+
     //setter
 
     public function setId_article(int $id){
@@ -96,6 +104,10 @@ class Article{
         $this->_id_category = $id_category;
     }
 
+    public function setNum_comment(int $numComment){
+        if($numComment < 0) $numComment = 0;
+        $this->_num_comment = $numComment;
+    }
 
     /**
      * Method hydratation 
@@ -137,6 +149,17 @@ class Article{
         if($this->_id_user === $user['id'] || $user['role'] === 'admin') return true;
     }
 
+    
+    /**
+     * Renvoie le nombre de commentaires de l'article
+     *
+     * @return int
+     */
+    private function getNumCommnents(){
+        $managerArticle = new ManagerArticle();
+        $num = $managerArticle->getNumCommnents($this->getId_article());
+        $this->setNum_comment($num);
+    }
 }
 
 
