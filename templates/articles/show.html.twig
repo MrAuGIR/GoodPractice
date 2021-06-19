@@ -63,9 +63,11 @@
                                 <div class="card-body">
                                     <p class="card-text">{{comment.getDescription() | raw }}</p>
                                 </div>
+                                {% if user.id == comment.getId_user() %}
                                 <div class="card-footer text-muted">
-                                    2 days ago
+                                    <a href="{{'?controller=article&action=deleteComment&q=' ~ article.id_article ~ '&id=' ~ comment.id_commentary}}" title="suppression du commentaire">Supprimer</a>
                                 </div>
+                                {% endif %}
                             </div>
 
                         </div>

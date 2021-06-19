@@ -227,7 +227,7 @@ class ArticleController extends Controller{
     
         if(!$id){
             $this->session->set('danger', 'Erreur lors de la sauvegarde');
-            $this->session->redirect('?controller=article&action=index' . $id);
+            $this->session->redirect('?controller=article&action=index');
         }
 
         if(!$user){
@@ -253,5 +253,27 @@ class ArticleController extends Controller{
 
     }
     
+
+    public function deleteComment()
+    {
+        $id = isset($_GET['q'])? (int)$_GET['q'] : null;
+        $idComment = isset($_GET['id'])? (int)$_GET['id'] : null;
+        $user = (!empty($_SESSION['user'])) ? $_SESSION['user'] : null;
+
+        if($idComment == null || $id == null || !$user){
+            $this->session->set('danger', 'Erreur commentaire inconnu');
+            $this->session->redirect('?controller=article&action=show&q=' . $id);
+        }
+        
+        $managerComment = new ManagerCommentary();
+        //on recupère le commentaire
+        $comment = $managerComment->getCommentaryById($idComment);
+        //suppression du commentaire
+        $managerComment->deleteCommentary($comment);
+
+        $this->session->set('success', 'Commentaire Supprimé');
+        $this->session->redirect('?controller=article&action=show&q=' . $id);
+
+    }
 
 }
