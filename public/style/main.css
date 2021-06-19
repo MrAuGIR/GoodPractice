@@ -389,3 +389,36 @@ h5.card-title{
     display: flex;
     margin-left:5px;
 }
+
+/* cas du card-body dans la card commentaire */
+
+.card-body.comment-body{
+    height: auto;
+    min-height: 5vh;
+    margin: 0 0;
+    padding: 0.5rem;
+}
+
+@media screen and (min-width:576px){
+    .card-body.comment-body{
+        height: auto;
+        min-height: 5vh;
+        padding: 0.6rem;
+    }
+}
+
+@media screen and (min-width:768px){
+    .card-body.comment-body{
+        height: auto;
+        min-height: 5vh;
+        padding: 0.7rem;
+    }
+}
+
+@media screen and (min-width:992px){
+    .card-body.comment-body{
+        height: auto;
+        min-height: 5vh;
+        padding: 0.8rem;
+    }
+}

@@ -60,8 +60,8 @@
                                     {% set username = (comment.getName())? comment.getName() : "Anonyme" %}
                                     <span>{{username}}</span> - <span>{{comment.getDate_posted()}}</span>
                                 </div>
-                                <div class="card-body">
-                                    <p class="card-text">{{comment.getDescription() | raw }}</p>
+                                <div class="card-body comment-body">
+                                    <div class="card-text">{{comment.getDescription() | raw }}</div>
                                 </div>
                                 {% if user.id == comment.getId_user() %}
                                 <div class="card-footer text-muted">
