@@ -34,6 +34,12 @@ use App\Tools\AppSession;
 
 class Application
 {
+    private static $routes = [
+        'AdminController' => ['adminArticle', 'adminCategory'],
+        'UserController'  => ['login', 'register', 'logout'],
+        'ArticleController' => ['index', 'show', 'list', 'add', 'delete', 'edit', 'postComment', 'deleteComment']
+    ];
+
 
     public static function process()
     {
@@ -48,10 +54,14 @@ class Application
             $task = $_GET['action'];
         }
 
+        if(!self::routeExist($controllerName,$task)){
+            $controllerName = "ArticleController";
+            $task = "default";
+        }
         AppSession::updateCurrentPage($controllerName,$task);
 
         $controllerName = "App\Controllers\\" . $controllerName;
-
+        
         $controller = new $controllerName();
         $controller->$task();
     }
@@ -62,10 +72,20 @@ class Application
         if (empty($_SESSION['user']) || !isset($_SESSION['user'])) {
 
             header('location:?controller=article&action=index');
-            die();
+            exit();
         }
 
         return $_SESSION['user'];
+    }
+
+    public static function routeExist($controllerName,$taskName)
+    {
+        if(array_key_exists($controllerName,self::$routes)){
+            if(in_array($taskName,self::$routes[$controllerName])){
+                return true;
+            }
+        }
+        return false;
     }
 
     

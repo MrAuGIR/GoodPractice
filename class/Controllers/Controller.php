@@ -1,9 +1,10 @@
 <?php
 namespace App\Controllers;
 
+use App\Render;
 use App\Tools\AppSession;
 
-class Controller{
+abstract class Controller{
 
 
     protected $manager;
@@ -13,6 +14,10 @@ class Controller{
     {
         $this->manager = new $this->managerName();
         $this->session = new AppSession();
+    }
+
+    public function default(){
+        Render::render('default/error404', ['title' => '404 not found']);
     }
 
 }

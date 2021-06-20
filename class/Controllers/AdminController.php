@@ -45,7 +45,8 @@ class AdminController extends Controller
 
             $categories = $this->_category;
         }else{
-            header('location: ?controller=adminr&action=AdminArticle');
+            header('location: ?controller=admin&action=AdminArticle');
+            exit();
         }
 
         Render::render('categories/admin', ['title' => 'Administration', 'user' => $user, 'categories' => $categories]);

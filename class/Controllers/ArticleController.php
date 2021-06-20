@@ -268,6 +268,13 @@ class ArticleController extends Controller{
         $managerComment = new ManagerCommentary();
         //on recupère le commentaire
         $comment = $managerComment->getCommentaryById($idComment);
+
+        //on verifie que le commentaire appartient bien a l'utilisateur
+        if($user['id'] != $comment->getId_user()){
+            $this->session->set('danger', 'Vous ne pouvez pas supprimer ce commentaire');
+            $this->session->redirect('?controller=article&action=show&q=' . $id);
+        }
+
         //suppression du commentaire
         $managerComment->deleteCommentary($comment);
 
@@ -276,4 +283,4 @@ class ArticleController extends Controller{
 
     }
 
-}
+}   

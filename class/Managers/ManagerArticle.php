@@ -106,7 +106,7 @@ class ManagerArticle extends Manager{
      */
     public function getArticleByIdUser(int $id_user):array{
         $tabArticle=[];
-        $sql = 'SELECT * FROM article WHERE id_article = :id';
+        $sql = 'SELECT * FROM article WHERE id_user = :id';
         $req = $this->bdd->prepare($sql);
         $req->bindValue('id',$id_user,PDO::PARAM_INT);
         $req->execute();
