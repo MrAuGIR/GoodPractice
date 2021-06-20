@@ -2,10 +2,13 @@
 namespace App\Controllers;
 use App\Db;
 use App\Render;
+use App\Application;
 use App\Models\User;
 use App\Managers\ManagerLogin;
-use App\Managers\ManagerRegister;
 use App\Controllers\Controller;
+use App\Managers\Manager;
+use App\Managers\ManagerRegister;
+use App\Managers\ManagerUser;
 
 class UserController extends Controller{
 
@@ -82,6 +85,54 @@ class UserController extends Controller{
         exit();
     }
 
+    public function edit(){
 
+        //on verifie le level de l'utilisateur connecté
+        $user = Application::secure([LEVEL_ADMIN]);
+        //on verifie l'id de l'utilisateur a modifier
+        $id = ( isset($_GET['q']) && !empty($_GET['q']) )? (int) $_GET['q'] : null;
+        if(!$id){
+            $this->session->set('warning','Utilisateur Inconnu');
+            $this->session->redirect('?controller=admin&action=adminUser');
+        }
+        //l'utilisateur a modifier
+        /** @var User $user */
+        $user = $this->manager->getUserById($id);
+        if(!$user){
+            $this->session->set('warning','Utilisateur Inconnu');
+            $this->session->redirect('?controller=admin&action=adminUser');
+        }
+
+        //si soumission du formulaire
+        if(isset($_POST['submit']) && $_POST['submit'] === 'Editer'){
+            $idUser = isset($_POST['id'])? (int)$_POST['id'] : null;
+            $email = isset($_POST['email'])? $this->cleanString($_POST['email']) : '';
+            $name = isset($_POST['name'])? $this->cleanString($_POST['name']) : '';
+            $role = isset($_POST['role'])? $this->cleanString($_POST['role']) : '';
+
+            $user->setEmail($email);
+            $user->setName($name);
+            $user->setRole($role);
+
+            $managerUser = new ManagerUser();
+            $result = $managerUser->updateUser($user);
+
+            if(!$result){
+                $this->session->set('danger','Erreur lors de la mise a jour');
+                $this->session->redirect('?controller=user&action=edit&q='.$id);
+            }
+
+            $this->session->set('success','Utilisateur mis à jour');
+            $this->session->redirect('?controller=admin&action=adminUser');
+        }
+
+        Render::render('users/edit',['title' => 'Modifier Utilisateur', 'user' => $user]);
+
+        
+    }
+
+    public function delete(){
+
+    }
 
 }

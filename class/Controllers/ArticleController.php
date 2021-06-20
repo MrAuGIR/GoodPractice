@@ -222,7 +222,7 @@ class ArticleController extends Controller{
         //soumission du formulaire
         if(isset($_POST['submitComment']) && $_POST['submitComment']=="Poster"){
             $id = isset($_POST['id'])? $_POST['id'] : null;
-            $content = isset($_POST['content']) ? $_POST['content'] : "";
+            $content = isset($_POST['content']) ? trim($_POST['content']): "";
         }
     
         if(!$id){

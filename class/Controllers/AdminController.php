@@ -6,6 +6,7 @@ use App\Controllers\Controller;
 use App\Application;
 use App\Db;
 use App\Managers\ManagerCategory;
+use App\Managers\ManagerUser;
 use App\Render;
 
 class AdminController extends Controller
@@ -39,16 +40,20 @@ class AdminController extends Controller
 
     public function adminCategory()
     {
-        $user = Application::secure();
+        $user = Application::secure([LEVEL_ADMIN]);
 
-        if($user['role'] == LEVEL_ADMIN){
-
-            $categories = $this->_category;
-        }else{
-            header('location: ?controller=admin&action=AdminArticle');
-            exit();
-        }
+        $categories = $this->_category;
+        
 
         Render::render('categories/admin', ['title' => 'Administration', 'user' => $user, 'categories' => $categories]);
+    }
+
+    public function adminUser()
+    {
+        $user = Application::secure([LEVEL_ADMIN]);
+        $managerUser = new ManagerUser();
+        $users = $managerUser->getAll();
+
+        Render::render('users/admin',['title' => 'Administration', 'user' => $user, 'users' => $users]);
     }
 }

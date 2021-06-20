@@ -41,8 +41,8 @@ class ManagerRegister extends Manager{
 
     public function traitementDonnee(array $POST){
 
-        $name = isset($POST['login'])?$POST['login']:"";
-        $email = isset($POST['email'])?$POST['email']:"";
+        $name = isset($POST['login'])?$this->cleanString($POST['login']):"";
+        $email = isset($POST['email'])?$this->cleanString($POST['email']):"";
         $password = isset($POST['password'])?$POST['password']:"";
         $password2 = isset($POST['password2'])?$POST['password2']:"";
 

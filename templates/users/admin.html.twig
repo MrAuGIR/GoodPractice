@@ -1,0 +1,64 @@
+{% extends "layout.html.twig" %}
+{% block stylesheet %}
+<link href="//cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" type="text/css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<main>
+    <div class="container">
+        <div class="row">
+            <h1>Tableau de Bord</h1>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-2 border-end">
+                <div class="d-flex align-items-start">
+                    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
+                        aria-orientation="vertical">
+                        <a class="nav-link" href="?controller=admin&action=adminArticle">Mes articles</a>
+                        {% if user.role == 'administrateur' %}
+                        <a class="nav-link" href="?controller=admin&action=adminCategory">Les categories</a>
+                        <a class="nav-link" href="?controller=admin&action=adminUser">Les utilisateurs</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-10">
+                <table id="myTable" class="table dashboard-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th >Nom</th>
+                            <th >Email</th>
+                            <th >Role</th>
+                            <td>Actions</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{user.getId_user()}}</td>
+                            <td>{{user.getName()}}</td>
+                            <td>{{user.getEmail()}}</td>
+                            <td>{{user.getRole()}}</td>
+                            <td>
+                                <a href="?controller=user&action=edit&q={{user.getId_user}}">Edit</a><br>
+                                <a href="?controller=user&action=delete&q={{user.getId_user}}">Delete</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="//cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    });
+</script>
+{% endblock %}

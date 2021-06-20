@@ -20,6 +20,13 @@ abstract class Controller{
         Render::render('default/error404', ['title' => '404 not found']);
     }
 
+    public function cleanString(string $data):string{
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
+
 }
 
 

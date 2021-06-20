@@ -18,7 +18,7 @@ class Manager{
      *
      * @return PDO
      */
-    public function getBdd(): PDO
+    protected function getBdd(): PDO
     {
         return $this->bdd;
     }
@@ -29,10 +29,18 @@ class Manager{
      * @param  mixed $pdo
      * @return void
      */
-    public function setBdd(PDO $bdd)
+    protected function setBdd(PDO $bdd)
     {
         $this->bdd = $bdd;
         return $this;
+    }
+
+    protected function cleanString(string $data): string
+    {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
     }
 
 

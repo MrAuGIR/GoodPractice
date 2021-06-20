@@ -8,8 +8,8 @@ use App\Tools\AppSession;
 class Application
 {
     private static $routes = [
-        'AdminController' => ['adminArticle', 'adminCategory'],
-        'UserController'  => ['login', 'register', 'logout'],
+        'AdminController' => ['adminArticle', 'adminCategory','adminUser'],
+        'UserController'  => ['login', 'register', 'logout','edit','delete'],
         'ArticleController' => ['index', 'show', 'list', 'add', 'delete', 'edit', 'postComment', 'deleteComment']
     ];
 
@@ -39,7 +39,7 @@ class Application
         $controller->$task();
     }
 
-    public static function secure()
+    public static function secure(array $roleAllowed = null )
     {
         //si l'utilisateur n'est pas connecté
         if (empty($_SESSION['user']) || !isset($_SESSION['user'])) {
@@ -47,6 +47,14 @@ class Application
             header('location:?controller=article&action=index');
             exit();
         }
+        //si le role de l'utilisateur est spécifié
+        if($roleAllowed != null){
+            if (!in_array($_SESSION['user']['role'], $roleAllowed)){
+                header('location:?controller=article&action=index');
+                exit();
+            }
+        }
+        
 
         return $_SESSION['user'];
     }
@@ -60,6 +68,5 @@ class Application
         }
         return false;
     }
-
-    
+ 
 }

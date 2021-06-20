@@ -9,8 +9,11 @@
                 <div class="col-12 col-md-2 border-end">
                     <div class="d-flex align-items-start">
                         <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                            <a class="nav-link" href="?controller=admin&action=adminArticle" >Mes articles</a>
+                            <a class="nav-link" href="?controller=admin&action=adminArticle">Mes articles</a>
+                            {% if user.role == 'administrateur' %}
                             <a class="nav-link" href="?controller=admin&action=adminCategory">Les categories</a>
+                            <a class="nav-link" href="?controller=admin&action=adminUser">Les utilisateurs</a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

@@ -42,7 +42,7 @@ class ManagerUser extends Manager {
      * Methode modification d'un utilisateur existant
      * @param User $user
      */
-    public function updateUser(User $user):void{
+    public function updateUser(User $user):bool{
         $sql = 'UPDATE user SET name = :name, email = :email, password = :password, role = :role WHERE id_user = :id ';
         $req = $this->bdd->prepare($sql);
         $req->bindValue('name',$user->getName(),PDO::PARAM_STR);
@@ -50,7 +50,8 @@ class ManagerUser extends Manager {
         $req->bindValue('password',$user->getPassword(),PDO::PARAM_STR);
         $req->bindValue('role',$user->getRole(),PDO::PARAM_STR);
         $req->bindValue('id',$user->getId_user(),PDO::PARAM_INT);
-        $req->execute();
+        $result = $req->execute();
+        return $result;
     }
 
     /**
@@ -62,7 +63,8 @@ class ManagerUser extends Manager {
         $sql = 'SELECT * FROM user';
         $req = $this->bdd->prepare($sql);
         $req->execute();
-        foreach ($req->fetch(PDO::FETCH_ASSOC) as $user){
+        $result = $req->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($result as $user){
             $users[] = new User($user);
         }
 

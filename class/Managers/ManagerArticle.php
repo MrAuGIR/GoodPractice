@@ -175,9 +175,9 @@ class ManagerArticle extends Manager{
      */
     public function traitementDonnees(array $post,string $type){
 
-        $title = isset($post['title'])? $post['title']:null;
-        $content = isset($post['content'])? $post['content']: "";
-        $url = isset($post['url'])? $post['url']: "";
+        $title = isset($post['title'])? $this->cleanString($post['title']):null;
+        $content = isset($post['content'])? trim($post['content']): "";
+        $url = isset($post['url'])? htmlspecialchars($post['url']): "";
         $pathImage = isset($post['image'])? $post['image']:"";
         $date = new \DateTime();
         $idUser = isset($post['idUser'])? $post['idUser']: null;
