@@ -4,7 +4,7 @@ Utilisation de Twig et Bootstrap pour le front.
 Base de donnée MySQL.
 
 ### Objectif :
-Site web réalisé pendant ma formation, dans l'objectif de m'amélioré dans l'utilisation de la programmation orientté objet et dans la mise
+Site web réalisé pendant ma formation, dans l'objectif de m'amélioré dans l'utilisation de la programmation orienté objet et dans la mise
 en place d'une architecture MVC.
 
 
