@@ -5,33 +5,6 @@ namespace App;
 use App\Controllers\ArticleController;
 use App\Tools\AppSession;
 
-// class Application
-// {
-
-
-//     public static function process()
-//     {
-
-//         $controllerName = 'ArticleController';
-//         $action = 'index';
-
-//         if (!empty($_GET['controller'])) {
-//             $controllerName = ucfirst($_GET['controller']);
-//         }
-
-//         if (!empty($_GET['action'])) {
-//             $action = $_GET['action'];
-//         }
-
-//         $controllerName = "Controllers\".$controllerName;
-
-//         $controller = new $controllerName();
-//         $controller->$action();
-
-//     }
-// }
-
-
 class Application
 {
     private static $routes = [

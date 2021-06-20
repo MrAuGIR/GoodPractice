@@ -422,3 +422,11 @@ h5.card-title{
         padding: 0.8rem;
     }
 }
+
+/* style de la page error404 */
+.notfound{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+}

@@ -1,13 +1,21 @@
-    {% extends "layout.html.twig" %}
+
+    {% block stylesheet %}
+        <link href="./public/style/error404.css" rel="stylesheet" type="text/css">
+    {% endblock %}
     {% block content  %}
-        <div class="row py-5 my-5">
-            <div class="col-12">
-                <h1>404 NOT FOUND</h1>
-            </div>
+    <div id="clouds">
+            <div class="cloud x1"></div>
+            <div class="cloud x1_5"></div>
+            <div class="cloud x2"></div>
+            <div class="cloud x3"></div>
+            <div class="cloud x4"></div>
+            <div class="cloud x5"></div>
         </div>
-        <div class="row my-5 py-5">
-            <div class="col-12">
-                <a href="?controller=article&action=index" title="retour page accueil"><h2>Retour à l'accueil</h2></a>
-            </div>
+        <div class='c'>
+            <div class='_404'>404</div>
+            <hr>
+            <div class='_1'>THE PAGE</div>
+            <div class='_2'>WAS NOT FOUND</div>
+            <a class="btn" href="?controller=article&action=index" title="retour page accueil"><h2>Retour à l'accueil</h2></a>
         </div>
     {% endblock %}
