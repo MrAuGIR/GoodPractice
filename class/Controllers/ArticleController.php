@@ -171,7 +171,7 @@ class ArticleController extends Controller{
                 $this->session->set('warning', $errorAdd['error']);
                 $this->session->redirect('?controller=article&action=edit&q='.$id_article);
             }
-            $this->session->set('success', 'Modification éffectué');
+            $this->session->set('success', 'Modification éffectuée');
             $this->session->redirect('?controller=admin&action=adminArticle');
         }
 

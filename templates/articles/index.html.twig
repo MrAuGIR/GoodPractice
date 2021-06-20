@@ -26,8 +26,9 @@
                 <div class="container">
                     <div class="row my-5">
                         <div class="col-12">
-                            <span class="subtitle">Ajouter un article ?</span>
-                            <a href="?controller=article&action=add" class="btn btn-primary mx-2">Ajouter</a>
+                            <a href="?controller=article&action=add" class="add-article mx-2">
+                                <i class="fas fa-plus"></i><h5>Ajouter un article ?</h5>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -39,11 +40,9 @@
                             <h1>Catégories</h1>
                         </div>
                         <div class="col-12">
-                            <div class="row">
                                 {% for categorie in category %}
-                                    <a href="?controller=article&action=list&category={{categorie.getId_category()}}" class="badge badge-primary px-2 py-2 mx-2">{{categorie.getName_Category}}</a>
+                                    <a href="?controller=article&action=list&category={{categorie.getId_category()}}" class="badge badge-primary my-1 mx-1 px-2 py-2 mx-2">{{categorie.getName_Category}}</a>
                                 {% endfor %}
-                            </div>
                         </div>
                     </div>
                 </div>

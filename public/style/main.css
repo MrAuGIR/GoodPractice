@@ -196,10 +196,20 @@ html, body, main{
     font-weight: 200;
 }
 
-.subtitle{
-    font-weight: bold;
+
+a.add-article{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+}
+.add-article h5{
+    margin:0;
+    padding: 0;
     font-size: medium;
-    color: #212529;
+    color: #5a5a5a;
+    font-weight: bold;
+    margin-left: 5px;
 }
 
 /** STYLE CARD */
