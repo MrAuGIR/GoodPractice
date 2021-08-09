@@ -2,8 +2,14 @@
 
 namespace App;
 
-use App\Controllers\ArticleController;
 use App\Tools\AppSession;
+use Symfony\Component\Routing\Route;
+use App\Controllers\ArticleController;
+use Exception;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\RequestContext;
+use Symfony\Component\Routing\RouteCollection;
+use Symfony\Component\Routing\Matcher\UrlMatcher;
 
 class Application
 {
@@ -14,18 +20,23 @@ class Application
     ];
 
 
-    public static function process()
+    public static function process(Request $request)
     {
-        $controllerName = "ArticleController";
-        $task = "index";
+        $routes = new RouteCollection;
+        $routes->add('index', new Route('/{controller}/{task}',['controller' => "ArticleController", "task" => "index"]));
 
-        if (!empty($_GET['controller'])) {
-            $controllerName = ucFirst($_GET['controller']).'Controller';
-        }
+        $context = new RequestContext();
+        $context->fromRequest($request);
+        // $controllerName = "ArticleController";
+        // $task = "index";
+        $pathinfo = $request->getPathInfo();
+        $urlMatcher = new UrlMatcher($routes,$context);
 
-        if (!empty($_GET['action'])) {
-            $task = $_GET['action'];
-        }
+        
+        $resultat = $urlMatcher->match($pathinfo);
+        
+        $controllerName = ucFirst($resultat['controller']).'Controller';
+        $task = $resultat['task'];
 
         if(!self::routeExist($controllerName,$task)){
             $controllerName = "ArticleController";
