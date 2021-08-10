@@ -41,7 +41,7 @@
                         </div>
                         <div class="col-12">
                                 {% for categorie in category %}
-                                    <a href="?controller=article&action=list&category={{categorie.getId_category()}}" class="badge badge-primary my-1 mx-1 px-2 py-2 mx-2">{{categorie.getName_Category}}</a>
+                                    <a href="/article/list?category={{categorie.getId_category()}}" class="badge badge-primary my-1 mx-1 px-2 py-2 mx-2">{{categorie.getName_Category}}</a>
                                 {% endfor %}
                         </div>
                     </div>

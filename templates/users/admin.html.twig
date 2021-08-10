@@ -13,10 +13,10 @@
                 <div class="d-flex align-items-start">
                     <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
                         aria-orientation="vertical">
-                        <a class="nav-link" href="?controller=admin&action=adminArticle">Mes articles</a>
+                        <a class="nav-link" href="/admin/adminArticle">Mes articles</a>
                         {% if user.role == 'administrateur' %}
-                        <a class="nav-link" href="?controller=admin&action=adminCategory">Les categories</a>
-                        <a class="nav-link" href="?controller=admin&action=adminUser">Les utilisateurs</a>
+                        <a class="nav-link" href="/admin/adminCategory">Les categories</a>
+                        <a class="nav-link" href="/admin/adminUser">Les utilisateurs</a>
                         {% endif %}
                     </div>
                 </div>
@@ -40,8 +40,8 @@
                             <td>{{user.getEmail()}}</td>
                             <td>{{user.getRole()}}</td>
                             <td>
-                                <a href="?controller=user&action=edit&q={{user.getId_user}}">Edit</a><br>
-                                <a href="?controller=user&action=delete&q={{user.getId_user}}">Delete</a>
+                                <a href="/user/edit?q={{user.getId_user}}">Edit</a><br>
+                                <a href="/user/delete?q={{user.getId_user}}">Delete</a>
                             </td>
                         </tr>
                         {% endfor %}

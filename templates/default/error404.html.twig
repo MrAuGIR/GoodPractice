@@ -1,6 +1,6 @@
 
     {% block stylesheet %}
-        <link href="./public/style/error404.css" rel="stylesheet" type="text/css">
+        <link href="/public/style/error404.css" rel="stylesheet" type="text/css">
     {% endblock %}
     {% block content  %}
     <div id="clouds">
@@ -16,6 +16,6 @@
             <hr>
             <div class='_1'>THE PAGE</div>
             <div class='_2'>WAS NOT FOUND</div>
-            <a class="btn" href="?controller=article&action=index" title="retour page accueil"><h2>Retour à l'accueil</h2></a>
+            <a class="btn" href="/article/index" title="retour page accueil"><h2>Retour à l'accueil</h2></a>
         </div>
     {% endblock %}

@@ -32,8 +32,8 @@
                                 <td>{{category.getId_category}}</td>
                                 <td>{{category.getName_Category}}</td>
                                 <td>
-                                    <a href="?controller=category&action=edit&q={{category.getId_category}}">Edit</a><br>
-                                    <a href="?controller=category&action=delete&q={{article.getId_category}}">Delete</a>
+                                    <a href="/category/edit?q={{category.getId_category}}">Edit</a><br>
+                                    <a href="/category/delete?q={{article.getId_category}}">Delete</a>
                                 </td>
                             </tr>
                             {% endfor %}

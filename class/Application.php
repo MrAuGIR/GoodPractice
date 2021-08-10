@@ -55,13 +55,13 @@ class Application
         //si l'utilisateur n'est pas connecté
         if (empty($_SESSION['user']) || !isset($_SESSION['user'])) {
 
-            header('location:?controller=article&action=index');
+            header('location:/article/index');
             exit();
         }
         //si le role de l'utilisateur est spécifié
         if($roleAllowed != null){
             if (!in_array($_SESSION['user']['role'], $roleAllowed)){
-                header('location:?controller=article&action=index');
+                header('location:/article/index');
                 exit();
             }
         }

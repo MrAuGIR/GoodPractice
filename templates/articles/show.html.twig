@@ -3,7 +3,7 @@
         <link href="/public/style/trix.css" rel="stylesheet" type="text/css">
     {% endblock %}
     {% block scriptHead %}
-        <script type="text/javascript" src="./public/js/trix.js"></script>
+        <script type="text/javascript" src="/public/js/trix.js"></script>
     {% endblock %}
     {% block content  %}
         <main>
@@ -32,7 +32,7 @@
                             <h2>Poster un commentaire</h2>
                         </div>
                         <div class="col-12">
-                            <form method="POST" action="?controller=article&action=postComment">
+                            <form method="POST" action="/article/postComment">
                                 <input type="number" name="idUser" id="idUser" hidden value="{{user.id}}">
                                 <input type="number" name="id" value="{{article.getId_article}}" hidden>
                                 <div class="col-12 my-1">
@@ -65,7 +65,7 @@
                                 </div>
                                 {% if user.id == comment.getId_user() %}
                                 <div class="card-footer text-muted">
-                                    <a href="{{'?controller=article&action=deleteComment&q=' ~ article.id_article ~ '&id=' ~ comment.id_commentary}}" title="suppression du commentaire">Supprimer</a>
+                                    <a href="{{'/article/deleteComment?q=' ~ article.id_article ~ '&id=' ~ comment.id_commentary}}" title="suppression du commentaire">Supprimer</a>
                                 </div>
                                 {% endif %}
                             </div>

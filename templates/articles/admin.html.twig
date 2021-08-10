@@ -11,7 +11,7 @@
             <div class="container">
                 <div class="row my-5">
                     <div class="col-12">
-                        <a href="?controller=article&action=add" class="add-article mx-2">
+                        <a href="/article/add" class="add-article mx-2">
                             <i class="fas fa-plus"></i><h5>Ajouter un article ?</h5>
                         </a>
                     </div>
@@ -27,10 +27,10 @@
                     <div class="col-12 col-md-2 border-end">
                         <div class="d-flex align-items-start">
                             <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                <a class="nav-link" href="?controller=admin&action=adminArticle" >Mes articles</a>
+                                <a class="nav-link" href="/admin/adminArticle" >Mes articles</a>
                                 {% if user.role == 'administrateur' %}
-                                    <a class="nav-link" href="?controller=admin&action=adminCategory">Les categories</a>
-                                    <a class="nav-link" href="?controller=admin&action=adminUser">Les utilisateurs</a>
+                                    <a class="nav-link" href="/admin/adminCategory">Les categories</a>
+                                    <a class="nav-link" href="/admin/adminUser">Les utilisateurs</a>
                                 {% endif %}
                             </div>
                         </div>
@@ -60,9 +60,9 @@
                                         <td>{{ article.getUser.getName() }}</td>
                                     {% endif %}
                                     <td>
-                                        <a href="?controller=article&action=show&q={{article.getId_article}}">show</a><br>
-                                        <a href="?controller=article&action=edit&q={{article.getId_article}}">Edit</a><br>
-                                        <a href="?controller=article&action=delete&q={{article.getId_article}}">Delete</a>
+                                        <a href="/article/show?q={{article.getId_article}}">show</a><br>
+                                        <a href="/article/edit?q={{article.getId_article}}">Edit</a><br>
+                                        <a href="/article/delete?q={{article.getId_article}}">Delete</a>
                                     </td>
                                 </tr>
                                 {% endfor %}
