@@ -14,7 +14,7 @@ class Card{
     {
         $this->setTitle($article->getTitle());
         $this->setText($article->getDescription());
-        $this->setHref('?controller=article&action=show&q='.$article->getId_article());
+        $this->setHref('/article/show?q='.$article->getId_article());
         $this->setImgSrc($article->getUrl_img());
         $this->setNumComment($article->getNum_commnents());
     }
@@ -80,7 +80,7 @@ class Card{
         $html .= "<a href='{$this->getHref()}' class='card-link'>";
         $html .= '<div class="card my-2 ">';
         $html .= '<div class="picture">';
-        $html .= '<img src="./public/'.$this->getImgSrc().'" class="card-img-top" alt="illustration">';
+        $html .= '<img src="/public/'.$this->getImgSrc().'" class="card-img-top" alt="illustration">';
         $html .= '</div>';
         $html .= "<div class='card-body'>";
         $html .= "<h5 class='card-title'>{$this->getTitle()}</h5>";
@@ -104,7 +104,7 @@ class Card{
         $html .= "<a href='{$this->getHref()}' class='card-link'>";
         $html .= '<div class="card card-main my-2 ">';
         $html .= '<div class="picture">';
-        $html .= '<img src="./public/' . $this->getImgSrc() . '" class="card-img-top" alt="illustration">';
+        $html .= '<img src="/public/' . $this->getImgSrc() . '" class="card-img-top" alt="illustration">';
         $html .= '</div>';
         $html .= "<div class='card-body'>";
         $html .= "<h5 class='card-title'>{$this->getTitle()}</h5>";

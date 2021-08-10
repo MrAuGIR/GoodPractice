@@ -3,7 +3,7 @@
     "description": "Site web d'articles sur les bonnes pratiques \u0000 adopter pour \u0000conomiser les \u0000nergies",
     "require": {
         "twig/twig": "^3.3",
-        "symfony/asset": "^5.2",
+        "symfony/asset": "^5.3",
         "symfony/routing": "^5.3",
         "symfony/http-foundation": "^5.3"
     },
