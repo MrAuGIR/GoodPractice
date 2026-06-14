@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -15,6 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CommentaryRepository::class)]
 #[ApiResource(
+    description: 'Commentaire posté par un utilisateur sur un article.',
     normalizationContext: ['groups' => ['comment:read']],
     denormalizationContext: ['groups' => ['comment:write']],
     operations: [
@@ -24,6 +28,8 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Delete(security: "is_granted('ROLE_ADMIN') or object.getAuthor() == user"),
     ],
 )]
+#[ApiFilter(SearchFilter::class, properties: ['article' => 'exact', 'author' => 'exact'])]
+#[ApiFilter(OrderFilter::class, properties: ['datePosted', 'id'], arguments: ['orderParameterName' => 'order'])]
 class Commentary implements Authored
 {
     #[ORM\Id]
