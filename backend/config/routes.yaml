@@ -9,3 +9,11 @@
 
 controllers:
     resource: routing.controllers
+
+# Authentification JWT (lexik) : génère le token à partir de email/password
+api_login_check:
+    path: /api/login_check
+
+# Rafraîchissement du token (gesdinet)
+api_token_refresh:
+    path: /api/token/refresh

@@ -777,6 +777,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             property?: scalar|Param|null, // Default: null
  *             manager_name?: scalar|Param|null, // Default: null
  *         },
+ *         lexik_jwt?: array{
+ *             class?: scalar|Param|null, // Default: "Lexik\\Bundle\\JWTAuthenticationBundle\\Security\\User\\JWTUser"
+ *         },
  *     }>,
  *     firewalls?: array<string, array{ // Default: []
  *         pattern?: scalar|Param|null,
@@ -834,6 +837,10 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         remote_user?: array{
  *             provider?: scalar|Param|null,
  *             user?: scalar|Param|null, // Default: "REMOTE_USER"
+ *         },
+ *         jwt?: array{
+ *             provider?: scalar|Param|null, // Default: null
+ *             authenticator?: scalar|Param|null, // Default: "lexik_jwt_authentication.security.jwt_authenticator"
  *         },
  *         login_link?: array{
  *             check_route?: scalar|Param|null, // Route that will validate the login link - e.g. "app_login_link_verify".
@@ -1017,6 +1024,13 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *             samesite?: null|"lax"|"strict"|"none"|Param, // Default: null
  *             always_remember_me?: bool|Param, // Default: false
  *             remember_me_parameter?: scalar|Param|null, // Default: "_remember_me"
+ *         },
+ *         refresh_jwt?: array{
+ *             check_path?: scalar|Param|null, // Default: "/login_check"
+ *             provider?: scalar|Param|null,
+ *             success_handler?: scalar|Param|null,
+ *             failure_handler?: scalar|Param|null,
+ *             invalidate_token_on_logout?: bool|Param, // When enabled, the refresh token will be invalided on logout. // Default: true
  *         },
  *     }>,
  *     access_control?: list<array{ // Default: []
@@ -1476,7 +1490,7 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         validation_error_resource_class?: scalar|Param|null, // The class used to represent validation errors in the OpenAPI documentation. // Default: null
  *     },
  *     maker?: bool|array{
- *         enabled?: bool|Param, // Default: false
+ *         enabled?: bool|Param, // Default: true
  *         namespace_prefix?: scalar|Param|null, // Add a prefix to all maker generated classes. e.g set it to "Api" to set the maker namespace to "App\Api\" (if the maker.root_namespace config is App). e.g. App\Api\State\MyStateProcessor // Default: ""
  *     },
  *     mcp?: bool|array{
@@ -1612,6 +1626,118 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         ...<string, mixed>
  *     },
  * }
+ * @psalm-type LexikJwtAuthenticationConfig = array{
+ *     public_key?: scalar|Param|null, // The key used to sign tokens (useless for HMAC). If not set, the key will be automatically computed from the secret key. // Default: null
+ *     additional_public_keys?: list<scalar|Param|null>,
+ *     secret_key?: scalar|Param|null, // The key used to sign tokens. It can be a raw secret (for HMAC), a raw RSA/ECDSA key or the path to a file itself being plaintext or PEM. // Default: null
+ *     pass_phrase?: scalar|Param|null, // The key passphrase (useless for HMAC) // Default: ""
+ *     token_ttl?: scalar|Param|null, // Default: 3600
+ *     allow_no_expiration?: bool|Param, // Allow tokens without "exp" claim (i.e. indefinitely valid, no lifetime) to be considered valid. Caution: usage of this should be rare. // Default: false
+ *     clock_skew?: scalar|Param|null, // Default: 0
+ *     encoder?: array{
+ *         service?: scalar|Param|null, // Default: "lexik_jwt_authentication.encoder.lcobucci"
+ *         signature_algorithm?: scalar|Param|null, // Default: "RS256"
+ *     },
+ *     user_id_claim?: scalar|Param|null, // Default: "username"
+ *     token_extractors?: array{
+ *         authorization_header?: bool|array{
+ *             enabled?: bool|Param, // Default: true
+ *             prefix?: scalar|Param|null, // Default: "Bearer"
+ *             name?: scalar|Param|null, // Default: "Authorization"
+ *         },
+ *         cookie?: bool|array{
+ *             enabled?: bool|Param, // Default: false
+ *             name?: scalar|Param|null, // Default: "BEARER"
+ *         },
+ *         query_parameter?: bool|array{
+ *             enabled?: bool|Param, // Default: false
+ *             name?: scalar|Param|null, // Default: "bearer"
+ *         },
+ *         split_cookie?: bool|array{
+ *             enabled?: bool|Param, // Default: false
+ *             cookies?: list<scalar|Param|null>,
+ *         },
+ *     },
+ *     remove_token_from_body_when_cookies_used?: scalar|Param|null, // Default: true
+ *     set_cookies?: array<string, array{ // Default: []
+ *         lifetime?: scalar|Param|null, // The cookie lifetime. If null, the "token_ttl" option value will be used // Default: null
+ *         samesite?: "none"|"lax"|"strict"|Param, // Default: "lax"
+ *         path?: scalar|Param|null, // Default: "/"
+ *         domain?: scalar|Param|null, // Default: null
+ *         secure?: scalar|Param|null, // Default: true
+ *         httpOnly?: scalar|Param|null, // Default: true
+ *         partitioned?: scalar|Param|null, // Default: false
+ *         split?: list<scalar|Param|null>,
+ *     }>,
+ *     api_platform?: bool|array{ // API Platform compatibility: add check_path in OpenAPI documentation.
+ *         enabled?: bool|Param, // Default: false
+ *         check_path?: scalar|Param|null, // The login check path to add in OpenAPI. // Default: null
+ *         username_path?: scalar|Param|null, // The path to the username in the JSON body. // Default: null
+ *         password_path?: scalar|Param|null, // The path to the password in the JSON body. // Default: null
+ *     },
+ *     access_token_issuance?: bool|array{
+ *         enabled?: bool|Param, // Default: false
+ *         signature?: array{
+ *             algorithm?: scalar|Param|null, // The algorithm use to sign the access tokens.
+ *             key?: scalar|Param|null, // The signature key. It shall be JWK encoded.
+ *         },
+ *         encryption?: bool|array{
+ *             enabled?: bool|Param, // Default: false
+ *             key_encryption_algorithm?: scalar|Param|null, // The key encryption algorithm is used to encrypt the token.
+ *             content_encryption_algorithm?: scalar|Param|null, // The key encryption algorithm is used to encrypt the token.
+ *             key?: scalar|Param|null, // The encryption key. It shall be JWK encoded.
+ *         },
+ *     },
+ *     access_token_verification?: bool|array{
+ *         enabled?: bool|Param, // Default: false
+ *         signature?: array{
+ *             header_checkers?: list<scalar|Param|null>,
+ *             claim_checkers?: list<scalar|Param|null>,
+ *             mandatory_claims?: list<scalar|Param|null>,
+ *             allowed_algorithms?: list<scalar|Param|null>,
+ *             keyset?: scalar|Param|null, // The signature keyset. It shall be JWKSet encoded.
+ *         },
+ *         encryption?: bool|array{
+ *             enabled?: bool|Param, // Default: false
+ *             continue_on_decryption_failure?: bool|Param, // If enable, non-encrypted tokens or tokens that failed during decryption or verification processes are accepted. // Default: false
+ *             header_checkers?: list<scalar|Param|null>,
+ *             allowed_key_encryption_algorithms?: list<scalar|Param|null>,
+ *             allowed_content_encryption_algorithms?: list<scalar|Param|null>,
+ *             keyset?: scalar|Param|null, // The encryption keyset. It shall be JWKSet encoded.
+ *         },
+ *     },
+ *     blocklist_token?: bool|array{
+ *         enabled?: bool|Param, // Default: false
+ *         cache?: scalar|Param|null, // Storage to track blocked tokens // Default: "cache.app"
+ *     },
+ * }
+ * @psalm-type GesdinetJwtRefreshTokenConfig = array{
+ *     ttl?: int|Param, // The default TTL for all authenticators. // Default: 2592000
+ *     ttl_update?: bool|Param, // The default update TTL flag for all authenticators. // Default: false
+ *     manager_type?: scalar|Param|null, // Set the type of object manager to use (default: orm) // Default: "orm"
+ *     refresh_token_class?: scalar|Param|null, // Set the refresh token class to use
+ *     object_manager?: scalar|Param|null, // Set the object manager to use (default: doctrine.orm.entity_manager) // Default: null
+ *     single_use?: scalar|Param|null, // When true, generate a new refresh token on consumption (deleting the old one) // Default: false
+ *     token_parameter_name?: scalar|Param|null, // The default request parameter name containing the refresh token for all authenticators. // Default: "refresh_token"
+ *     cookie?: bool|array{
+ *         enabled?: bool|Param, // Default: false
+ *         same_site?: "none"|"lax"|"strict"|Param, // Default: "lax"
+ *         path?: scalar|Param|null, // Default: "/"
+ *         domain?: scalar|Param|null, // Default: null
+ *         http_only?: scalar|Param|null, // Default: true
+ *         secure?: scalar|Param|null, // Default: true
+ *         partitioned?: scalar|Param|null, // Default: false
+ *         remove_token_from_body?: scalar|Param|null, // Default: true
+ *     },
+ *     return_expiration?: scalar|Param|null, // When true, the response will include the token expiration timestamp // Default: false
+ *     return_expiration_parameter_name?: scalar|Param|null, // The default response parameter name containing the refresh token expiration timestamp // Default: "refresh_token_expiration"
+ *     default_invalid_batch_size?: int|Param, // The default batch size when clearing invalid tokens // Default: 1000
+ * }
+ * @psalm-type MakerConfig = array{
+ *     root_namespace?: scalar|Param|null, // Default: "App"
+ *     generate_final_classes?: bool|Param, // Default: true
+ *     generate_final_entities?: bool|Param, // Default: false
+ * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
  *     parameters?: ParametersConfig,
@@ -1623,6 +1749,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *     doctrine_migrations?: DoctrineMigrationsConfig,
  *     nelmio_cors?: NelmioCorsConfig,
  *     api_platform?: ApiPlatformConfig,
+ *     lexik_jwt_authentication?: LexikJwtAuthenticationConfig,
+ *     gesdinet_jwt_refresh_token?: GesdinetJwtRefreshTokenConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -1634,6 +1762,9 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         doctrine_migrations?: DoctrineMigrationsConfig,
  *         nelmio_cors?: NelmioCorsConfig,
  *         api_platform?: ApiPlatformConfig,
+ *         lexik_jwt_authentication?: LexikJwtAuthenticationConfig,
+ *         gesdinet_jwt_refresh_token?: GesdinetJwtRefreshTokenConfig,
+ *         maker?: MakerConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -1646,6 +1777,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         doctrine_migrations?: DoctrineMigrationsConfig,
  *         nelmio_cors?: NelmioCorsConfig,
  *         api_platform?: ApiPlatformConfig,
+ *         lexik_jwt_authentication?: LexikJwtAuthenticationConfig,
+ *         gesdinet_jwt_refresh_token?: GesdinetJwtRefreshTokenConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -1658,6 +1791,8 @@ use Symfony\Component\Config\Loader\ParamConfigurator as Param;
  *         doctrine_migrations?: DoctrineMigrationsConfig,
  *         nelmio_cors?: NelmioCorsConfig,
  *         api_platform?: ApiPlatformConfig,
+ *         lexik_jwt_authentication?: LexikJwtAuthenticationConfig,
+ *         gesdinet_jwt_refresh_token?: GesdinetJwtRefreshTokenConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,
