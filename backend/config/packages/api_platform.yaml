@@ -1,0 +1,33 @@
+api_platform:
+    title: GoodPractice API
+    description: |
+        API REST du site GoodPractice : articles de bonnes pratiques, catégories,
+        utilisateurs et commentaires. Authentification par JWT (Bearer), avec
+        refresh token. Voir `/api/login_check` pour obtenir un token.
+    version: 1.0.0
+
+    # Bouton "Authorize" dans Swagger UI : saisir "Bearer <token>"
+    swagger:
+        api_keys:
+            JWT:
+                name: Authorization
+                type: header
+
+    # Formats exposés par l'API (contenu + erreurs)
+    formats:
+        jsonld: ['application/ld+json']
+        json: ['application/json']
+    docs_formats:
+        jsonld: ['application/ld+json']
+        json: ['application/json']
+        html: ['text/html']
+
+    defaults:
+        stateless: true
+        cache_headers:
+            vary: ['Content-Type', 'Authorization', 'Origin']
+        # Pagination : 10 éléments par page, le client peut ajuster (?itemsPerPage=)
+        pagination_items_per_page: 10
+        pagination_maximum_items_per_page: 50
+        pagination_client_items_per_page: true
+        pagination_client_enabled: true

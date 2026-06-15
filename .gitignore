@@ -1,2 +1,21 @@
+# Dépendances
+/backend/vendor/
+/frontend/node_modules/
 
-/vendor/
+# Symfony
+/backend/var/
+/backend/.env.local
+/backend/.env.*.local
+/backend/public/bundles/
+
+# Build front
+/frontend/dist/
+
+# Legacy (2021)
+/legacy/vendor/
+
+# Divers
+plan.md
+CLAUDE.ini
+.DS_Store
+frontend/.vite/

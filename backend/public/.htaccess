@@ -1,0 +1,8 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Transmet l'en-tête Authorization (Bearer JWT) à PHP,
+    # qu'Apache ne propage pas par défaut avec mod_php.
+    RewriteCond %{HTTP:Authorization} .+
+    RewriteRule ^ - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+</IfModule>

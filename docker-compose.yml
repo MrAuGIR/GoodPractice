@@ -1,0 +1,77 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: ${PROJECT_NAME}_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - goodpractice
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: ${PROJECT_NAME}_phpmyadmin
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+    ports:
+      - "8080:80"
+    networks:
+      - goodpractice
+
+  maildev:
+    image: maildev/maildev
+    container_name: ${PROJECT_NAME}_maildev
+    restart: unless-stopped
+    ports:
+      - "8025:1080"
+    networks:
+      - goodpractice
+
+  backend:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    container_name: ${PROJECT_NAME}_backend
+    restart: unless-stopped
+    depends_on:
+      - db
+      - maildev
+    ports:
+      - "8000:80"
+    volumes:
+      - ./backend:/var/www/html
+    networks:
+      - goodpractice
+
+  frontend:
+    image: node:20
+    container_name: ${PROJECT_NAME}_frontend
+    restart: unless-stopped
+    # uid/gid 1000 (user `node`) = même propriétaire que sur l'hôte → pas de fichiers root
+    user: node
+    environment:
+      HOME: /home/node
+    working_dir: /app
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    networks:
+      - goodpractice
+
+volumes:
+  db-data:
+
+networks:
+  goodpractice:
+    name: ${PROJECT_NAME}
