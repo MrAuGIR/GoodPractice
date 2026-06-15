@@ -12,6 +12,7 @@ const auth = useAuthStore()
         <RouterLink :to="{ name: 'admin-articles' }">Articles</RouterLink>
         <RouterLink v-if="auth.isAdmin" :to="{ name: 'admin-categories' }">Catégories</RouterLink>
         <RouterLink v-if="auth.isAdmin" :to="{ name: 'admin-users' }">Utilisateurs</RouterLink>
+        <RouterLink v-if="auth.isAdmin" :to="{ name: 'admin-import' }">Import JSON</RouterLink>
       </aside>
       <section>
         <RouterView />
