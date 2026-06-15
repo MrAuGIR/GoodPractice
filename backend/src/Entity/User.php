@@ -6,6 +6,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Repository\UserRepository;
@@ -31,6 +32,11 @@ use Symfony\Component\Validator\Constraints as Assert;
         // Inscription publique : le mot de passe est hashé par le processor
         new Post(processor: UserPasswordHasher::class, validationContext: ['groups' => ['Default', 'user:create']]),
         new Put(security: "is_granted('ROLE_ADMIN') or object == user", processor: UserPasswordHasher::class),
+        // Réservé aux admins : édition des rôles (gestion des droits)
+        new Patch(
+            security: "is_granted('ROLE_ADMIN')",
+            denormalizationContext: ['groups' => ['user:admin']],
+        ),
         new Delete(security: "is_granted('ROLE_ADMIN')"),
     ],
 )]
@@ -55,7 +61,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /** @var list<string> */
     #[ORM\Column]
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'user:admin'])]
     private array $roles = [];
 
     #[ORM\Column]
