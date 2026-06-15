@@ -56,6 +56,10 @@ services:
     image: node:20
     container_name: ${PROJECT_NAME}_frontend
     restart: unless-stopped
+    # uid/gid 1000 (user `node`) = même propriétaire que sur l'hôte → pas de fichiers root
+    user: node
+    environment:
+      HOME: /home/node
     working_dir: /app
     ports:
       - "5173:5173"
