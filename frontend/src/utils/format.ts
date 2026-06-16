@@ -8,3 +8,9 @@ export function formatDate(iso: string): string {
 export function articleImage(url: string | null | undefined): string {
   return url || 'https://placehold.co/640x360?text=goodPractice'
 }
+
+/** Temps de lecture estimé (≈ 200 mots/min), borné à 1 min minimum. */
+export function readingTime(text: string | null | undefined): number {
+  const words = (text ?? '').trim().split(/\s+/).filter(Boolean).length
+  return Math.max(1, Math.round(words / 200))
+}

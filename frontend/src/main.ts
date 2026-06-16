@@ -5,6 +5,10 @@ import App from './App.vue'
 import { router } from './router'
 import { setOnAuthFailure } from './api/http'
 import { useAuthStore } from './stores/auth'
+import { initTheme } from './composables/useTheme'
+
+// Applique le thème (clair/sombre) avant le mount pour éviter tout flash.
+initTheme()
 
 const app = createApp(App)
 app.use(createPinia())

@@ -192,3 +192,257 @@ composants :
 - Niveau d'**illustration** souhaité (système d'icônes/illustrations propre vs. minimalisme typo) ?
 - Budgets perf/éco chiffrés à figer (poids de page, scores cibles).
 - Périmètre exact de l'admin à maquetter (minimal vs. complet).
+
+---
+
+# Annexe A — Détail des écrans clés
+
+> Wireframes **basse fidélité** (structure et intention, pas la direction artistique).
+> Ils décrivent *quoi* afficher et *comment ça se comporte* ; le « comment c'est beau »
+> reste la liberté du designer. Les schémas ASCII sont indicatifs.
+
+## 0. Éléments globaux (présents partout)
+
+**En-tête (sticky, fin) :**
+
+```
+┌───────────────────────────────────────────────────────────────────┐
+│  ◆ goodPractice        Explorer   Catégories   Essentiels    [🔍]  ☾ │
+└───────────────────────────────────────────────────────────────────┘
+```
+- Wordmark à gauche (lien accueil).
+- Navigation : *Explorer* (la vue digital garden), *Catégories*, *Essentiels*.
+- Icône **recherche** (ouvre un champ / palette de recherche, pas une page lourde).
+- **Bascule de thème** clair/sombre (☀/☾), état mémorisé.
+- Si connecté éditeur/admin : entrée discrète *Admin* + avatar/menu.
+- **Mobile** : nav repliée en menu (burger) ; recherche + thème restent accessibles.
+
+**Pied de page — « signature qui prouve » :** c'est ici qu'on assume le concept.
+
+```
+┌───────────────────────────────────────────────────────────────────┐
+│  goodPractice — bonnes pratiques de dev, appliquées.                │
+│                                                                     │
+│  Perf 98 ·  A11y 100 ·  Éco A ·  Page 142 Ko        ☾ Thème   ↑ Haut │
+│  Liens · Mentions · Construit avec Symfony + Vue, éco-conçu.        │
+└───────────────────────────────────────────────────────────────────┘
+```
+- Bandeau d'**indicateurs de qualité** (perf / accessibilité / éco / poids de page) traité
+  comme un élément de design discret mais fier. (Valeurs réelles si possible, sinon statiques.)
+
+**États transverses à concevoir** : chargement (squelettes, pas de spinner plein écran),
+vide, erreur, focus clavier visible, `prefers-reduced-motion`.
+
+---
+
+## 1. Accueil
+
+**But** : poser la proposition de valeur en 3 secondes, mettre en avant les essentiels,
+donner envie d'explorer. Surtout **ne pas** afficher tous les articles à plat.
+
+```
+┌───────────────────────────────────────────────────────────────────┐
+│  [ HERO ]                                                           │
+│   Les bonnes pratiques du web,                                      │
+│   appliquées — ce site en est la preuve.            ◆ motif/typo    │
+│   [ Explorer les pratiques ]   [ Voir les essentiels ]              │
+│                                                                     │
+│  ── À LA UNE ──────────────────────────────────────────────────    │
+│  ┌───────────────────────────────┐  ┌──────────────┐ ┌──────────┐  │
+│  │  ★ ESSENTIEL                   │  │ Article      │ │ Article  │  │
+│  │  Titre de l'article phare      │  │ #tags  6 min │ │ #tags    │  │
+│  │  Accroche sur 2 lignes…        │  └──────────────┘ └──────────┘  │
+│  │  #perf #frontend · 6 min       │                                 │
+│  └───────────────────────────────┘                                 │
+│                                                                     │
+│  ── EXPLORER PAR THÈME ───────────────────────────────────────     │
+│  ( Green IT ) ( Performance ) ( Sécurité ) ( A11y ) ( DevOps )…     │
+│  #frontend #backend #tests #débutant #outillage …  (nuage de tags) │
+│                                                                     │
+│  ── DERNIERS AJOUTS ──────────────────────────────────────────     │
+│  • Titre …………………………………… #tag  4 min                                 │
+│  • Titre …………………………………… #tag  7 min                                 │
+└───────────────────────────────────────────────────────────────────┘
+```
+- **Hero** typographique fort (l'audace passe par la typo, pas une image lourde).
+- **À la une / Essentiels** : 1 article vedette + 2-3 secondaires (hiérarchie visible).
+- **Explorer par thème** : entrée double — catégories ET nuage de tags → amorce le digital garden.
+- **Derniers ajouts** : liste sobre.
+- **Mobile** : hero plein écran, à la une en pile verticale (vedette puis cartes), thèmes en
+  rangée scrollable.
+- **Expression du concept** : hero = message ; nuage de tags = base de connaissance ;
+  indicateurs en footer = preuve.
+
+---
+
+## 2. Exploration / Index (la vue « digital garden ») — écran signature
+
+**But** : présentation **originale** du savoir. C'est l'écran le plus différenciant.
+Naviguer par tags/thèmes de proche en proche plutôt qu'une liste paginée.
+
+```
+┌───────────────────────────────────────────────────────────────────┐
+│  Explorer                                   [ Liste ] [ Carte ]  ⟳  │
+│  Filtres : ( Catégorie ▾ )  #frontend ✕  #perf ✕   [+ ajouter tag]  │
+│  37 pratiques · triées par : Pertinence ▾                          │
+├───────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│   Vue LISTE (par défaut)            │   Vue CARTE (toggle)          │
+│   ┌─────────────┐ ┌─────────────┐   │        (perf)                 │
+│   │ ★ Titre      │ │ Titre        │   │      •───•   •──• (tests)     │
+│   │ #perf #front │ │ #front       │   │   (front)\  /                 │
+│   │ 6 min        │ │ 4 min        │   │        •──•──• (a11y)          │
+│   └─────────────┘ └─────────────┘   │      (sécu)   \                │
+│   ┌─────────────┐ ┌─────────────┐   │               •  (green it)    │
+│   │ Titre        │ │ Titre        │   │  → clic sur un nœud = filtre   │
+│   └─────────────┘ └─────────────┘   │     / ouvre l'article          │
+└───────────────────────────────────────────────────────────────────┘
+```
+- **Barre de filtres** combinables : catégorie + plusieurs **tags** (chips retirables) + tri
+  (pertinence / récent / temps de lecture). État reflété dans l'URL (partageable).
+- **Deux vues commutables** :
+  - *Liste* (grille de cartes filtrées) — robuste, défaut.
+  - *Carte / nuage de thèmes* — vue originale : tags/articles reliés ; cliquer un thème filtre,
+    cliquer un article l'ouvre. (Si trop coûteux en perf : version « nuage de tags » statique.)
+- **Mobile** : filtres dans un panneau dépliable (bottom-sheet) ; vue liste par défaut, carte
+  simplifiée ou masquée.
+- **États** : aucun résultat (« Aucune pratique pour ces filtres » + reset), chargement squelette.
+- **Expression du concept** : exploration non linéaire = cœur « digital garden ».
+
+---
+
+## 3. Catégorie / Tag (liste filtrée)
+
+**But** : page d'atterrissage d'une catégorie ou d'un tag (SEO + navigation directe).
+
+```
+┌───────────────────────────────────────────────────────────────────┐
+│  Catégorie : Performance            (12 pratiques)                  │
+│  Courte description de l'axe / du tag.                              │
+│  Tags liés : #frontend #images #cache #réseau                      │
+│  Tri : Pertinence ▾                                                 │
+├───────────────────────────────────────────────────────────────────┤
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐                   │
+│  │ ★ Titre      │ │ Titre        │ │ Titre        │                   │
+│  │ #tags · 6min │ │ #tags · 4min │ │ #tags · 9min │                   │
+│  └─────────────┘ └─────────────┘ └─────────────┘                   │
+│                       … pagination ou « charger plus » …            │
+└───────────────────────────────────────────────────────────────────┘
+```
+- En-tête contextuel (titre, description, **tags liés** cliquables → tissage entre thèmes).
+- Même carte article que partout (cohérence du design system).
+- Pagination **ou** « charger plus » (au choix designer, mais sobre).
+- **Mobile** : cartes en pile, en-tête compact.
+
+---
+
+## 4. Détail d'un article — confort de lecture
+
+**But** : lecture longue agréable + tissage vers le reste du jardin.
+
+```
+┌───────────────────────────────────────────────────────────────────┐
+│  ‹ Performance / Explorer                                          │
+│                                                                     │
+│  ★ ESSENTIEL                                                        │
+│  Titre de la bonne pratique (grand, expressif)                     │
+│  Par Auteur · 14 juin 2026 · 6 min · #perf #frontend #images       │
+│  ─────────────────────────────────────────────────────────────    │
+│                                                                     │
+│   Corps de l'article, colonne de lecture étroite (~65 car.),       │
+│   typographie soignée, paragraphes aérés, citations, code.         │
+│                                                                     │
+│   [ ↗ Source de référence ]                                        │
+│                                                                     │
+│  ── À EXPLORER ENSUITE ─────────────────────────────────────       │
+│  ┌────────────┐ ┌────────────┐ ┌────────────┐  (mêmes tags)        │
+│  │ Titre lié   │ │ Titre lié   │ │ Titre lié   │                     │
+│  └────────────┘ └────────────┘ └────────────┘                     │
+│                                                                     │
+│  ── COMMENTAIRES ──────────────────────────────────────────        │
+│  [ champ commentaire si connecté ]                                  │
+│  • Auteur — « … »                                                   │
+└───────────────────────────────────────────────────────────────────┘
+```
+- **En-tête** : badge essentiel (si applicable), titre, méta (auteur, date, temps de lecture),
+  **tags cliquables**.
+- **Colonne de lecture étroite** centrée (lisibilité), typo de lecture optimisée pour les 2 thèmes.
+- Lien vers la **source de référence** (champ `url`) traité comme une action claire.
+- **Articles reliés** (« à explorer ensuite », basés sur tags/catégorie) = tissage du jardin.
+- **Commentaires** : formulaire si authentifié, liste ; suppression pour admin.
+- **Mobile** : tout en une colonne ; méta compacte ; reliés en pile.
+- *(Option, dans l'esprit « preuve »)* : mini sommaire / barre de progression de lecture, sobre.
+
+---
+
+## 5. Recherche & résultats
+
+**But** : trouver vite. Privilégier une **recherche légère** (champ/palette) plutôt qu'une page lourde.
+
+```
+┌───────────────────────────────────────────────────────────────────┐
+│  🔍  perf images_____________________________________   (Échap)    │
+│  ─────────────────────────────────────────────────────────────    │
+│  PRATIQUES                                                          │
+│  • Titre …………………………… #perf #images                                 │
+│  • Titre …………………………… #perf                                          │
+│  TAGS        #performance  #images  #lazy-loading                   │
+│  CATÉGORIES  Performance                                            │
+└───────────────────────────────────────────────────────────────────┘
+```
+- Ouverte depuis l'icône recherche (overlay / palette type ⌘K) — clin d'œil « dev » discret.
+- Résultats **groupés** : pratiques, tags, catégories. Navigation clavier (↑↓ + Entrée).
+- Recherche au fil de la frappe (débouncée).
+- État vide (« Tapez pour chercher… »), aucun résultat.
+- **Mobile** : overlay plein écran.
+
+---
+
+## 6. Espace admin (léger, cohérent avec le design system)
+
+**But** : gérer les articles sans casser l'identité. Visuel sobre, mêmes tokens/composants.
+
+**Liste des articles :**
+```
+┌───────────────────────────────────────────────────────────────────┐
+│  Admin › Articles                         [ + Nouvel article ]      │
+│  [ recherche ]                Filtre catégorie ▾                    │
+├───────────────────────────────────────────────────────────────────┤
+│  Titre              Catégorie     Tags        ★   Date     Actions  │
+│  Titre …………          Performance   #perf       ★   14/06    ✎  🗑     │
+│  Titre …………          Sécurité      #auth           12/06    ✎  🗑     │
+└───────────────────────────────────────────────────────────────────┘
+```
+
+**Formulaire article (création / édition) :**
+```
+┌───────────────────────────────────────────────────────────────────┐
+│  Nouvel article                                   [ Annuler ]       │
+│  Titre        [______________________________]                     │
+│  Catégorie    [ Performance ▾ ]                                     │
+│  Tags         [ #perf ✕ ] [ #images ✕ ] [+ ajouter]                │
+│  ☆ Marquer comme essentiel  [ ]                                     │
+│  Lien source  [____________________]  [ Récupérer les métadonnées ] │
+│  Image (URL)  [____________________]                               │
+│  Description  [ éditeur de texte multi-lignes …………………………… ]          │
+│                                          [ Enregistrer ]            │
+└───────────────────────────────────────────────────────────────────┘
+```
+- Reprend les nouveaux concepts : **tags**, **marquer essentiel**, bouton **« Récupérer les
+  métadonnées »** (enrichissement OpenGraph déjà en place).
+- Mêmes champs (formulaire, table, boutons) que le design system public.
+- États : validation/erreurs de champ, sauvegarde en cours, succès.
+- **Mobile** : table → cartes empilées ; formulaire en une colonne.
+
+---
+
+## Récapitulatif des écrans à livrer (desktop + mobile)
+
+| # | Écran                  | Priorité | Thèmes à fournir        |
+|---|------------------------|----------|-------------------------|
+| 1 | Accueil                | Haute    | Clair **et** sombre     |
+| 2 | Exploration / index    | Haute    | Clair **et** sombre     |
+| 4 | Détail article         | Haute    | Clair **et** sombre     |
+| 3 | Catégorie / Tag        | Moyenne  | 1 thème (l'autre dérivé) |
+| 5 | Recherche (overlay)    | Moyenne  | 1 thème                 |
+| 6 | Admin (liste + form)   | Basse    | 1 thème                 |

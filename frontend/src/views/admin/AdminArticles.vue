@@ -3,6 +3,8 @@ import { onMounted, ref } from 'vue'
 import { deleteArticle, fetchArticles } from '../../api/articles'
 import type { Article } from '../../types'
 import { formatDate } from '../../utils/format'
+import StateEmpty from '../../components/StateEmpty.vue'
+import StateError from '../../components/StateError.vue'
 
 const articles = ref<Article[]>([])
 const loading = ref(true)
@@ -40,8 +42,30 @@ onMounted(load)
       <RouterLink :to="{ name: 'admin-article-new' }" class="btn btn-sm">+ Nouvel article</RouterLink>
     </div>
 
-    <p v-if="error" class="alert alert-error">{{ error }}</p>
-    <div v-if="loading" class="state">Chargement…</div>
+    <div v-if="loading" aria-busy="true" style="display: flex; flex-direction: column; gap: 12px">
+      <span class="sr-only">Chargement des articles…</span>
+      <span v-for="n in 6" :key="n" class="skeleton" style="width: 100%; height: 44px" />
+    </div>
+
+    <StateError
+      v-else-if="error"
+      title="Chargement impossible"
+      :message="error"
+      tech="GET /api/articles"
+      @retry="load"
+    />
+
+    <StateEmpty
+      v-else-if="articles.length === 0"
+      icon="+"
+      title="Aucun article pour l'instant"
+      message="Plantez la première pratique, ou importez-la depuis une URL — les métadonnées (titre, description, image) seront récupérées automatiquement."
+    >
+      <template #actions>
+        <RouterLink :to="{ name: 'admin-article-new' }" class="btn">+ Nouvel article</RouterLink>
+        <RouterLink :to="{ name: 'admin-import' }" class="btn btn-ghost">Importer depuis une URL</RouterLink>
+      </template>
+    </StateEmpty>
 
     <table v-else class="table">
       <thead>
