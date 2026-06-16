@@ -28,4 +28,17 @@ class ArticleImport
     #[Assert\Length(max: 255)]
     #[Assert\Url]
     public ?string $urlImg = null;
+
+    /**
+     * Tags transverses référencés par leur nom (créés à la volée si absents).
+     *
+     * @var string[]
+     */
+    #[Assert\All([
+        new Assert\NotBlank(),
+        new Assert\Length(max: 60),
+    ])]
+    public array $tags = [];
+
+    public bool $featured = false;
 }

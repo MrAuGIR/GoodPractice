@@ -6,9 +6,11 @@ use App\Dto\Import\ArticleImport;
 use App\Dto\Import\CategoryImport;
 use App\Entity\Article;
 use App\Entity\Category;
+use App\Entity\Tag;
 use App\Entity\User;
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
+use App\Repository\TagRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerException;
@@ -32,6 +34,7 @@ class BonnesPratiquesImporter
         private EntityManagerInterface $em,
         private CategoryRepository $categoryRepository,
         private ArticleRepository $articleRepository,
+        private TagRepository $tagRepository,
         private UserRepository $userRepository,
     ) {
     }
@@ -75,6 +78,8 @@ class BonnesPratiquesImporter
 
         /** @var array<string, Category> $catCache */
         $catCache = [];
+        /** @var array<string, Tag> $tagCache */
+        $tagCache = [];
         /** @var array<string, true> $seenTitles */
         $seenTitles = [];
 
@@ -93,6 +98,7 @@ class BonnesPratiquesImporter
             $seenTitles[$titleKey] = true;
 
             $category = $this->getOrCreateCategory($dto->category, null, $catCache, $result, $dryRun);
+            $tags = $this->resolveTags($dto->tags, $tagCache, $result, $dryRun);
             $existing = $this->articleRepository->findOneBy(['title' => $dto->title]);
 
             if ($existing instanceof Article) {
@@ -101,7 +107,9 @@ class BonnesPratiquesImporter
                         ->setDescription((string) $dto->description)
                         ->setUrl($dto->url)
                         ->setUrlImg($dto->urlImg)
-                        ->setCategory($category);
+                        ->setCategory($category)
+                        ->setFeatured($dto->featured);
+                    $this->syncTags($existing, $tags);
                 }
                 ++$result->articlesUpdated;
                 continue;
@@ -114,7 +122,9 @@ class BonnesPratiquesImporter
                     ->setUrl($dto->url)
                     ->setUrlImg($dto->urlImg)
                     ->setCategory($category)
+                    ->setFeatured($dto->featured)
                     ->setAuthor($author);
+                $this->syncTags($article, $tags);
                 $this->em->persist($article);
             }
             ++$result->articlesCreated;
@@ -155,6 +165,65 @@ class BonnesPratiquesImporter
         }
 
         return $catCache[$key] = $category;
+    }
+
+    /**
+     * @param string[]              $names
+     * @param array<string, Tag>    $tagCache
+     *
+     * @return Tag[]
+     */
+    private function resolveTags(array $names, array &$tagCache, ImportResult $result, bool $dryRun): array
+    {
+        $tags = [];
+        foreach ($names as $name) {
+            $key = mb_strtolower(trim($name));
+            if ('' === $key || isset($tags[$key])) {
+                continue; // ignore les vides et les doublons intra-article
+            }
+            $tags[$key] = $this->getOrCreateTag($name, $tagCache, $result, $dryRun);
+        }
+
+        return array_values($tags);
+    }
+
+    /**
+     * @param array<string, Tag> $tagCache
+     */
+    private function getOrCreateTag(string $name, array &$tagCache, ImportResult $result, bool $dryRun): Tag
+    {
+        $key = mb_strtolower(trim($name));
+        if (isset($tagCache[$key])) {
+            return $tagCache[$key];
+        }
+
+        $tag = $this->tagRepository->findOneBy(['name' => trim($name)]);
+        if (!$tag instanceof Tag) {
+            $tag = (new Tag())->setName(trim($name));
+            if (!$dryRun) {
+                $this->em->persist($tag);
+            }
+            ++$result->tagsCreated;
+        }
+
+        return $tagCache[$key] = $tag;
+    }
+
+    /**
+     * Aligne les tags de l'article sur la liste fournie (idempotent au réimport).
+     *
+     * @param Tag[] $tags
+     */
+    private function syncTags(Article $article, array $tags): void
+    {
+        foreach ($article->getTags() as $current) {
+            if (!\in_array($current, $tags, true)) {
+                $article->removeTag($current);
+            }
+        }
+        foreach ($tags as $tag) {
+            $article->addTag($tag);
+        }
     }
 
     /**

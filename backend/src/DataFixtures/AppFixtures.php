@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Article;
 use App\Entity\Category;
 use App\Entity\Commentary;
+use App\Entity\Tag;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -44,8 +45,18 @@ class AppFixtures extends Fixture
             $categories[] = $category;
         }
 
+        // --- Tags transverses ---
+        $tagNames = ['Frontend', 'Backend', 'Performance', 'Accessibilité', 'Sécurité', 'Images', 'Cache', 'Débutant', 'Green IT', 'Tests'];
+        $tags = [];
+        foreach ($tagNames as $name) {
+            $tag = (new Tag())->setName($name);
+            $manager->persist($tag);
+            $tags[] = $tag;
+        }
+
         // --- Articles + commentaires ---
         $authors = [$admin, $editor];
+        $tagCount = count($tags);
         for ($i = 1; $i <= 8; ++$i) {
             $article = (new Article())
                 ->setTitle("Bonne pratique n°$i")
@@ -53,7 +64,14 @@ class AppFixtures extends Fixture
                 ->setUrl(0 === $i % 2 ? "https://example.com/ressource-$i" : null)
                 ->setUrlImg('illustration/default.png')
                 ->setCategory($categories[$i % count($categories)])
-                ->setAuthor($authors[$i % count($authors)]);
+                ->setAuthor($authors[$i % count($authors)])
+                ->setFeatured($i <= 2);
+
+            // Quelques tags transverses par article (déterministes).
+            foreach ([$i, $i + 3, $i + 6] as $offset) {
+                $article->addTag($tags[$offset % $tagCount]);
+            }
+
             $manager->persist($article);
 
             // Quelques commentaires par article

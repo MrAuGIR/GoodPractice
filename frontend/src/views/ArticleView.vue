@@ -23,14 +23,18 @@ const submitting = ref(false)
 const commentError = ref('')
 
 async function loadRelated(): Promise<void> {
-  if (!article.value?.category?.id) return
+  const current = article.value
+  if (!current) return
+  // « À explorer ensuite » : priorité aux articles partageant un tag,
+  // repli sur la catégorie.
+  const firstTag = current.tags?.[0]?.slug
   try {
     const data = await fetchArticles({
       itemsPerPage: 4,
-      category: article.value.category.id,
+      ...(firstTag ? { tag: firstTag } : { category: current.category?.id }),
       order: { dateCreate: 'desc' },
     })
-    related.value = data.member.filter((a) => a.id !== article.value?.id).slice(0, 3)
+    related.value = data.member.filter((a) => a.id !== current.id).slice(0, 3)
   } catch {
     /* section non bloquante */
   }
@@ -111,6 +115,10 @@ onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
       <article class="reading-column">
         <RouterLink to="/" class="crumb">‹ {{ article.category?.name }} / Explorer</RouterLink>
 
+        <div v-if="article.featured" style="margin-top: 18px">
+          <span class="tag-essential">★ Essentiel</span>
+        </div>
+
         <h1>{{ article.title }}</h1>
 
         <div class="article-meta">
@@ -119,7 +127,7 @@ onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
           <span>{{ formatDate(article.dateCreate) }}</span>
           <span class="sep">·</span>
           <span>{{ readingTime(article.description) }} min</span>
-          <span v-if="article.category" class="chip">{{ article.category.name }}</span>
+          <span v-for="t in article.tags" :key="t.id" class="chip">#{{ t.slug }}</span>
         </div>
 
         <div style="height: 1px; background: var(--hair); margin: 24px 0" />

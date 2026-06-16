@@ -6,6 +6,8 @@ export interface ArticleQuery {
   itemsPerPage?: number
   title?: string
   category?: number
+  tag?: string
+  featured?: boolean
   order?: Record<string, 'asc' | 'desc'>
 }
 
@@ -15,6 +17,8 @@ export interface ArticleInput {
   url?: string | null
   urlImg?: string | null
   category: number
+  featured?: boolean
+  tags?: number[]
 }
 
 export async function fetchArticles(q: ArticleQuery = {}): Promise<ApiCollection<Article>> {
@@ -23,6 +27,8 @@ export async function fetchArticles(q: ArticleQuery = {}): Promise<ApiCollection
   if (q.itemsPerPage) params.itemsPerPage = q.itemsPerPage
   if (q.title) params.title = q.title
   if (q.category) params.category = q.category
+  if (q.tag) params['tags.slug'] = q.tag
+  if (q.featured) params.featured = true
   if (q.order) {
     for (const [key, dir] of Object.entries(q.order)) {
       params[`order[${key}]`] = dir
@@ -44,6 +50,8 @@ function toPayload(input: ArticleInput) {
     url: input.url || null,
     urlImg: input.urlImg || null,
     category: iri('categories', input.category),
+    featured: input.featured ?? false,
+    tags: (input.tags ?? []).map((id) => iri('tags', id)),
   }
 }
 

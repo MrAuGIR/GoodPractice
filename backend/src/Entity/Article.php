@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
@@ -37,7 +38,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     'category' => 'exact',
     'category.name' => 'partial',
     'author' => 'exact',
+    'tags' => 'exact',
+    'tags.slug' => 'exact',
 ])]
+#[ApiFilter(BooleanFilter::class, properties: ['featured'])]
 #[ApiFilter(OrderFilter::class, properties: ['dateCreate', 'title', 'id'], arguments: ['orderParameterName' => 'order'])]
 class Article implements Authored
 {
@@ -69,6 +73,11 @@ class Article implements Authored
     #[Groups(['article:read'])]
     private ?\DateTimeImmutable $dateCreate = null;
 
+    /** Article « essentiel » mis en avant (badge, à la une). */
+    #[ORM\Column(options: ['default' => false])]
+    #[Groups(['article:read', 'article:write'])]
+    private bool $featured = false;
+
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['article:read'])]
@@ -85,9 +94,15 @@ class Article implements Authored
     #[Groups(['article:read'])]
     private Collection $comments;
 
+    /** @var Collection<int, Tag> */
+    #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'articles')]
+    #[Groups(['article:read', 'article:write'])]
+    private Collection $tags;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->tags = new ArrayCollection();
         $this->dateCreate = new \DateTimeImmutable();
     }
 
@@ -180,12 +195,48 @@ class Article implements Authored
         return $this;
     }
 
+    public function isFeatured(): bool
+    {
+        return $this->featured;
+    }
+
+    public function setFeatured(bool $featured): static
+    {
+        $this->featured = $featured;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Commentary>
      */
     public function getComments(): Collection
     {
         return $this->comments;
+    }
+
+    /**
+     * @return Collection<int, Tag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(Tag $tag): static
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(Tag $tag): static
+    {
+        $this->tags->removeElement($tag);
+
+        return $this;
     }
 
     /**
