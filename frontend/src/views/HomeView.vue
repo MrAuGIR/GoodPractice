@@ -14,9 +14,14 @@ const route = useRoute()
 
 // --- Données de la page d'accueil (indépendantes des filtres) ---
 const latest = ref<Article[]>([])
-const featured = computed(() => latest.value[0] ?? null)
-const secondary = computed(() => latest.value.slice(1, 3))
-const feed = computed(() => latest.value.slice(3, 6))
+const featuredList = ref<Article[]>([])
+// À la une : les articles « essentiels » ; repli sur les plus récents si aucun.
+const highlights = computed(() =>
+  featuredList.value.length ? featuredList.value : latest.value,
+)
+const featured = computed(() => highlights.value[0] ?? null)
+const secondary = computed(() => highlights.value.slice(1, 3))
+const feed = computed(() => latest.value.slice(0, 4))
 
 // --- Grille « toutes les pratiques » (recherche + filtre + pagination) ---
 const articles = ref<Article[]>([])
@@ -76,6 +81,9 @@ onMounted(async () => {
     latest.value = (
       await fetchArticles({ itemsPerPage: 6, order: { dateCreate: 'desc' } })
     ).member
+    featuredList.value = (
+      await fetchArticles({ featured: true, itemsPerPage: 3, order: { dateCreate: 'desc' } })
+    ).member
   } catch {
     /* sections d'accueil non bloquantes */
   }
@@ -121,16 +129,15 @@ const totalPages = () => Math.max(1, Math.ceil(total.value / itemsPerPage))
           class="practice-card"
         >
           <div class="practice-card__meta">
-            <span class="tag-essential">★ Essentiel</span>
+            <span v-if="featured.featured" class="tag-essential">★ Essentiel</span>
             <span class="practice-card__cat"><span class="diamond" />{{ featured.category?.name }}</span>
             <span style="margin-left: auto">{{ readingTime(featured.description) }} min</span>
           </div>
           <h3>{{ featured.title }}</h3>
           <p>{{ featured.description }}</p>
           <div class="practice-card__foot">
-            <span>{{ featured.author?.name }}</span>
-            <span class="sep" style="opacity: 0.4">·</span>
-            <span>{{ formatDate(featured.dateCreate) }}</span>
+            <span v-for="t in featured.tags?.slice(0, 3)" :key="t.id" class="chip">#{{ t.slug }}</span>
+            <span style="margin-left: auto">{{ featured.author?.name }}</span>
           </div>
         </RouterLink>
 
@@ -142,6 +149,7 @@ const totalPages = () => Math.max(1, Math.ceil(total.value / itemsPerPage))
             class="practice-card"
           >
             <div class="practice-card__meta">
+              <span v-if="a.featured" class="tag-essential">★ Essentiel</span>
               <span class="practice-card__cat"><span class="diamond" />{{ a.category?.name }}</span>
               <span style="margin-left: auto">{{ readingTime(a.description) }} min</span>
             </div>
@@ -235,10 +243,14 @@ const totalPages = () => Math.max(1, Math.ceil(total.value / itemsPerPage))
         >
           <div class="body">
             <div class="practice-card__meta">
+              <span v-if="a.featured" class="tag-essential">★ Essentiel</span>
               <span class="practice-card__cat"><span class="diamond" />{{ a.category?.name }}</span>
               <span style="margin-left: auto">{{ readingTime(a.description) }} min</span>
             </div>
             <h3 style="font-size: 1.15rem; margin: 0">{{ a.title }}</h3>
+            <div class="practice-card__foot" style="margin-top: 4px">
+              <span v-for="t in a.tags?.slice(0, 3)" :key="t.id" class="chip">#{{ t.slug }}</span>
+            </div>
             <div class="meta">
               <span>{{ a.author?.name }}</span>
               <span>{{ formatDate(a.dateCreate) }}</span>
