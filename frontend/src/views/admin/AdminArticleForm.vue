@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 import {
   createArticle,
   fetchArticle,
@@ -8,6 +9,7 @@ import {
   type ArticleInput,
 } from '../../api/articles'
 import { fetchCategories } from '../../api/categories'
+import { fetchOpenGraph } from '../../api/enrich'
 import type { Category } from '../../types'
 
 const props = defineProps<{ id?: string }>()
@@ -25,6 +27,8 @@ const categories = ref<Category[]>([])
 const loading = ref(true)
 const saving = ref(false)
 const error = ref('')
+const enriching = ref(false)
+const enrichMsg = ref('')
 
 onMounted(async () => {
   try {
@@ -47,6 +51,38 @@ onMounted(async () => {
     loading.value = false
   }
 })
+
+async function enrich(): Promise<void> {
+  if (!form.value.url) return
+  enriching.value = true
+  enrichMsg.value = ''
+  try {
+    const og = await fetchOpenGraph(form.value.url)
+    const filled: string[] = []
+    if (og.image && !form.value.urlImg) {
+      form.value.urlImg = og.image
+      filled.push('image')
+    }
+    if (og.title && !form.value.title) {
+      form.value.title = og.title
+      filled.push('titre')
+    }
+    if (og.description && !form.value.description) {
+      form.value.description = og.description
+      filled.push('description')
+    }
+    enrichMsg.value = filled.length
+      ? `Champs pré-remplis : ${filled.join(', ')}.`
+      : 'Métadonnées trouvées, mais aucun champ vide à compléter.'
+  } catch (e) {
+    enrichMsg.value =
+      axios.isAxiosError(e) && e.response?.data?.error
+        ? (e.response.data.error as string)
+        : 'Enrichissement impossible.'
+  } finally {
+    enriching.value = false
+  }
+}
 
 async function submit(): Promise<void> {
   saving.value = true
@@ -93,7 +129,18 @@ async function submit(): Promise<void> {
       </div>
       <div class="field">
         <label>Lien externe (optionnel)</label>
-        <input v-model="form.url" class="input" type="url" placeholder="https://…" />
+        <div class="toolbar" style="gap: 8px">
+          <input v-model="form.url" class="input grow" type="url" placeholder="https://…" />
+          <button
+            type="button"
+            class="btn btn-ghost btn-sm"
+            :disabled="!form.url || enriching"
+            @click="enrich"
+          >
+            {{ enriching ? 'Récupération…' : 'Récupérer les métadonnées' }}
+          </button>
+        </div>
+        <span v-if="enrichMsg" class="muted" style="font-size: 0.85rem">{{ enrichMsg }}</span>
       </div>
       <div class="field">
         <label>Image (URL, optionnel)</label>
