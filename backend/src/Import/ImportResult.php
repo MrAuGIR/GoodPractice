@@ -8,6 +8,7 @@ namespace App\Import;
 class ImportResult
 {
     public int $categoriesCreated = 0;
+    public int $tagsCreated = 0;
     public int $articlesCreated = 0;
     public int $articlesUpdated = 0;
     public int $articlesSkipped = 0;
@@ -21,6 +22,7 @@ class ImportResult
         return [
             'dryRun' => $this->dryRun,
             'categoriesCreated' => $this->categoriesCreated,
+            'tagsCreated' => $this->tagsCreated,
             'articlesCreated' => $this->articlesCreated,
             'articlesUpdated' => $this->articlesUpdated,
             'articlesSkipped' => $this->articlesSkipped,

@@ -83,6 +83,7 @@ async function submit(): Promise<void> {
       <table class="table" style="margin-top: 12px; background: transparent">
         <tbody>
           <tr><td>Catégories créées</td><td>{{ result.categoriesCreated }}</td></tr>
+          <tr><td>Tags créés</td><td>{{ result.tagsCreated }}</td></tr>
           <tr><td>Articles créés</td><td>{{ result.articlesCreated }}</td></tr>
           <tr><td>Articles mis à jour</td><td>{{ result.articlesUpdated }}</td></tr>
           <tr><td>Articles ignorés (doublons)</td><td>{{ result.articlesSkipped }}</td></tr>

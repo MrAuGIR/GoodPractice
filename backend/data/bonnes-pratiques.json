@@ -1,11 +1,29 @@
 {
   "categories": [
-    { "name": "Green IT", "defaultImage": null },
-    { "name": "Performance", "defaultImage": null },
-    { "name": "Sécurité", "defaultImage": null },
-    { "name": "Accessibilité", "defaultImage": null },
-    { "name": "Qualité de code", "defaultImage": null },
-    { "name": "DevOps", "defaultImage": null }
+    {
+      "name": "Green IT",
+      "defaultImage": null
+    },
+    {
+      "name": "Performance",
+      "defaultImage": null
+    },
+    {
+      "name": "Sécurité",
+      "defaultImage": null
+    },
+    {
+      "name": "Accessibilité",
+      "defaultImage": null
+    },
+    {
+      "name": "Qualité de code",
+      "defaultImage": null
+    },
+    {
+      "name": "DevOps",
+      "defaultImage": null
+    }
   ],
   "articles": [
     {
@@ -13,210 +31,372 @@
       "category": "Green IT",
       "description": "Les images représentent souvent la majorité du poids d'une page web. Servir une photo de 2 Mo là où 150 Ko suffisent gaspille de la bande passante, de l'énergie côté serveur comme côté client, et dégrade l'expérience sur les connexions lentes.\n\nUtilisez des formats modernes comme WebP ou AVIF, compressez systématiquement vos visuels, dimensionnez-les à la taille réellement affichée et activez le lazy-loading natif (loading=\"lazy\") pour ne charger que ce qui est visible.",
       "url": "https://web.dev/articles/fast",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Images",
+        "Performance",
+        "Green IT"
+      ],
+      "featured": true
     },
     {
       "title": "Limiter les requêtes réseau inutiles",
       "category": "Green IT",
       "description": "Chaque requête HTTP consomme de l'énergie : établissement de connexion, transfert, traitement serveur. Multiplier les appels (polling agressif, ressources non mutualisées, dépendances superflues) alourdit l'empreinte carbone d'une application.\n\nMettez en cache les réponses stables, regroupez les appels quand c'est possible, supprimez les bibliothèques que vous n'utilisez pas et préférez le chargement à la demande aux préchargements systématiques.",
       "url": "https://developer.mozilla.org/fr/docs/Web/HTTP/Caching",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Performance",
+        "Réseau",
+        "Green IT"
+      ],
+      "featured": false
     },
     {
       "title": "Concevoir une écoconception dès la maquette",
       "category": "Green IT",
       "description": "La sobriété numérique se décide en amont, au moment du design. Une interface surchargée d'animations, de vidéos en autoplay et de polices personnalisées multiples impose un coût énergétique permanent à chaque visiteur.\n\nPrivilégiez des parcours courts, un contenu utile, des polices système et un design qui va à l'essentiel. Moins d'éléments à charger, c'est moins de données transférées et une page plus rapide pour tout le monde.",
       "url": "https://collectif.greenit.fr/",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Green IT",
+        "Conception"
+      ],
+      "featured": false
     },
     {
       "title": "Mesurer l'empreinte de ses pages",
       "category": "Green IT",
       "description": "On n'améliore que ce que l'on mesure. Sans indicateur, difficile de savoir si une page est sobre ou si une nouvelle fonctionnalité a fait exploser le poids transféré.\n\nIntégrez des outils comme EcoIndex, Lighthouse ou GreenFrame dans votre suivi, fixez un budget de performance (poids max, nombre de requêtes) et vérifiez-le à chaque évolution pour éviter les régressions silencieuses.",
       "url": "https://www.ecoindex.fr/",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Green IT",
+        "Mesure"
+      ],
+      "featured": false
     },
     {
       "title": "Choisir un hébergement responsable",
       "category": "Green IT",
       "description": "L'infrastructure pèse lourd dans le bilan environnemental d'un service en ligne. Un serveur surdimensionné qui tourne en permanence pour une charge faible gaspille de l'énergie.\n\nSélectionnez un hébergeur engagé sur les énergies renouvelables et un bon PUE, dimensionnez vos ressources au plus juste, et exploitez l'autoscaling pour adapter la puissance à la demande réelle plutôt que de provisionner pour le pic permanent.",
       "url": "https://www.thegreenwebfoundation.org/",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Green IT",
+        "Infrastructure"
+      ],
+      "featured": false
     },
     {
       "title": "Mettre en cache les données coûteuses",
       "category": "Performance",
       "description": "Recalculer ou re-récupérer en boucle des données qui changent peu est l'une des premières causes de lenteur. Une requête SQL lourde exécutée à chaque appel devient vite un goulot d'étranglement.\n\nIdentifiez les données stables, mettez-les en cache (HTTP, applicatif type Redis, ou cache de requêtes) et définissez une stratégie d'invalidation claire pour servir des réponses fraîches sans refaire le travail à chaque fois.",
       "url": "https://symfony.com/doc/current/cache.html",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Cache",
+        "Performance",
+        "Backend"
+      ],
+      "featured": false
     },
     {
       "title": "Éviter le problème des requêtes N+1",
       "category": "Performance",
       "description": "Le N+1 survient quand on charge une liste d'entités puis, pour chacune, une requête supplémentaire pour ses relations. Cent éléments peuvent ainsi déclencher cent-et-une requêtes là où deux suffiraient.\n\nUtilisez les jointures (JOIN) ou le chargement anticipé (eager/fetch join) de votre ORM, surveillez le nombre de requêtes via le profiler et chargez les relations en une seule fois quand vous savez en avoir besoin.",
       "url": "https://www.doctrine-project.org/projects/doctrine-orm/en/current/reference/dql-doctrine-query-language.html",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Base de données",
+        "Performance",
+        "Backend"
+      ],
+      "featured": false
     },
     {
       "title": "Indexer les colonnes filtrées",
       "category": "Performance",
       "description": "Une base de données sans index adaptés parcourt des tables entières à chaque recherche. Sur de gros volumes, une requête qui devrait être instantanée prend des secondes.\n\nAjoutez des index sur les colonnes utilisées dans les WHERE, JOIN et ORDER BY, analysez les plans d'exécution (EXPLAIN) et évitez d'en mettre partout : chaque index a un coût en écriture et en espace.",
       "url": "https://use-the-index-luke.com/",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Base de données",
+        "Performance"
+      ],
+      "featured": false
     },
     {
       "title": "Charger le JavaScript de façon différée",
       "category": "Performance",
       "description": "Un gros bundle JavaScript bloquant retarde l'affichage et l'interactivité de la page. L'utilisateur attend devant un écran figé pendant que le navigateur télécharge et exécute du code souvent inutile à l'instant T.\n\nDécoupez votre code (code splitting), chargez à la demande les modules secondaires, utilisez les attributs defer/async et n'embarquez que ce qui est nécessaire au rendu initial.",
       "url": "https://web.dev/articles/reduce-javascript-payloads-with-code-splitting",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Frontend",
+        "Performance"
+      ],
+      "featured": false
     },
     {
       "title": "Activer la compression HTTP",
       "category": "Performance",
       "description": "Transférer du texte (HTML, CSS, JS, JSON) sans compression, c'est envoyer plusieurs fois plus d'octets que nécessaire. La compression réduit la taille des réponses de 60 à 80 %.\n\nActivez Gzip ou, mieux, Brotli sur votre serveur web ou votre CDN, et vérifiez que les en-têtes Content-Encoding sont bien présents sur les ressources textuelles.",
       "url": "https://developer.mozilla.org/fr/docs/Web/HTTP/Headers/Content-Encoding",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Performance",
+        "Réseau"
+      ],
+      "featured": false
     },
     {
       "title": "Ne jamais faire confiance aux entrées utilisateur",
       "category": "Sécurité",
       "description": "Toute donnée venant de l'extérieur (formulaire, URL, en-tête, API) est potentiellement malveillante. La supposer valide, c'est ouvrir la porte aux injections et aux comportements inattendus.\n\nValidez systématiquement le format et les bornes attendues côté serveur, rejetez ce qui ne correspond pas, et appliquez le principe de la liste blanche plutôt que d'essayer de filtrer tout ce qui est dangereux.",
       "url": "https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Sécurité",
+        "Backend",
+        "Débutant"
+      ],
+      "featured": true
     },
     {
       "title": "Utiliser des requêtes préparées",
       "category": "Sécurité",
       "description": "Construire des requêtes SQL par concaténation de chaînes est la cause numéro un des injections SQL, qui permettent à un attaquant de lire ou détruire votre base.\n\nUtilisez toujours des requêtes préparées avec des paramètres liés : la valeur fournie par l'utilisateur ne peut alors jamais être interprétée comme du code SQL. Les ORM modernes le font par défaut, ne le contournez pas.",
       "url": "https://cheatsheetseries.owasp.org/cheatsheets/SQL_Injection_Prevention_Cheat_Sheet.html",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Sécurité",
+        "Base de données",
+        "Backend"
+      ],
+      "featured": false
     },
     {
       "title": "Hasher les mots de passe correctement",
       "category": "Sécurité",
       "description": "Stocker des mots de passe en clair ou avec un simple MD5 est une faute grave : en cas de fuite, tous les comptes sont compromis instantanément.\n\nUtilisez un algorithme de hachage lent et salé conçu pour cela, comme bcrypt, Argon2 ou scrypt. Ne réinventez rien : appuyez-vous sur les composants de sécurité de votre framework, qui gèrent sel et coût automatiquement.",
       "url": "https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Sécurité",
+        "Backend"
+      ],
+      "featured": false
     },
     {
       "title": "Échapper les sorties pour contrer le XSS",
       "category": "Sécurité",
       "description": "Le XSS permet d'injecter du JavaScript exécuté dans le navigateur d'autres utilisateurs, par exemple via un commentaire contenant une balise script. Les conséquences vont du vol de session à la défiguration.\n\nÉchappez toujours les données dynamiques selon leur contexte d'affichage (HTML, attribut, JS, URL). Les moteurs de templates comme Twig échappent par défaut : ne désactivez cet échappement qu'en connaissance de cause.",
       "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Sécurité",
+        "Frontend"
+      ],
+      "featured": false
     },
     {
       "title": "Appliquer le principe du moindre privilège",
       "category": "Sécurité",
       "description": "Donner à un compte, un service ou un token plus de droits que nécessaire élargit inutilement la surface d'attaque. Si cet élément est compromis, les dégâts sont à la hauteur des permissions accordées.\n\nAttribuez à chaque composant le strict minimum de droits dont il a besoin, segmentez les accès, et révisez régulièrement les permissions pour retirer celles devenues inutiles.",
       "url": "https://owasp.org/www-project-top-ten/",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Sécurité",
+        "Infrastructure"
+      ],
+      "featured": false
     },
     {
       "title": "Respecter les contrastes de couleur",
       "category": "Accessibilité",
       "description": "Un texte gris clair sur fond blanc peut sembler élégant mais devient illisible pour les personnes malvoyantes ou en plein soleil sur mobile. Le contraste est un fondamental de l'accessibilité.\n\nVisez un ratio d'au moins 4,5:1 pour le texte courant et 3:1 pour les grands titres, conformément au WCAG. Vérifiez vos couleurs avec un contrôleur de contraste dès la phase de design.",
       "url": "https://www.w3.org/WAI/WCAG21/quickref/#contrast-minimum",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Accessibilité",
+        "Frontend",
+        "Conception"
+      ],
+      "featured": true
     },
     {
       "title": "Rédiger des textes alternatifs pertinents",
       "category": "Accessibilité",
       "description": "Les attributs alt décrivent les images aux personnes utilisant un lecteur d'écran et s'affichent quand l'image ne charge pas. Un alt vide ou générique prive ces utilisateurs d'information.\n\nDécrivez la fonction ou le contenu de l'image de façon concise. Pour une image purement décorative, utilisez un alt vide (alt=\"\") afin qu'elle soit ignorée par les technologies d'assistance.",
       "url": "https://www.w3.org/WAI/tutorials/images/",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Accessibilité",
+        "Images",
+        "Frontend"
+      ],
+      "featured": false
     },
     {
       "title": "Rendre l'interface navigable au clavier",
       "category": "Accessibilité",
       "description": "Beaucoup d'utilisateurs naviguent sans souris : au clavier, au lecteur d'écran ou avec des dispositifs adaptés. Une interface où l'on ne peut pas atteindre un bouton sans cliquer les exclut.\n\nAssurez-vous que tous les éléments interactifs sont focusables et activables au clavier, que l'ordre de tabulation est logique et que le focus reste toujours visible. Testez votre site uniquement à la touche Tab.",
       "url": "https://www.w3.org/WAI/people-use-web/tools-techniques/",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Accessibilité",
+        "Frontend"
+      ],
+      "featured": false
     },
     {
       "title": "Structurer le HTML sémantiquement",
       "category": "Accessibilité",
       "description": "Empiler des div sans signification rend une page incompréhensible pour les lecteurs d'écran et les moteurs de recherche. La sémantique HTML porte du sens en plus de la mise en forme.\n\nUtilisez les balises appropriées : header, nav, main, article, button, des titres hiérarchisés (h1 à h6) dans le bon ordre. Le balisage correct améliore l'accessibilité et le référencement sans effort supplémentaire.",
       "url": "https://developer.mozilla.org/fr/docs/Glossary/Semantics",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Accessibilité",
+        "Frontend",
+        "Débutant"
+      ],
+      "featured": false
     },
     {
       "title": "Associer chaque champ à son label",
       "category": "Accessibilité",
       "description": "Un formulaire dont les champs n'ont pas de label explicite est difficile à remplir pour les personnes utilisant un lecteur d'écran, qui n'entendent alors pas à quoi sert le champ.\n\nReliez chaque input à un élément label (via for/id) ou un aria-label, indiquez clairement les champs obligatoires et les messages d'erreur, et ne vous reposez pas uniquement sur le placeholder.",
       "url": "https://www.w3.org/WAI/tutorials/forms/labels/",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Accessibilité",
+        "Frontend"
+      ],
+      "featured": false
     },
     {
       "title": "Donner des noms explicites",
       "category": "Qualité de code",
       "description": "Un nom de variable comme $d ou une fonction process() obligent à lire toute l'implémentation pour comprendre l'intention. Le code est lu bien plus souvent qu'il n'est écrit.\n\nChoisissez des noms qui révèlent l'intention : $daysUntilExpiry plutôt que $d, calculateInvoiceTotal() plutôt que process(). Un bon nommage rend les commentaires souvent superflus.",
       "url": "https://blog.cleancoder.com/",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Qualité de code",
+        "Débutant"
+      ],
+      "featured": false
     },
     {
       "title": "Garder les fonctions courtes et focalisées",
       "category": "Qualité de code",
       "description": "Une fonction de 200 lignes qui fait dix choses est difficile à comprendre, à tester et à modifier sans rien casser. La responsabilité unique vaut aussi à l'échelle d'une fonction.\n\nDécoupez en petites fonctions qui font une seule chose et la font bien. Le code devient plus lisible, plus testable, et les morceaux réutilisables émergent naturellement.",
       "url": "https://refactoring.guru/refactoring/techniques/composing-methods",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Qualité de code",
+        "Débutant"
+      ],
+      "featured": false
     },
     {
       "title": "Écrire des tests automatisés",
       "category": "Qualité de code",
       "description": "Sans tests, chaque modification est un pari : on ne sait pas ce qu'on a cassé ailleurs. La peur de toucher au code finit par figer le projet et ralentir les évolutions.\n\nÉcrivez des tests unitaires sur la logique métier et des tests fonctionnels sur les parcours clés. Ils documentent le comportement attendu et offrent un filet de sécurité qui rend le refactoring serein.",
       "url": "https://symfony.com/doc/current/testing.html",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Tests",
+        "Qualité de code"
+      ],
+      "featured": true
     },
     {
       "title": "Supprimer le code mort",
       "category": "Qualité de code",
       "description": "Le code commenté « au cas où », les fonctions jamais appelées et les variables inutilisées polluent la lecture et laissent croire qu'ils sont importants. Ils augmentent la charge mentale sans rien apporter.\n\nFaites confiance à votre gestionnaire de versions : ce qui est supprimé reste dans l'historique. Nettoyez régulièrement et utilisez des outils d'analyse statique pour repérer le code inatteignable.",
       "url": "https://martinfowler.com/bliki/Yagni.html",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Qualité de code"
+      ],
+      "featured": false
     },
     {
       "title": "Suivre une convention de code partagée",
       "category": "Qualité de code",
       "description": "Quand chaque développeur indente et nomme à sa façon, les diffs deviennent illisibles et les revues partent en débats de style stériles. La cohérence prime sur les préférences personnelles.\n\nAdoptez un standard (PSR-12 en PHP par exemple), automatisez le formatage avec un outil comme PHP-CS-Fixer ou Prettier, et intégrez-le au pipeline pour que la mise en forme ne soit plus jamais un sujet de discussion.",
       "url": "https://www.php-fig.org/psr/psr-12/",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Qualité de code",
+        "Collaboration"
+      ],
+      "featured": false
     },
     {
       "title": "Automatiser les tests dans la CI",
       "category": "DevOps",
       "description": "Lancer les tests manuellement, c'est les oublier un jour de rush et livrer une régression. L'intégration continue exécute la suite à chaque push, sans faille.\n\nConfigurez un pipeline (GitHub Actions, GitLab CI…) qui installe les dépendances, lance les tests et l'analyse statique sur chaque commit et chaque pull request. Une branche ne devrait être fusionnable que si la CI est verte.",
       "url": "https://docs.github.com/fr/actions",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "CI/CD",
+        "Tests",
+        "DevOps"
+      ],
+      "featured": false
     },
     {
       "title": "Conteneuriser l'environnement",
       "category": "DevOps",
       "description": "Le fameux « ça marche sur ma machine » vient des différences d'environnement entre développeurs et production : versions de langage, extensions, configuration. Ces écarts génèrent des bugs impossibles à reproduire.\n\nDéfinissez l'environnement dans des conteneurs (Docker) versionnés avec le code. Chacun travaille alors sur une stack identique, et le passage en production réserve beaucoup moins de surprises.",
       "url": "https://docs.docker.com/get-started/",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "CI/CD",
+        "Infrastructure",
+        "DevOps"
+      ],
+      "featured": false
     },
     {
       "title": "Externaliser la configuration",
       "category": "DevOps",
       "description": "Coder en dur des identifiants de base de données ou des clés d'API dans le code source est à la fois un risque de sécurité et un frein au déploiement multi-environnements.\n\nSuivez les principes du Twelve-Factor App : la configuration vit dans des variables d'environnement, jamais dans le dépôt. Fournissez un fichier d'exemple (.env.example) et gardez les secrets hors du contrôle de version.",
       "url": "https://12factor.net/fr/config",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "DevOps",
+        "Sécurité",
+        "Backend"
+      ],
+      "featured": false
     },
     {
       "title": "Versionner le schéma de base de données",
       "category": "DevOps",
       "description": "Appliquer des changements de schéma à la main en production est source d'erreurs et d'incohérences entre environnements. Sans trace, impossible de savoir quelle structure est en place.\n\nUtilisez des migrations versionnées (Doctrine Migrations) commitées avec le code. Le schéma évolue de façon reproductible, réversible et synchronisée avec les fonctionnalités qui en dépendent.",
       "url": "https://symfony.com/bundles/DoctrineMigrationsBundle/current/index.html",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "Base de données",
+        "DevOps"
+      ],
+      "featured": false
     },
     {
       "title": "Surveiller les logs et les métriques",
       "category": "DevOps",
       "description": "Découvrir une panne parce qu'un utilisateur se plaint, c'est déjà trop tard. Sans observabilité, on pilote à l'aveugle et le diagnostic prend des heures.\n\nCentralisez les logs, exposez des métriques (temps de réponse, taux d'erreur, charge) et configurez des alertes sur les seuils critiques. On répare bien plus vite ce que l'on voit venir.",
       "url": "https://12factor.net/fr/logs",
-      "urlImg": null
+      "urlImg": null,
+      "tags": [
+        "DevOps",
+        "Mesure",
+        "Infrastructure"
+      ],
+      "featured": false
     }
   ]
 }

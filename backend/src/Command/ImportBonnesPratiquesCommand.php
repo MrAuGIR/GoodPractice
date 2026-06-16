@@ -62,6 +62,7 @@ class ImportBonnesPratiquesCommand extends Command
 
         $io->definitionList(
             ['Catégories créées' => $result->categoriesCreated],
+            ['Tags créés' => $result->tagsCreated],
             ['Articles créés' => $result->articlesCreated],
             ['Articles mis à jour' => $result->articlesUpdated],
             ['Articles ignorés (doublons)' => $result->articlesSkipped],

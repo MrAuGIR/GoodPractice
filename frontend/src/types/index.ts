@@ -8,6 +8,13 @@ export interface CategoryRef {
   name: string
 }
 
+export interface Tag {
+  '@id'?: string
+  id: number
+  name: string
+  slug: string
+}
+
 export interface Article {
   '@id'?: string
   id: number
@@ -16,8 +23,10 @@ export interface Article {
   url: string | null
   urlImg: string | null
   dateCreate: string
+  featured: boolean
   author: UserRef
   category: CategoryRef
+  tags: Tag[]
   nbComments: number
   comments?: Commentary[]
 }

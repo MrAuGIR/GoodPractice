@@ -3,6 +3,7 @@ import { http } from './http'
 export interface ImportResult {
   dryRun: boolean
   categoriesCreated: number
+  tagsCreated: number
   articlesCreated: number
   articlesUpdated: number
   articlesSkipped: number

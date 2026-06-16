@@ -9,8 +9,9 @@ import {
   type ArticleInput,
 } from '../../api/articles'
 import { fetchCategories } from '../../api/categories'
+import { fetchTags } from '../../api/tags'
 import { fetchOpenGraph } from '../../api/enrich'
-import type { Category } from '../../types'
+import type { Category, Tag } from '../../types'
 
 const props = defineProps<{ id?: string }>()
 const router = useRouter()
@@ -22,8 +23,11 @@ const form = ref<ArticleInput>({
   url: '',
   urlImg: '',
   category: 0,
+  featured: false,
+  tags: [],
 })
 const categories = ref<Category[]>([])
+const tags = ref<Tag[]>([])
 const loading = ref(true)
 const saving = ref(false)
 const error = ref('')
@@ -33,6 +37,7 @@ const enrichMsg = ref('')
 onMounted(async () => {
   try {
     categories.value = (await fetchCategories()).member
+    tags.value = (await fetchTags()).member
     if (isEdit) {
       const a = await fetchArticle(Number(props.id))
       form.value = {
@@ -41,6 +46,8 @@ onMounted(async () => {
         url: a.url ?? '',
         urlImg: a.urlImg ?? '',
         category: a.category?.id ?? 0,
+        featured: a.featured,
+        tags: a.tags?.map((t) => t.id) ?? [],
       }
     } else if (categories.value.length) {
       form.value.category = categories.value[0].id
@@ -82,6 +89,13 @@ async function enrich(): Promise<void> {
   } finally {
     enriching.value = false
   }
+}
+
+function toggleTag(id: number): void {
+  const list = form.value.tags ?? (form.value.tags = [])
+  const i = list.indexOf(id)
+  if (i === -1) list.push(id)
+  else list.splice(i, 1)
 }
 
 async function submit(): Promise<void> {
@@ -145,6 +159,27 @@ async function submit(): Promise<void> {
       <div class="field">
         <label>Image (URL, optionnel)</label>
         <input v-model="form.urlImg" class="input" type="url" placeholder="https://…" />
+      </div>
+      <div v-if="tags.length" class="field">
+        <label>Tags</label>
+        <div class="theme-pills">
+          <button
+            v-for="t in tags"
+            :key="t.id"
+            type="button"
+            class="theme-pill"
+            :class="{ 'is-active': form.tags?.includes(t.id) }"
+            @click="toggleTag(t.id)"
+          >
+            #{{ t.slug }}
+          </button>
+        </div>
+      </div>
+      <div class="field">
+        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer">
+          <input v-model="form.featured" type="checkbox" />
+          Mettre en avant (★ Essentiel)
+        </label>
       </div>
       <button class="btn" :disabled="saving">
         {{ saving ? 'Enregistrement…' : 'Enregistrer' }}
