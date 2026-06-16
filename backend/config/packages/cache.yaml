@@ -15,5 +15,8 @@ framework:
         #app: cache.adapter.apcu
 
         # Namespaced pools use the above "app" backend by default
-        #pools:
-            #my.dedicated.cache: null
+        pools:
+            # Cache dédié à l'enrichissement OpenGraph (pages distantes).
+            opengraph.cache:
+                adapter: cache.adapter.filesystem
+                default_lifetime: '%env(int:OPENGRAPH_CACHE_TTL)%'
