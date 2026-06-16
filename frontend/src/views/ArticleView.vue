@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { fetchArticle, fetchArticles } from '../api/articles'
 import { createComment, deleteComment } from '../api/comments'
 import type { Article } from '../types'
@@ -91,6 +91,16 @@ onMounted(() => {
   window.addEventListener('scroll', onScroll, { passive: true })
 })
 onBeforeUnmount(() => window.removeEventListener('scroll', onScroll))
+
+// Navigation vers une autre fiche (même route, id différent) : le composant est
+// réutilisé, donc on recharge sur changement d'id et on remonte en haut de page.
+watch(
+  () => props.id,
+  () => {
+    window.scrollTo({ top: 0 })
+    load()
+  },
+)
 </script>
 
 <template>
