@@ -1,0 +1,17 @@
+# À déployer comme public/.htaccess (docroot du sous-domaine = .../GoodPractice/public).
+#
+# SPA Vue + API Symfony sur la même origine, SANS dépendre de mod_rewrite :
+#   - /                       → DirectoryIndex sert index.html (SPA Vue)
+#   - /assets, /favicon, …    → fichiers statiques réels (build Vite)
+#   - /index.php/api/...       → API Platform (Symfony, via PATH_INFO)
+
+DirectoryIndex index.html
+
+# Transmet l'en-tête Authorization (Bearer JWT) à PHP : Apache ne le propage pas
+# par défaut, et l'API en a besoin pour authentifier les requêtes. Si 500, supprime.
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
+# Deep-links de la SPA (routes Vue history mode) : pas de fichier réel → on renvoie
+# la SPA. Les routes API passent par index.php (fichier réel) donc ne déclenchent pas
+# ce 404, et conservent leurs réponses d'erreur JSON. Si 500, supprime.
+ErrorDocument 404 /index.html
