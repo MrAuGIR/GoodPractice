@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  backend:
+    name: Backend (PHPUnit)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          # Doctrine ajoute le suffixe `_test` (config when@test) → base réelle ciblée.
+          MYSQL_DATABASE: goodpractice_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+    env:
+      APP_ENV: test
+      DATABASE_URL: "mysql://root:root@127.0.0.1:3306/goodpractice?serverVersion=8.0&charset=utf8mb4"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: pdo_mysql, intl, mbstring, dom, xml, ctype, iconv, openssl
+          coverage: none
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: backend/vendor
+          key: composer-${{ hashFiles('backend/composer.lock') }}
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Generate JWT keypair
+        run: php bin/console lexik:jwt:generate-keypair --skip-if-exists
+
+      - name: Prepare test database
+        run: |
+          php bin/console doctrine:migrations:migrate -n
+          php bin/console doctrine:fixtures:load -n
+
+      - name: Run PHPUnit
+        run: php bin/phpunit
+
+  frontend:
+    name: Frontend (Vitest)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check & build
+        run: npm run build
+
+      - name: Run Vitest
+        run: npm run test

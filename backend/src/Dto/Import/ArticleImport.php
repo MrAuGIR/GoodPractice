@@ -22,11 +22,11 @@ class ArticleImport
     public ?string $description = null;
 
     #[Assert\Length(max: 255)]
-    #[Assert\Url]
+    #[Assert\Url(requireTld: true)]
     public ?string $url = null;
 
     #[Assert\Length(max: 255)]
-    #[Assert\Url]
+    #[Assert\Url(requireTld: true)]
     public ?string $urlImg = null;
 
     /**
