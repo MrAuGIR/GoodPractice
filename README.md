@@ -1,5 +1,9 @@
 # GoodPractice
 
+[![CI](https://github.com/MrAuGIR/GoodPractice/actions/workflows/ci.yml/badge.svg)](https://github.com/MrAuGIR/GoodPractice/actions/workflows/ci.yml)
+
+**🔗 Démo en ligne : [goodpractice.aureliengirard.fr](https://goodpractice.aureliengirard.fr)**
+
 Site de démonstration en cours de modernisation : refonte d'un projet d'apprentissage
 de 2021 en une vitrine technique (API REST + SPA).
 
@@ -62,3 +66,13 @@ make front-install      # npm install dans le conteneur frontend
 
 La config (identifiants MySQL, nom de projet) est centralisée dans `.env` — aucun
 identifiant en dur dans le code.
+
+## Tests & CI
+
+```bash
+make console c=... # backend : php bin/phpunit (PHPUnit)
+# frontend : npm run test (Vitest)
+```
+
+À chaque push / PR, [GitHub Actions](https://github.com/MrAuGIR/GoodPractice/actions/workflows/ci.yml)
+rejoue les deux suites (backend PHPUnit sur MySQL + frontend build & Vitest).
