@@ -27,8 +27,15 @@ export function setOnAuthFailure(cb: () => void): void {
   onAuthFailure = cb
 }
 
+/**
+ * Base des appels HTTP vers l'API. `/api` en dev (proxy Vite / même origine).
+ * En prod sans mod_rewrite (IONOS), VITE_API_BASE vaut `/index.php/api`
+ * pour router via PATH_INFO. Les IRIs (cf. `iri()`) restent eux en `/api/...`.
+ */
+export const API_BASE = import.meta.env.VITE_API_BASE ?? '/api'
+
 export const http: AxiosInstance = axios.create({
-  baseURL: '/api',
+  baseURL: API_BASE,
   headers: {
     Accept: 'application/ld+json',
     'Content-Type': 'application/ld+json',
@@ -54,7 +61,7 @@ async function refreshAccessToken(): Promise<string> {
   }
   // axios "nu" pour éviter la boucle d'intercepteurs
   const { data } = await axios.post<TokenPair>(
-    '/api/token/refresh',
+    `${API_BASE}/token/refresh`,
     { refresh_token: refresh },
     { headers: { 'Content-Type': 'application/json' } },
   )

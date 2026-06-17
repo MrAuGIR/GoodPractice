@@ -11,6 +11,9 @@
 # Build front
 /frontend/dist/
 
+# Staging de déploiement (deploy/build.sh)
+/build/
+
 # Legacy (2021)
 /legacy/vendor/
 
