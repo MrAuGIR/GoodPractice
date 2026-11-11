@@ -37,7 +37,7 @@ class ImportBonnesPratiquesCommand extends Command
         $dryRun = (bool) $input->getOption('dry-run');
 
         if (!is_file($file) || !is_readable($file)) {
-            $io->error(sprintf('Fichier introuvable ou illisible : %s', $file));
+            $io->error(\sprintf('Fichier introuvable ou illisible : %s', $file));
 
             return Command::FAILURE;
         }

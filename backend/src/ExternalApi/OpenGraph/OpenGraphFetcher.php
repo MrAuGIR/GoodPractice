@@ -31,7 +31,7 @@ final class OpenGraphFetcher
     public function fetch(string $url): OpenGraphData
     {
         $url = trim($url);
-        if (!filter_var($url, FILTER_VALIDATE_URL) || !\in_array(parse_url($url, PHP_URL_SCHEME), ['http', 'https'], true)) {
+        if (!filter_var($url, \FILTER_VALIDATE_URL) || !\in_array(parse_url($url, \PHP_URL_SCHEME), ['http', 'https'], true)) {
             throw new OpenGraphException('URL invalide : seuls les liens http(s) sont acceptés.');
         }
 
@@ -54,7 +54,7 @@ final class OpenGraphFetcher
             ]);
 
             if ($response->getStatusCode() >= 400) {
-                throw new OpenGraphException(sprintf('La page a répondu avec un statut %d.', $response->getStatusCode()));
+                throw new OpenGraphException(\sprintf('La page a répondu avec un statut %d.', $response->getStatusCode()));
             }
 
             $contentType = $response->getHeaders(false)['content-type'][0] ?? '';

@@ -45,7 +45,7 @@ class BonnesPratiquesImporter
     public function importFromJson(string $json, bool $dryRun = false): ImportResult
     {
         try {
-            $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+            $data = json_decode($json, true, 512, \JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
             throw new ImportException(['JSON invalide : '.$e->getMessage()]);
         }
@@ -168,8 +168,8 @@ class BonnesPratiquesImporter
     }
 
     /**
-     * @param string[]              $names
-     * @param array<string, Tag>    $tagCache
+     * @param string[]           $names
+     * @param array<string, Tag> $tagCache
      *
      * @return Tag[]
      */
@@ -234,13 +234,13 @@ class BonnesPratiquesImporter
     private function denormalizeList(mixed $items, string $class, string $field): array
     {
         if (!\is_array($items)) {
-            throw new ImportException([sprintf('La clé "%s" doit être un tableau.', $field)]);
+            throw new ImportException([\sprintf('La clé "%s" doit être un tableau.', $field)]);
         }
 
         try {
             return $this->serializer->denormalize($items, $class.'[]');
         } catch (SerializerException $e) {
-            throw new ImportException([sprintf('Structure invalide dans "%s" : %s', $field, $e->getMessage())]);
+            throw new ImportException([\sprintf('Structure invalide dans "%s" : %s', $field, $e->getMessage())]);
         }
     }
 
@@ -255,12 +255,12 @@ class BonnesPratiquesImporter
         $messages = [];
         foreach ($categories as $i => $dto) {
             foreach ($this->validator->validate($dto) as $violation) {
-                $messages[] = sprintf('categories[%d].%s : %s', $i, $violation->getPropertyPath(), $violation->getMessage());
+                $messages[] = \sprintf('categories[%d].%s : %s', $i, $violation->getPropertyPath(), $violation->getMessage());
             }
         }
         foreach ($articles as $i => $dto) {
             foreach ($this->validator->validate($dto) as $violation) {
-                $messages[] = sprintf('articles[%d].%s : %s', $i, $violation->getPropertyPath(), $violation->getMessage());
+                $messages[] = \sprintf('articles[%d].%s : %s', $i, $violation->getPropertyPath(), $violation->getMessage());
             }
         }
 
