@@ -8,6 +8,14 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
+    setupFiles: ['src/__tests__/setup.ts'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html', 'lcov', 'json-summary'],
+      include: ['src/**/*.{ts,vue}'],
+      exclude: ['src/main.ts', 'src/env.d.ts', 'src/types/**', '**/__tests__/**'],
+      thresholds: { lines: 70, functions: 70, branches: 60, statements: 70 },
+    },
   },
   server: {
     host: '0.0.0.0',
