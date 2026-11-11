@@ -37,8 +37,9 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     xsl
 
 # Extensions PECL
-RUN pecl install apcu xdebug \
-    && docker-php-ext-enable apcu
+# pcov : driver de couverture de code (PHPUnit --coverage-*), plus léger que xdebug
+RUN pecl install apcu xdebug pcov \
+    && docker-php-ext-enable apcu pcov
 
 COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
