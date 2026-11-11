@@ -1,12 +1,50 @@
 name: CI
 
+# Qualité + tests + couverture sur chaque PR vers master et sur chaque merge dans master.
 on:
-  push:
   pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  backend:
-    name: Backend (PHPUnit)
+  backend-quality:
+    name: Backend — qualité (PHP-CS-Fixer, PHPStan)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: pdo_mysql, intl, mbstring, dom, xml, ctype, iconv, openssl
+          coverage: none
+
+      - name: Cache Composer
+        uses: actions/cache@v4
+        with:
+          path: backend/vendor
+          key: composer-${{ hashFiles('backend/composer.lock') }}
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: PHP-CS-Fixer
+        run: composer cs-check
+
+      - name: PHPStan
+        run: composer phpstan
+
+  backend-tests:
+    name: Backend — tests & couverture (PHPUnit)
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -36,7 +74,7 @@ jobs:
         with:
           php-version: '8.2'
           extensions: pdo_mysql, intl, mbstring, dom, xml, ctype, iconv, openssl
-          coverage: none
+          coverage: pcov
 
       - name: Cache Composer
         uses: actions/cache@v4
@@ -55,11 +93,27 @@ jobs:
           php bin/console doctrine:migrations:migrate -n
           php bin/console doctrine:fixtures:load -n
 
-      - name: Run PHPUnit
-        run: php bin/phpunit
+      - name: PHPUnit (avec couverture)
+        run: composer test-coverage
 
-  frontend:
-    name: Frontend (Vitest)
+      - name: Seuil de couverture (70 %)
+        run: |
+          {
+            echo '### Couverture backend'
+            php bin/coverage-check.php var/coverage/clover.xml 70
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+          exit "${PIPESTATUS[0]}"
+
+      - name: Rapport de couverture
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-backend
+          path: backend/var/coverage/html
+          if-no-files-found: ignore
+
+  frontend-quality:
+    name: Frontend — type-check & build
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -80,5 +134,43 @@ jobs:
       - name: Type-check & build
         run: npm run build
 
-      - name: Run Vitest
-        run: npm run test
+  frontend-tests:
+    name: Frontend — tests & couverture (Vitest)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Vitest (avec couverture, seuils bloquants)
+        run: npm run test:coverage
+
+      - name: Résumé de couverture
+        if: always()
+        run: |
+          [ -f coverage/coverage-summary.json ] || exit 0
+          node -e '
+            const t = require("./coverage/coverage-summary.json").total;
+            const rows = ["lines", "statements", "functions", "branches"]
+              .map((k) => `| ${k} | ${t[k].pct} % |`).join("\n");
+            console.log(`### Couverture frontend\n\n| Métrique | % |\n|---|---|\n${rows}`);
+          ' >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Rapport de couverture
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-frontend
+          path: frontend/coverage
+          if-no-files-found: ignore
