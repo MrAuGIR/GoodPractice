@@ -77,7 +77,7 @@ class CreateUserCommand extends Command
         $this->em->persist($user);
         $this->em->flush();
 
-        $io->success(sprintf(
+        $io->success(\sprintf(
             '%s : %s (%s)',
             $isNew ? 'Utilisateur créé' : 'Utilisateur mis à jour',
             $email,

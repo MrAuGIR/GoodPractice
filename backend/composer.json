@@ -36,6 +36,7 @@
     "config": {
         "allow-plugins": {
             "php-http/discovery": true,
+            "phpstan/extension-installer": true,
             "symfony/flex": true,
             "symfony/runtime": true
         },
@@ -72,6 +73,19 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "cs-check": "php-cs-fixer fix --dry-run --diff",
+        "cs-fix": "php-cs-fixer fix",
+        "phpstan": [
+            "@php bin/console cache:warmup --env=dev --quiet",
+            "phpstan analyse --memory-limit=1G --no-progress"
+        ],
+        "test": "phpunit",
+        "test-coverage": "phpunit --coverage-clover var/coverage/clover.xml --coverage-html var/coverage/html --coverage-text",
+        "coverage-check": "@php bin/coverage-check.php var/coverage/clover.xml 70",
+        "quality": [
+            "@cs-check",
+            "@phpstan"
         ]
     },
     "conflict": {
@@ -86,6 +100,12 @@
     "require-dev": {
         "dama/doctrine-test-bundle": "^8.6",
         "doctrine/doctrine-fixtures-bundle": "^4.3",
+        "friendsofphp/php-cs-fixer": "^3.95",
+        "phpstan/extension-installer": "^1.4",
+        "phpstan/phpstan": "^2.3",
+        "phpstan/phpstan-doctrine": "^2.1",
+        "phpstan/phpstan-phpunit": "^2.1",
+        "phpstan/phpstan-symfony": "^2.1",
         "phpunit/phpunit": "^11.5",
         "symfony/browser-kit": "7.4.*",
         "symfony/css-selector": "7.4.*",

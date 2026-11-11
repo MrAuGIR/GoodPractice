@@ -17,6 +17,9 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
  */
 final class AuthorProcessor implements ProcessorInterface
 {
+    /**
+     * @param ProcessorInterface<Authored, Authored> $persistProcessor
+     */
     public function __construct(
         #[Autowire(service: 'api_platform.doctrine.orm.state.persist_processor')]
         private ProcessorInterface $persistProcessor,

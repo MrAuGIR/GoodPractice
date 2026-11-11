@@ -56,15 +56,15 @@ class AppFixtures extends Fixture
 
         // --- Articles + commentaires ---
         $authors = [$admin, $editor];
-        $tagCount = count($tags);
+        $tagCount = \count($tags);
         for ($i = 1; $i <= 8; ++$i) {
             $article = (new Article())
                 ->setTitle("Bonne pratique n°$i")
                 ->setDescription("Description détaillée de la bonne pratique n°$i pour écrire du code propre et maintenable.")
                 ->setUrl(0 === $i % 2 ? "https://example.com/ressource-$i" : null)
                 ->setUrlImg('illustration/default.png')
-                ->setCategory($categories[$i % count($categories)])
-                ->setAuthor($authors[$i % count($authors)])
+                ->setCategory($categories[$i % \count($categories)])
+                ->setAuthor($authors[$i % \count($authors)])
                 ->setFeatured($i <= 2);
 
             // Quelques tags transverses par article (déterministes).

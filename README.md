@@ -67,12 +67,50 @@ make front-install      # npm install dans le conteneur frontend
 La config (identifiants MySQL, nom de projet) est centralisée dans `.env` — aucun
 identifiant en dur dans le code.
 
-## Tests & CI
+## Tests, qualité & CI
+
+Tout s'exécute **dans les conteneurs** (`make start` au préalable).
 
 ```bash
-make console c=... # backend : php bin/phpunit (PHPUnit)
-# frontend : npm run test (Vitest)
+make quality              # PHP-CS-Fixer (dry-run) + PHPStan niveau 6
+make cs-fix               # corrige le style PHP
+make test                 # PHPUnit (backend) + Vitest (frontend)
+make test-back-coverage   # PHPUnit + couverture + seuil bloquant (70 %)
+make test-front-coverage  # Vitest + couverture + seuils bloquants
+make check                # tout : qualité + tests + couverture
 ```
 
-À chaque push / PR, [GitHub Actions](https://github.com/MrAuGIR/GoodPractice/actions/workflows/ci.yml)
-rejoue les deux suites (backend PHPUnit sur MySQL + frontend build & Vitest).
+| Outil         | Config                              | Exigence                         |
+|---------------|-------------------------------------|----------------------------------|
+| PHP-CS-Fixer  | `backend/.php-cs-fixer.dist.php`    | `@Symfony` + `@Symfony:risky`    |
+| PHPStan       | `backend/phpstan.dist.neon`         | niveau 6, extensions Symfony/Doctrine/PHPUnit |
+| PHPUnit       | `backend/phpunit.dist.xml`          | couverture lignes ≥ 70 % (`bin/coverage-check.php`) |
+| Vitest        | `frontend/vite.config.ts`           | lignes/fonctions/statements ≥ 70 %, branches ≥ 60 % |
+
+Rapports HTML de couverture : `backend/var/coverage/html/index.html` et
+`frontend/coverage/index.html`.
+
+Organisation des tests backend : `tests/Unit` (PHP pur, mocks), `tests/Integration`
+(container Symfony + BDD : commandes, importeur), `tests/Api` (fonctionnels HTTP via
+`ApiTestCase`). Côté frontend : `src/**/__tests__/*.spec.ts`, helpers partagés dans
+`src/__tests__/helpers.ts`.
+
+### Hook git pre-push
+
+À installer **une fois** après le clone :
+
+```bash
+make hooks-install   # git config core.hooksPath .githooks
+```
+
+Avant chaque `git push`, `.githooks/pre-push` lance PHP-CS-Fixer, PHPStan, PHPUnit et
+Vitest (avec seuils de couverture) dans Docker ; le push est annulé au premier échec.
+Contournement d'urgence : `git push --no-verify`.
+
+### Intégration continue
+
+Sur chaque PR vers `master` et chaque merge dans `master`,
+[GitHub Actions](https://github.com/MrAuGIR/GoodPractice/actions/workflows/ci.yml) lance
+4 jobs : qualité backend, tests + couverture backend (MySQL), type-check + build frontend,
+tests + couverture frontend. Les rapports de couverture sont publiés en artefacts et
+résumés dans l'onglet *Summary* du run.

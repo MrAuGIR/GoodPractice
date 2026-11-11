@@ -10,6 +10,7 @@
 
 # Build front
 /frontend/dist/
+/frontend/coverage/
 
 # Staging de déploiement (deploy/build.sh)
 /build/
