@@ -1,11 +1,12 @@
 name: CI
 
-# Qualité + tests + couverture sur chaque PR vers master et sur chaque merge dans master.
+# Qualité + tests + couverture sur chaque PR et chaque merge vers develop ou master
+# (flux : feature/* → develop → master).
 on:
   pull_request:
-    branches: [master]
+    branches: [master, develop]
   push:
-    branches: [master]
+    branches: [master, develop]
 
 concurrency:
   group: ci-${{ github.ref }}

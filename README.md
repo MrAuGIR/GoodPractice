@@ -109,7 +109,7 @@ Contournement d'urgence : `git push --no-verify`.
 
 ### Intégration continue
 
-Sur chaque PR vers `master` et chaque merge dans `master`,
+Sur chaque PR et chaque merge vers `develop` ou `master` (flux `feature/*` → `develop` → `master`),
 [GitHub Actions](https://github.com/MrAuGIR/GoodPractice/actions/workflows/ci.yml) lance
 4 jobs : qualité backend, tests + couverture backend (MySQL), type-check + build frontend,
 tests + couverture frontend. Les rapports de couverture sont publiés en artefacts et
